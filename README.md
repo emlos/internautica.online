@@ -1,1 +1,3 @@
-# Page header
+todo:
+- structure
+- simple homepage
