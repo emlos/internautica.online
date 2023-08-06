@@ -1,0 +1,138 @@
+{
+  "blinkies": [
+    "./src/images/blinkies/Go_Stupidbanner.gif",
+    "./src/images/blinkies/depressionbanner.png",
+    "./src/images/blinkies/dontlabelmebanner.gif",
+    "./src/images/blinkies/eatglassgodblessbanner.gif",
+    "./src/images/blinkies/zjedlemgrzybablinkie.gif",
+    "./src/images/blinkies/ithinkinhtmltagsbanner.gif",
+    "./src/images/blinkies/margaritavillebanner.gif",
+    "./src/images/blinkies/kill_blinkbanner.gif",
+    "./src/images/blinkies/depechemodeblinkie.gif",
+    "./src/images/blinkies/hatepopbanner.gif",
+    "./src/images/blinkies/polandbanner.gif",
+    "./src/images/blinkies/iwanttobelievebanner.gif",
+    "./src/images/blinkies/my blinkie broke.jpg",
+    "./src/images/blinkies/uhhhhhh.gif",
+    "./src/images/blinkies/ihnmaimsbanner.gif",
+    "./src/images/blinkies/ghostbustersbanner.gif",
+    "./src/images/blinkies/rlwizardbanner.gif",
+    "./src/images/blinkies/pianobanner.gif",
+    "./src/images/blinkies/trotrucksbanner.gif",
+    "./src/images/blinkies/nohavicaenjoyer.gif",
+    "./src/images/blinkies/bonjoviblinkie.gif",
+    "./src/images/blinkies/allrobotsareautistic.gif",
+    "./src/images/blinkies/noonecanhearyouscreamincyberspace.gif",
+    "./src/images/blinkies/awrtistbanner.gif",
+    "./src/images/blinkies/mypcneversleeps.gif",
+    "./src/images/blinkies/austinpowersbanner.gif",
+    "./src/images/blinkies/evanescence.gif",
+    "./src/images/blinkies/izbanner.gif",
+    "./src/images/blinkies/blbrainbanner.gif",
+    "./src/images/blinkies/goblinbanner.gif",
+    "./src/images/blinkies/donteatcrayonsbanner.gif",
+    "./src/images/blinkies/missingpieces.gif",
+    "./src/images/blinkies/geekgirlalbanner.gif",
+    "./src/images/blinkies/heartjumpbanner.gif",
+    "./src/images/blinkies/GLOWGLOWIGLOWGLOWHLOWIGLOOOOWINTHEDAAAAAAARK.gif",
+    "./src/images/blinkies/rightclickWWAbanner.gif",
+    "./src/images/blinkies/mnmeatchocolatebanner.gif",
+    "./src/images/blinkies/yeahithinkicanblinkie.gif",
+    "./src/images/blinkies/sleepyhead.gif",
+    "./src/images/blinkies/hello2003banner.gif",
+    "./src/images/blinkies/ithinkicanbanner.gif",
+    "./src/images/blinkies/procrastinationblinky.gif",
+    "./src/images/blinkies/crayonboxblinkie.gif",
+    "./src/images/blinkies/sesamestreetbanner.gif",
+    "./src/images/blinkies/notesirregularbanner.gif",
+    "./src/images/blinkies/dablinkie.gif",
+    "./src/images/blinkies/ilucomputer.gif",
+    "./src/images/blinkies/fightingdepressionblinkie.gif",
+    "./src/images/blinkies/cureblinkie.gif",
+    "./src/images/blinkies/barraconstruction.gif",
+    "./src/images/blinkies/twistedfkincyclepath.gif",
+    "./src/images/blinkies/lbgtqsawsupportblinkie.gif",
+    "./src/images/blinkies/dialupsucksbanner.gif"
+  ],
+
+  "buttons": [
+    "src/images/buttons/eatglueneo.jpg",
+    "src/images/buttons/fireskull.gif",
+    "src/images/buttons/5f2hatemacneo.jpg",
+    "src/images/buttons/timessquare.gif",
+    "src/images/buttons/poweredbyvoidneo.gif",
+    "src/images/buttons/encounteranalienneo.gif",
+    "src/images/buttons/88x31122.gif",
+    "src/images/buttons/darkestdungeon.png",
+    "src/images/buttons/happyny2006neo.gif",
+    "src/images/buttons/rightwayneo.gif",
+    "src/images/buttons/gamebroneo.gif",
+    "src/images/buttons/queercodedthisneo.png",
+    "src/images/buttons/archlinux.gif",
+    "src/images/buttons/bantimetravelbuttonneo.png",
+    "src/images/buttons/piracyneo.gif",
+    "src/images/buttons/linuxnowneo.jpg",
+    "src/images/buttons/seedyourtorrentsneo.gif",
+    "src/images/buttons/ukraineflagneo.png",
+    "src/images/buttons/4b1antinftneo.gif",
+    "src/images/buttons/peepthehorrorneo.png",
+    "src/images/buttons/sitebestviewedwithmo.gif",
+    "src/images/buttons/b_predeadnow.png",
+    "src/images/buttons/evilnetneo.gif",
+    "src/images/buttons/netscapenowneo.gif",
+    "src/images/buttons/minecraftneo.gif",
+    "src/images/buttons/EYESneo.gif",
+    "src/images/buttons/firefoxnowneo.png",
+    "src/images/buttons/alienencounterneo.gif",
+    "src/images/buttons/nftfuckoffneo.gif",
+    "src/images/buttons/westhollywood.gif",
+    "src/images/buttons/trektitles.gif",
+    "src/images/buttons/area51.gif",
+    "src/images/buttons/supporttherighttorepairbuttonneo.png",
+    "src/images/buttons/mouseinawheelneo.gif",
+    "src/images/buttons/freespeechforeverneo.gif",
+    "src/images/buttons/advisoryexplicitneo.png",
+    "src/images/buttons/ilovefreeneo.gif",
+    "src/images/buttons/kriswhetretheFUCKareweneo.png"
+  ],
+  "links": [
+    {
+      "icon": "",
+      "name": "twitter",
+      "url": "https://twitter.com/milo_guts",
+      "nsfw": true
+    },
+    {
+      "icon": "",
+      "name": "this repo",
+      "url": "https://github.com/emlos/internautica.online"
+    },
+
+    {
+      "icon": "",
+      "name": "letterboxd",
+      "url": "https://letterboxd.com/filan12/"
+    },
+    {
+      "icon": "",
+      "name": "reddit",
+      "url": "https://www.reddit.com/user/filan12",
+      "nsfw": true
+    },
+    {
+      "icon": "",
+      "name": "rss feed",
+      "url": "#"
+    },
+    {
+      "icon": "",
+      "name": "ko-fi",
+      "url": "https://ko-fi.com/emlos"
+    },
+
+    {
+      "name": "last.fm",
+      "url": "https://www.last.fm/user/filan12"
+    }
+  ]
+}

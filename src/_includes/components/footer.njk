@@ -1,0 +1,46 @@
+<footer>
+    <div class="footerlinks">
+        {% for link in footer.links %}
+            <li class="footerlink">
+                <a href="{{ link.url }}">{{ link.name }}</a>
+            </li>
+        {% endfor %}
+    </div>
+    <div id="buttons"></div>
+    <div id="blinkies"></div>
+    <script>
+        
+        const blinkies = [
+        {% for image in footer.blinkies %}
+        "{{image}}",
+        {% endfor %}
+        ];
+        const buttons = [
+        {% for image in footer.buttons %}
+        "{{image}}",
+        {% endfor %}
+        ];
+        //
+        function makeImages(list, id, tag, amount) {
+            var shuffled = list.sort(() => 0.5 - Math.random());
+            shuffled = shuffled.slice(0, amount);
+            var container = document.getElementById(id)
+            //
+            shuffled.forEach((filename) => {
+
+
+                const image = document.createElement('img');
+                image.classList.add(tag);
+                image.src = filename;
+                container.appendChild(image);
+            })
+        }
+        //
+        //
+        function main() {
+            makeImages(blinkies, "blinkies", "blinkie", 5)
+            makeImages(buttons, "buttons", "button", 10)
+        } //
+        main()
+    </script>
+</footer>
