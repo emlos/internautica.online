@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{site.language}}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{{ title if title else about.title }}</title>
+
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="stylesheet" href="{{'/css/style.css' | url | safe}}">
+        <link type="text/plain" rel="author" href="/humans.txt"/>
+    </head>
+
+    <body>
+        <div class="content">
+            {% include "components/header.njk" %}
+
+            <main class="main container">
+                {{ content | safe }}
+            </main>
+        </div>
+        {% include "components/footer.njk" %}
+    </body>
+
+</html>

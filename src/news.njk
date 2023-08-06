@@ -1,0 +1,18 @@
+---
+title: "what they wrote"
+layout: "layouts/base.njk"
+pagination:
+  data: collections.news
+  addAllPagesToCollections: true
+  size: 10
+permalink: /news/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber }}/{% endif %}index.html
+---
+
+
+<ol class="news">
+{%- for item in pagination.items %}
+<div class="newsbox">
+  <li>{{ item.content | safe}}</li>
+  </div>
+{% endfor -%}
+</ol>
