@@ -3,3 +3,4 @@ node_modules/
 public/
 woff2sfnt-sfnt2woff/
 test
+node_modules/*
