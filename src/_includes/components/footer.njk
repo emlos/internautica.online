@@ -1,54 +1,46 @@
 <footer>
     <div class="footerlinks">
         {% for link in footer.links %}
-        <li class="footerlink">
-            <a href="{{ link.url }}">{{ link.name }}</a>
-        </li>
+            <li class="footerlink">
+                <a href="{{ link.url }}">{{ link.name }}</a>
+            </li>
         {% endfor %}
     </div>
     <div id="buttons"></div>
     <div id="blinkies"></div>
-</footer>
-
-<script>
-    const blinkies = {{ footer.blinkies }}
-    const buttons = {{ footer.buttons }}
-    const amountShown = 10;
-    //
-    function makeImages(list, id, tag) {
-        var shuffled = list.sort(() => 0.5 - Math.random());
-        shuffled = shuffled.slice(0, amountShown);
-        var container = document.getElementById(id)
+    <script>
+        
+        const blinkies = [
+        {% for image in footer.blinkies %}
+        "{{image}}",
+        {% endfor %}
+        ];
+        const buttons = [
+        {% for image in footer.buttons %}
+        "{{image}}",
+        {% endfor %}
+        ];
         //
-        shuffled.forEach((filename) => {
-            const image = document.createElement('img');
-            image.classList.add(tag);
-            image.src = filename;
-            container.appendChild(image);
-        })
-    }
+        function makeImages(list, id, tag, amount) {
+            var shuffled = list.sort(() => 0.5 - Math.random());
+            shuffled = shuffled.slice(0, amount);
+            var container = document.getElementById(id)
+            //
+            shuffled.forEach((filename) => {
 
-    //
-    //
-    function main() {
-        makeImages(blinkies, "blinkies", "blinkie")
-        makeImages(buttons, "buttons", "button")
-    } //
 
-    if (typeof "addRVLoadEvent" != "function")
-        function addRVLoadEvent(funky) {
-            var oldonload = window.onload;
-            if (typeof oldonload != "function") {
-                window.onload = funky;
-            } else {
-                window.onload = function () {
-                    if (oldonload) {
-                        oldonload()
-                    }
-                    funky();
-                }
-            }
+                const image = document.createElement('img');
+                image.classList.add(tag);
+                image.src = filename;
+                container.appendChild(image);
+            })
         }
-
-    addRVLoadEvent(main);
-</script>
+        //
+        //
+        function main() {
+            makeImages(blinkies, "blinkies", "blinkie", 5)
+            makeImages(buttons, "buttons", "button", 10)
+        } //
+        main()
+    </script>
+</footer>
