@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx eleventy --serve",
+    "build": "rm -r public && npx eleventy && echo -n \"site size:  \" && du -sh public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-plugin-rss": "^1.2.0"
+  },
+  "dependencies": {
+    "@11ty/eleventy-img": "^3.1.0",
+    "@11tyrocks/eleventy-plugin-sass-lightningcss": "^1.0.3"
   }
 }

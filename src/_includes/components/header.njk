@@ -1,0 +1,14 @@
+<header class="header container">
+    <h1 class="title">
+        <a href="{{about.url}}">{{about.title}}</a>
+    </h1>
+    <ul class="navigation">
+        {% for link in header.links %}
+            <li class="navlink">
+                <a {% if link.nsfw %}
+                    class="nsfw"
+                {% endif %} href="{{link.url}}">{{ link.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</header>

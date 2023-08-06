@@ -1,0 +1,30 @@
+/* CSS Variables */
+
+:root {
+    --black: #000000;
+    --dark-blue: #14213d;
+    --yellow: #fca311;
+    --grey: #e5e5e5;
+    --white: #ffffff;
+    
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+  
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+  }
+  
