@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@11ty/eleventy-img": "^3.1.0",
+    "@11tyrocks/eleventy-plugin-emoji-readtime": "^1.0.1",
     "@11tyrocks/eleventy-plugin-sass-lightningcss": "^1.0.3"
   }
 }
