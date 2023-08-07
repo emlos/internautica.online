@@ -1,0 +1,7 @@
+{
+    "tags": "art",
+    "templateEngineOverride": "njk,md",
+    "permalink": false,
+    "layout": "components/art-card.njk"
+  }
+  

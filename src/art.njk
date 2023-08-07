@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.art
+  addAllPagesToCollections: true
+  size: 10
+  reverse: true
+permalink: /art/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber }}/{% endif %}index.html
+
+---
+
+<ol class="art">
+  {% for item in pagination.items %}
+    <div class="art-box">
+      <li>
+      {%include  'components/art-card.njk'%}
+      </li>
+    </div>
+  {% endfor %}
+</ol>
+
+<div class="art-navigation">
+  <span class="prev"><a href="{{pagination.href.previous}}">&lt;--</a></span>
+  {{pagination.pageNumber}}
+  <span class="next"><a href="{{pagination.href.next}}">--&gt;</a></span>
+</div>

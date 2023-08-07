@@ -1,0 +1,25 @@
+<section class="art-item">
+    {% if item.data.title %}
+        <h3 class="art-title">
+            <a href="{{ item.data.url | url }}">{{ item.data.title }}</a>
+        </h3>
+    {% endif %}
+    <div class="tags">
+        {% for tag in item.data.tags %}
+            <span class="tag">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    <div class="art-content">
+        {{ item.content | safe }}
+    </div>
+    <div class="art-credit">
+        <p>
+            -
+            {% if item.data.url %}
+                <a href="{{ item.data.url | url }}">{{ item.data.author }}</a>
+            {% else %}
+                {{ item.data.author }}
+            {% endif %}
+        </p>
+    </div>
+</section>
