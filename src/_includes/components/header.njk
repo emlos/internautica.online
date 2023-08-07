@@ -5,9 +5,7 @@
     <ul class="navigation">
         {% for link in header.links %}
             <li class="navlink">
-                <a {% if link.nsfw %}
-                    class="nsfw"
-                {% endif %} href="{{link.url}}">{{ link.name }}</a>
+                <a href="{{link.url}}">{{ link.name }}</a>
             </li>
         {% endfor %}
     </ul>

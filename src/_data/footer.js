@@ -60,7 +60,7 @@ module.exports = async function () {
       {
         icon: "",
         name: "rss feed",
-        url: "#",
+        url: "https://internautica.neocities.org/feed.xml",
       },
       {
         icon: "",

@@ -1,6 +1,7 @@
 {
   "links": [
     { "name": "home", "url": "/home/" },
-    { "name": "news", "url": "/news/" }
+    { "name": "news", "url": "/news/" },
+    { "name": "what i like", "url": "/art/" }
   ]
 }
