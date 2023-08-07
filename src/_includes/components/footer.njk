@@ -2,24 +2,20 @@
     <div class="footerlinks">
         {% for link in footer.links %}
             <li class="footerlink">
-                <a href="{{ link.url }}">{{ link.name }}</a>
+                <a {% if link.nsfw %} class="nsfw" {% endif %} href="{{ link.url }}">{{ link.name }}</a>
             </li>
-        {% endfor %}
+        {% endfor %} {% if link.nsfw %}
+                    class="nsfw"
+                {% endif %}
     </div>
     <div id="buttons"></div>
     <div id="blinkies"></div>
+    
     <script>
-        
-        const blinkies = [
-        {% for image in footer.blinkies %}
-        "{{image}}",
-        {% endfor %}
-        ];
-        const buttons = [
-        {% for image in footer.buttons %}
-        "{{image}}",
-        {% endfor %}
-        ];
+        const blinkies = [{% for image in footer.blinkies %}
+                "{{ image }}",{% endfor %}];
+        const buttons = [{% for image in footer.buttons %}
+                "{{ image }}",{% endfor %}];
         //
         function makeImages(list, id, tag, amount) {
             var shuffled = list.sort(() => 0.5 - Math.random());
@@ -27,8 +23,6 @@
             var container = document.getElementById(id)
             //
             shuffled.forEach((filename) => {
-
-
                 const image = document.createElement('img');
                 image.classList.add(tag);
                 image.src = filename;

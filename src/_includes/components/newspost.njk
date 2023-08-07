@@ -1,0 +1,17 @@
+<div class="newspost">
+    <h3 class="news-title">
+        <a href="{{ post.url | url }}">{{ post.data.title if post.data.title else site.title }}</a>
+    </h3>
+    <div class="news-subheading">
+        <ul>
+            <li>Reading time: {{post.content  | emojiReadTime}}</li>
+            <li>created: {{ post.date }}</li>
+        </ul>
+    </div>
+    <div class="news-description">
+        {{ post.data.description | safe }}
+    </div>
+    <span class="news-readmore">
+        <a href="{{ post.url | url }}" >keep reading...</a>
+    </span>
+</div>
