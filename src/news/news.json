@@ -1,3 +1,7 @@
 {
-  "tags": "news"
+  "tags": "news",
+  "date": "git Created",
+  "changed_date": "git Last Modified",
+  "layout": "components/newspost.njk",
+  "templateEngineOverride": ["njk","md"]
 }
