@@ -2,7 +2,7 @@
 title: "art gallery thing"
 date: git Created
 changed_date: git Last Modified
-description: "this is where i set up my page for the first time"
+description: "this is where i set up my page for the <s>first</s> second time"
 ---
 
 #### featuring: cool art gallery!
@@ -14,4 +14,4 @@ still no css, that's a bit further down the pipeline, since before i start fiddl
 
 also in this update i bring you /robots.txt, /sitemap.xml (with a robots.txt), a 404 page and an improved news page! 
 
-im not sure if i'll keep these update notes, but for now i cant be arsed to squash and organize my repo commits haha. for the features coming up next: regina spektor fanpage! and (possibly) other [planned] placeholder pags :]
+im not sure if i'll keep these update notes, but for now i cant be arsed to squash and organize my repo commits haha. for the features coming up next: regina spektor fanpage! and (possibly) other [planned] placeholder pags :D

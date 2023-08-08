@@ -10,8 +10,8 @@ tags:
 ---
 
 
-Als die Nazis die Kommunisten holten, habe ich geschwiegen; ich war ja kein Kommunist.
-Als sie die Sozialdemokraten einsperrten, habe ich geschwiegen; ich war ja kein Sozialdemokrat.
-Als sie die Gewerkschafter holten, habe ich geschwiegen; ich war ja kein Gewerkschafter.
-Als sie die Juden holten, habe ich geschwiegen; ich war ja kein Jude.
-Als sie mich holten, gab es keinen mehr, der protestieren konnte.
+Als die Nazis die Kommunisten holten, habe ich geschwiegen; ich war ja kein Kommunist.<br>
+Als sie die Sozialdemokraten einsperrten, habe ich geschwiegen; ich war ja kein Sozialdemokrat.<br>
+Als sie die Gewerkschafter holten, habe ich geschwiegen; ich war ja kein Gewerkschafter.<br>
+Als sie die Juden holten, habe ich geschwiegen; ich war ja kein Jude.<br>
+Als sie mich holten, gab es keinen mehr, der protestieren konnte.<br>
