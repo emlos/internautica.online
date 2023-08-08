@@ -7,6 +7,6 @@ tags:
     - sappho
 ---
 
-someone will remember us 
-I say
-even in another time
+someone will remember us <br>
+I say<br>
+even in another time<br>
