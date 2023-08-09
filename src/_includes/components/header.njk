@@ -1,11 +1,20 @@
 <header class="header container">
     <h1 class="title">
-        <a href="{{about.url}}">{{about.title}}</a>
+        <a href="{{ about.url }}">{{ about.title }}</a>
     </h1>
     <ul class="navigation">
         {% for link in header.links %}
             <li class="navlink">
-                <a href="{{link.url}}">{{ link.name }}</a>
+                <a href="{{ link.url }}">{{ link.name }}</a>
+                {% if link.suburls %}
+                    <ul class="sub-links">
+                        {% for url in link.suburls %}
+                            <li class="sub-link">
+                                <a href="{{ url.url }}">{{ url.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
