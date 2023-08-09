@@ -1,0 +1,14 @@
+---
+title: "fanpages fanpages"
+layout: "layouts/base.njk"
+---
+
+<div class="shrines">
+    {% for shrine in collections.shrine%}
+        <div class="shrine">
+            <h3 class="shrine-title"><a href="{{shrine.url}}">{{shrine.data.name}}</a></h3>
+            <p class="shrine-description">{{shrine.data.description}}</p>
+        </div>
+        {%endfor%}
+
+</div>

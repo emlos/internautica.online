@@ -1,0 +1,4 @@
+{
+    "tags": "shrine",
+    "layout": "layouts/base.njk"
+}

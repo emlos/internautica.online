@@ -2,6 +2,13 @@
   "links": [
     { "name": "home", "url": "/home/" },
     { "name": "news", "url": "/news/" },
-    { "name": "what i like", "url": "/art/" }
+    { "name": "art i like", "url": "/art/" },
+    {
+      "name": "shrines",
+      "url": "/shrines/",
+      "suburls": [
+        {"name": "regina spektor shrine!", "url":"/shrines/regina-spektor/"},
+        {"name": "allied mastercomputer shrine!", "url":"/shrines/am-shrine/"}]
+    }
   ]
 }
