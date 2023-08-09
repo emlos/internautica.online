@@ -4,3 +4,6 @@ public/
 woff2sfnt-sfnt2woff/
 test
 node_modules/*
+*.mdp
+my-art/
+.directory

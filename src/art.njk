@@ -9,7 +9,7 @@ permalink: /art/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber 
 
 ---
 
-<ol class="art">
+<ul class="art">
   {% for item in pagination.items %}
     <div class="art-box">
       <li>
@@ -17,7 +17,7 @@ permalink: /art/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber 
       </li>
     </div>
   {% endfor %}
-</ol>
+</ul>
 
 <div class="art-navigation">
   <span class="prev"><a href="{{pagination.href.previous}}">&lt;--</a></span>
