@@ -8,7 +8,7 @@ function readImagePathsFromFolder(folderPath, subfolder) {
       if (err) {
         reject(err);
       } else {
-        const imagePaths = files.map((file) =>
+        const imagePaths = files.filter(filterImageFiles).map((file) =>
           path.join("/images", subfolder, file)
         );
         resolve(imagePaths);
@@ -16,6 +16,14 @@ function readImagePathsFromFolder(folderPath, subfolder) {
     });
   });
 }
+
+function filterImageFiles(filename) {
+  const allowedExtensions = [".jpg", ".png", ".gif"];
+  const fileExtension = filename.slice(filename.lastIndexOf(".")).toLowerCase();
+  return allowedExtensions.includes(fileExtension);
+}
+
+
 
 module.exports = async function () {
   const buttonsFolderPath = "buttons";
