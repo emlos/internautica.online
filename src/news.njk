@@ -5,10 +5,11 @@ pagination:
   data: collections.news
   addAllPagesToCollections: true
   size: 10
+  reverse: true
 permalink: /news/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber }}/{% endif %}index.html
 ---
 
-<ol class="news">
+<ul class="news">
   {% for post in pagination.items %}
     <div class="newsbox">
       <li>
@@ -16,7 +17,7 @@ permalink: /news/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber
       </li>
     </div>
   {% endfor %}
-</ol>
+</ul>
 
 <div class="news-navigation">
   <span class="prev"><a href="{{pagination.page.previous}}">&lt;--</a></span>
