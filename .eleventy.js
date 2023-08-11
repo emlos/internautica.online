@@ -26,6 +26,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("./src/css/");
   eleventyConfig.addPassthroughCopy("./src/images/");
   eleventyConfig.addPassthroughCopy({ "./src/favicons": "/" }); //favicons in root
+  eleventyConfig.addPassthroughCopy("./src/scripts/");
 
   eleventyConfig.addShortcode("date", () => `${new Date().getUTCDate}`);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
