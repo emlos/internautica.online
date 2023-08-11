@@ -29,8 +29,14 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/scripts/");
 
   eleventyConfig.addShortcode("date", () => `${new Date().getUTCDate}`);
+
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
 
+  eleventyConfig.addNunjucksFilter("isLongerThan", (content, threshold) => {
+    return content.length > threshold;
+   
+  });
+  
   eleventyConfig.addPlugin(eleventySass);
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(emojiReadTime, { showEmoji: false });
@@ -39,7 +45,7 @@ module.exports = function (eleventyConfig) {
     dir: {
       input: "src",
       output: "public",
-      markdownTemplateEngine: "njk"
+      markdownTemplateEngine: "njk",
     },
   };
 };
