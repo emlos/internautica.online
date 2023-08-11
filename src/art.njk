@@ -19,8 +19,6 @@ permalink: /art/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber 
   {% endfor %}
 </ul>
 
-<div class="art-navigation">
-  <span class="prev"><a href="{{pagination.href.previous}}">&lt;--</a></span>
-  {{pagination.pageNumber}}
-  <span class="next"><a href="{{pagination.href.next}}">--&gt;</a></span>
+<div class="art-navigation paging">
+  {%include 'components/paging.njk'%}
 </div>

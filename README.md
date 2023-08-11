@@ -1,10 +1,15 @@
 todo: 
+
 ~~art page~~
+
 regina spektor fanpage
+
 - graphics
 - info
 - album overview
+  
 ~~placeholder pages~~
+
 - ~~regina spektor~~
 - ~~allied mastercomputer~~
 

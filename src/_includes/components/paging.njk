@@ -1,0 +1,7 @@
+<span class="prev"><a href="{{pagination.href.previous}}">&lt;--</a></span>
+  {%if pagination.pageNumber == 0%}
+  latest
+  {%else%}
+  {{pagination.pageNumber}}
+  {%endif%}
+  <span class="next"><a href="{{pagination.href.next}}">--&gt;</a></span>

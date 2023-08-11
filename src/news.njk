@@ -19,8 +19,6 @@ permalink: /news/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber
   {% endfor %}
 </ul>
 
-<div class="news-navigation">
-  <span class="prev"><a href="{{pagination.page.previous}}">&lt;--</a></span>
-  {{pagination.pageNumber}}
-  <span class="next"><a href="{{pagination.page.next}}">--&gt;</a></span>
+<div class="news-navigation paging">
+  {%include 'components/paging.njk'%}
 </div>
