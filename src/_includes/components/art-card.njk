@@ -1,8 +1,6 @@
 <section class="art-item">
     {% if item.data.title %}
-        <h3 class="art-title">
-            <a href="{{ item.data.url | url }}">{{ item.data.title }}</a>
-        </h3>
+        <h3 class="art-title">{{ item.data.title }}</h3>
     {% endif %}
     <div class="tags">
         {% for tag in item.data.tags %}

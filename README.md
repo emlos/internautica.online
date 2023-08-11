@@ -13,6 +13,8 @@ regina spektor fanpage
 - ~~regina spektor~~
 - ~~allied mastercomputer~~
 
+-reworked pagination
+
 
 
 
