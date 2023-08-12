@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx eleventy --serve",
+    "start": "rm -r public && npx eleventy --serve --quiet",
     "build": "rm -r public && npx eleventy && echo -n \"site size:  \" && du -sh public"
   },
   "keywords": [],
