@@ -1,8 +1,9 @@
 {
     "tags": "art",
+    "title": "Quote",
     "templateEngineOverride": "njk,md",
-    "permalink": false,
-    "layout": "components/art-card.njk",
+    
+    "layout": "layouts/base.njk",
     "type": "art",
     "date": "git Created" }
   

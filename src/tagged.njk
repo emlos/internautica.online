@@ -7,7 +7,7 @@ pagination:
   exclude:
   - pages
   - art
-permalink: /tagged/{{ tag }}/
+permalink: /tagged/{{ tag | slugify}}/
 ---
 <h1>Tagged “{{ tag }}”</h1>
 
