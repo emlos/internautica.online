@@ -2,11 +2,7 @@
     {% if item.data.title %}
         <h3 class="art-title">{{ item.data.title }}</h3>
     {% endif %}
-    <div class="tags">
-        {% for tag in item.data.tags %}
-            <span class="tag">{{ tag }}</span>
-        {% endfor %}
-    </div>
+    {%include 'components/tags.njk'%}
     <div class="art-content">
         {{ item.content | safe }}
     </div>
