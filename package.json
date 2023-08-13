@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rm -r public && npx eleventy --serve --quiet",
-    "build": "rm -r public && npx eleventy && echo -n \"site size:  \" && du -sh public"
+    "start": "rm -rf public && npx eleventy --serve --quiet",
+    "build": "rm -rf public && npx eleventy && echo -n \"site size:  \" && du -sh public"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,9 @@
     "@11tyrocks/eleventy-plugin-emoji-readtime": "^1.0.1",
     "@11tyrocks/eleventy-plugin-sass-lightningcss": "^1.0.3",
     "@11ty/eleventy": "^2.0.1",
-    "@11ty/eleventy-plugin-rss": "^1.2.0"
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-link-attributes": "^4.0.1",
+    "outdent": "^0.8.0"
   }
 }

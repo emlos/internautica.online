@@ -1,0 +1,9 @@
+{
+    "tags": "post",
+    "permalink": "/posts/{{page.fileSlug | slugify}}/index.html",
+    "layout": "layouts/base.njk",
+
+    "glossary": {
+        "partition" : ["some description"]
+    }
+}
