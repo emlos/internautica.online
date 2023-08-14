@@ -27,7 +27,7 @@
   }
   
   summary {
-    display: inline;
+    list-style: none;
   }
 
   summary::before {
