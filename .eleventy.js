@@ -4,6 +4,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
+const path = require("node:path");
 
 async function imageShortcode(src, alt, sizes) {
   let metadata = await Image(`./src${src}`, {
@@ -30,6 +31,14 @@ function markdownToHtmlShortcode(children, tag, class_ = false, id = false) {
   }>${content}</${tag}>`;
 }
 
+function editOnGithubShortcode() {
+  const base = "https://github.com/emlos/internautica.online/tree/master/src";
+  const text = "Edit this page on github!";
+
+  return outdent`<div class="github-button"><a href=${path.join(base, this.page.filePathStem +"." + this.page.inputPath.split(".")[2])
+  }>${text}</a></div>`;
+}
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/css/");
   eleventyConfig.addWatchTarget("./src/css/");
@@ -38,6 +47,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/scripts/*.js");
 
   //shortcodes
+  eleventyConfig.addShortcode("github", editOnGithubShortcode);
   eleventyConfig.addShortcode("date", () => `${new Date().getUTCDate}`);
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
