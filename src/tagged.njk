@@ -14,6 +14,10 @@ permalink: /tagged/{{ tag | slugify}}/
 <ol>
 {% set taglist = collections[ tag ] %}
 {% for item in taglist | reverse %}
-  {%include 'components/art-card.njk'%}
+  <div class="art-box">
+      <li>
+      {%include  'components/art-card.njk'%}
+      </li>
+    </div>
 {% endfor %}
 </ol>

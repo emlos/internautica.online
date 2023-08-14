@@ -37,16 +37,8 @@
     flex-direction: column;
   }
   
-
-  ul,
-  ol {
+  summary {
     list-style: none;
-  }
-  
-  img,
-  picture {
-    width: 100%;
-    display: block;
   }
   summary::before {
     content: "> ";
