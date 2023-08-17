@@ -2,6 +2,8 @@ const Image = require("@11ty/eleventy-img");
 const eleventySass = require("@11tyrocks/eleventy-plugin-sass-lightningcss");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
@@ -61,6 +63,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(eleventySass);
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(emojiReadTime, { showEmoji: false });
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   eleventyConfig.setLibrary("md", markdownIt);
   return {
