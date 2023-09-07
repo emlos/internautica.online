@@ -5,34 +5,41 @@ url: "https://www.best-poems.net/laura-gilpin/poems.html"
 tags: 
     - poem
     - history
+    - brecht
 ---
 
-Who built the seven gates of Thebes?<br>
-The books are filled with names of kings.<br>
-Was it the kings who hauled the craggy blocks of stone?<br>
-And Babylon, so many times destroyed.<br>
-Who built the city up each time? In which of Lima's houses,<br>
-That city glittering with gold, lived those who built it?<br>
-In the evening when the Chinese wall was finished<br>
-Where did the masons go? Imperial Rome<br>
-Is full of arcs of triumph. Who reared them up? Over whom<br>
-Did the Caesars triumph? Byzantium lives in song.<br>
-Were all her dwellings palaces? And even in Atlantis of the legend<br>
-The night the seas rushed in,<br>
-The drowning men still bellowed for their slaves.<br>
-Young Alexander conquered India.<br>
-He alone?<br>
+Who built the seven gates of Thebes?
+The books are filled with names of kings.
+Was it the kings who hauled the craggy blocks of stone?
+And Babylon, so many times destroyed.
+Who built the city up each time? In which of Lima's houses,
+That city glittering with gold, lived those who built it?
+In the evening
+Wwhen the Chinese wall was finished
+Where did the masons go? 
+Imperial Rome is full of arcs of triumph. 
+Who reared them up? 
+Over whom did the Caesars triumph? 
+Byzantium lives in song.
+Were all her dwellings palaces? 
+And even in Atlantis of the legend
+The night the seas rushed in,
+The drowning men still bellowed for their slaves.
 
-Caesar beat the Gauls.<br>
-Was there not even a cook in his army?<br>
-Phillip of Spain wept as his fleet<br>
-was sunk and destroyed. Were there no other tears?<br>
-Frederick the Great triumphed in the Seven Years War.<br>
-Who triumphed with him?<br>
-Each page a victory<br>
-At whose expense the victory ball?<br>
-Every ten years a great man,<br>
-Who paid the piper?<br>
+Young Alexander conquered India.
+He alone?
+Caesar beat the Gauls.
+Was there not even a cook in his army?
+Phillip of Spain wept as his fleet
+was sunk and destroyed. Were there no other tears?
+Frederick the Great triumphed in the Seven Years War.
+Who triumphed with him?
 
-So many particulars.<br>
-So many questions.<br>
+Each page a victory
+At whose expense the victory ball?
+
+Every ten years a great man,
+Who paid the piper?
+
+So many particulars.
+So many questions.

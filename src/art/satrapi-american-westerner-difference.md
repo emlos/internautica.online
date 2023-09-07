@@ -1,7 +1,7 @@
 ---
 
 author: "Marjane Satrapi"
-url: "TODO"
+url: "https://www.penguinrandomhouse.com/authors/43801/marjane-satrapi/"
 tags: 
     - quote
     - politics

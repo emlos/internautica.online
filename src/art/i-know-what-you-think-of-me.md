@@ -4,6 +4,7 @@ author: "Tim Kreider"
 url: "https://timkreider.com/tag/i-know-what-you-think-of-me/"
 tags: 
     - essay
+    - headspace
 ---
 
 We don’t give other people credit for the same interior complexity we take for granted in ourselves, the same capacity for holding contradictory feelings in balance, for complexly alloyed affections, for bottomless generosity of heart and petty, capricious malice. We can’t believe that anyone could be unkind to us and still be genuinely fond of us, although we do it all the time.

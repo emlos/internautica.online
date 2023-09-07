@@ -3,8 +3,8 @@ title: "Cherry"
 author: "Mary Karr, Cherry"
 url: "https://www.marykarr.com/"
 tags: 
-    - poetry
     - depression
+    - article
 ---
 
 When Daddy comes in, he carries you to bed. Is there anything you feel like you could eat, Pokey? Anything at all?

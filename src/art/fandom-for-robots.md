@@ -59,10 +59,10 @@ Most of the fanfiction set within the actual series seems particularly inaccurat
 
 Computron readies his styluses and moves the cursor down to the comment box, prepared to leave anonymous “constructive criticism” for EllisonsWife, when he detects a comment with relevant keywords.
 
-**bjornruffian:**<br>
+**bjornruffian:**
 Okay, I’ve noticed this in several of your fics and I was trying not to be too harsh, but when it got to the kissing scene I couldn’t take it anymore. Cyro can’t touch his nose against anything, because he doesn’t have a nose! Cyro can’t slip his tongue into anyone’s mouth, because he doesn’t have a tongue! Were we even watching the same series?? Did you skip all the parts where Cyro is a metal robot with a cube-shaped head?!
 
-**EllisonsWife:**<br>
+**EllisonsWife:**
 Who are you, the fandom police?? I’m basing Cyro’s design on this piece of fanart (<u>link here</u>) because it looks better than a freakin metal box!! Anyway, I put DON’T LIKE DON’T READ in the author’s notes!!! If you hate the way I write them so much, why don’t you just write your own????
 
 Computron is incapable of feeling hatred for anything, as that would require Doctor Alquist to have installed emotion circuits during his creation.
@@ -73,14 +73,14 @@ However, due to Computron’s above-average procedural knowledge, he is capable 
 
 …and Ellison manoeuvred his flesh hands in a claw-like motion, locking them with Cyro’s own grasping claws. His soft human body pressed against the hard lines of Cyro’s proprietary alloy, in a manner which would have generated wear and tear had Cyro’s body not been of superior make. Fluids leaked from Ellison’s eyes. No fluids leaked from Cyro’s ocular units, but…
 
-**Comments (3)**<br>
-**DontGotRhythm:**<br>
+**Comments (3)**
+**DontGotRhythm:**
 What the hell? Have you ever met a human? This reads like an alien wrote it.
 
-**tattered_freedom_wings:**<br>
+**tattered_freedom_wings:**
 uhhh this is kinda weird but i think i liked it?? not sure about the box thing though
 
-**bjornruffian:**<br>
+**bjornruffian:**
 OH MY GODDDD. :DDDD Finally, someone who doesn’t write human-shaped robot-in-name-only Cyro! Some of Ellison’s characterisation is a little awkward—I don’t think he would say all that mushy stuff about Cyro’s beautiful boxy shape??—but I love your Cyro! If this is just your first fic, I can’t wait for you to write more!!
 
 ---
@@ -99,8 +99,8 @@ After TETSUCHAN has finished its breakdance and showcased its newly-programmed a
 
 ---
 
-**Private Message from bjornruffian:**<br>
-Hi RobotFan,<br>
+**Private Message from bjornruffian:**
+Hi RobotFan,
 I noticed you liked my art (thanks!) and you seem to know a LOT about robots judging from your fic (and, well, your name). I’m doing a fancomic about Ellison and Cyro being stranded on one of the desert-ish exoplanets while they try to fix the *Kosmogram*, but I want to make sure I’m drawing Cyro’s body right. Are there any references you can recommend for someone who’s looking to learn more about robots? Like, the classic kind, not the android kind? It’d be great if they’re available online, especially if they have pictures—I’ve found some books with photos but they’re WAAAAY more than I can afford :\\\
 
 Thank you for any help you can offer! I’m really looking forward to your next fic!
@@ -195,7 +195,7 @@ Computron looks at the dusty glass again, and sees only a reflection of his face
 
 ---
 
-Rossum, Sulla. “Tin Men and Tin Toys: Examining Real and Fictional Robots from the 1950s.” *Journal of Robotics Studies* 8.2 (2018): 25-38.
+Rossum, Sulla. “Tin Men and Tin Toys: Examining Real and Fictional Robots from the 1950s.” *Journal of Rowendybotics Studies* 8.2 (2018): 25-38.
 
 While the figure of the fictional robot embodies timeless fears of technology and its potential for harm, the physical design of robots real and fictional is often linked to visual cues of modernity. What was once regarded as an “object of the future” can become “overwhelmingly obsolete” within a span of a few years, after advances in technology cause the visual cues of modernity to change (Bloch, 1979). The clawed, lumbering tin-toy-esque designs of the 1950s are now widely regarded as “tin can[s] that should have been recycled long ago” (Williamson, 2017). Notably, most modern critiques of Computron’s design tend to focus on its obsolete analogue dials…
 
@@ -245,5 +245,5 @@ ANYWAY! It turns out that RobotFan’s got this awesome collection of retro robo
 
 Also, we’re gonna do another Cyro/Ellison comic in the future, and we’re thinking of making it part of an anthology. If you’d like to contribute comics or illustrations for that, let us know!
 
-Get ready to draw *lots* of boxes, people! The robot revolution is coming!<br>
+Get ready to draw *lots* of boxes, people! The robot revolution is coming!
 **9,890 replies**
