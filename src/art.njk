@@ -1,12 +1,15 @@
----
-layout: layouts/base.njk
-pagination:
-  data: collections.art
-  addAllPagesToCollections: true
-  size: 10
-  reverse: true
-permalink: /art/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber }}/{% endif %}index.html
-
+---js
+{
+  pagination: {
+    data: "collections.art",
+    size: 10,
+    addAllPagesToCollections: true,
+    before: function(paginationData, fullData) {
+      return paginationData.sort(() => Math.random() - 0.5);
+    }
+  },
+  layout: "layouts/base.njk",
+}
 ---
 
 <ul class="art">

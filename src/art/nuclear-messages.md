@@ -4,6 +4,7 @@ author: "1993 report from Sandia National Laboratories"
 url: "https://en.wikipedia.org/wiki/Long-term_nuclear_waste_warning_messages?useskin=vector#Message"
 tags: 
     - wikipedia
+    - history
 ---
 
 This place is a message... and part of a system of messages... pay attention to it!

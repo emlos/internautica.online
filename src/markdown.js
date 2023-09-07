@@ -5,7 +5,7 @@ const mila = require("markdown-it-link-attributes");
 // you can use any plugins and configs you want
 const markdownIt = markdownItDefault({
   html: true,
-  breaks: false,
+  breaks: true,
   linkify: true,
 });
 

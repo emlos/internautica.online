@@ -4,6 +4,7 @@ author: "Joan Tierney"
 url: "https://filmnoirsbian.tumblr.com/"
 tags: 
     - poetry
+    - love
 ---
 
 Hi! Do you want to share my creekbed? Mama says it isn't my creekbed, it belongs to the world, but I call it mine because I'm the only one who ever uses it. Wanna skip rocks? We can race. I'll even let you have my smoother ones, they're best for skipping. You don't know how? Here, like this. Move that bit more. Your wrists are funny. Your whole body's funny. Mama says that's mean to say, but how can it be mean? Being funny is a good thing. I've got a funny toe. It's smaller than all the others, see? Oh wow, your toes are funny too. No silly, you can't step over there--that's where all the poliwogs live. They're baby frogs. You can stick your fingers in and wiggle at them if you promise to be gentle. 

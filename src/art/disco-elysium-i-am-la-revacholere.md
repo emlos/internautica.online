@@ -5,6 +5,7 @@ url: "https://discoelysium.com/"
 tags: 
     - quote
     - disco elysium
+    - love
 ---
 
 **You:** What is this strange feeling I keep having? This cold... even now? 

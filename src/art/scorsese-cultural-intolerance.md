@@ -3,7 +3,7 @@ title: "Opinion: Why Make Fellini the Scapegoat for New Cultural Intolerance?"
 author: "Martin Scorsese, 1993, The New York Times."
 url: "https://www.nytimes.com/1993/11/25/opinion/l-why-make-fellini-the-scapegoat-for-new-cultural-intolerance-066093.html"
 tags: 
-    - essay
+    - article
     - movies
     - language
 ---
