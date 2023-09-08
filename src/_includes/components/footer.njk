@@ -4,9 +4,7 @@
             <li class="footerlink">
                 <a {% if link.nsfw %} class="nsfw" {% endif %} href="{{ link.url }}">{{ link.name }}</a>
             </li>
-        {% endfor %} {% if link.nsfw %}
-                    class="nsfw"
-                {% endif %}
+        {% endfor %}
     </div>
     <div id="buttons"></div>
     <div id="blinkies"></div>
