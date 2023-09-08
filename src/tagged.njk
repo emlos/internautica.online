@@ -9,15 +9,26 @@ pagination:
   - art
 permalink: /tagged/{{ tag | slugify}}/
 ---
-<h1>Tagged “{{ tag }}”</h1>
 
+<h2>Tagged “{{ tag }}”</h2>
 <ol>
-{% set taglist = collections[ tag ] %}
-{% for item in taglist | reverse %}
-  <div class="art-box">
+  {% set taglist = collections[ tag ] %}
+  {% for item in taglist | reverse %}
+    <div class="art-box">
       <li>
-      {%include  'components/art-card.njk'%}
+        {% include  'components/art-card.njk' %}
       </li>
     </div>
-{% endfor %}
+  {% endfor %}
 </ol>
+<details>
+  <summary>
+    <h3>all tags</h3>
+  </summary>
+ 
+  {% for name, content in collections  | dictsort %}
+    {% if name != "pages" and name != "all"  and name != "post"%}
+     <span class="tag"><a href="/tagged/{{name | slugify}}">{{ name }}</a></span>
+    {% endif %}
+  {% endfor %}
+</details>
