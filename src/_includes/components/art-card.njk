@@ -1,6 +1,6 @@
 <section class="art-item">
     {% if item.data.title %}
-        <h3 class="art-title">{{ item.data.title }}</h3>
+        <h2 class="art-title">{{ item.data.title }}</h2>
     {% endif %}
     {%include 'components/tags.njk'%}
     <div class="art-content">
@@ -16,4 +16,5 @@
             {% endif %}
         </p>
     </div>
+    <hr>
 </section>
