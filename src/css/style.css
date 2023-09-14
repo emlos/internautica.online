@@ -1,15 +1,5 @@
 /* CSS Variables */
 
-:root {
-    --black: #000000;
-    --dark-blue: #14213d;
-    --yellow: #fca311;
-    --grey: #e5e5e5;
-    --white: #ffffff;
-    
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-      0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
   html,
   body {
     height: 100%;
@@ -28,6 +18,7 @@
   
   summary {
     list-style: none;
+    cursor: pointer;
   }
 
   summary::before {
@@ -38,3 +29,17 @@
   summary > h1, h2, h3, h4, h5 {
     display: inline;
   }
+
+  .art-content img {
+    max-width: 100%;
+   }
+
+  @media screen and (min-width: 480px) {
+  
+
+ .art-content img {
+  max-width: 50%;
+ }
+  }
+
+ 
