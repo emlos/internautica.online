@@ -3,18 +3,29 @@ const eleventySass = require("@11tyrocks/eleventy-plugin-sass-lightningcss");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const faviconsPlugin = require("eleventy-plugin-gen-favicons");
 
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
 
-async function imageShortcode(src, alt, sizes) {
-  let metadata = await Image(`./src${src}`, {
-    widths: [300, 800, null],
-    formats: ["avif", "jpeg"],
-    urlPath: "/images/",
-    outputDir: "./public/images/",
-  });
+async function imageShortcode(src, alt, sizes, subdir = "") {
+  var metadata = [];
+  if (process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" || process.env.INTERNAUTICA_ENV.toLowerCase() == 'debug') {
+    metadata = await Image(`./src${src}`, {
+      widths: [300, 800, null],
+      formats: ["avif", "jpeg"],
+      urlPath: "/images/" + subdir,
+      outputDir: "./public/images/" + subdir,
+    });
+  } else {
+    metadata = await Image(`./src${src}`, {
+      widths: [100],
+      formats: ["jpeg"],
+      urlPath: "/images/" + subdir,
+      outputDir: "./public/images/" + subdir,
+    });
+  }
 
   let imageAttributes = {
     alt,
@@ -22,7 +33,6 @@ async function imageShortcode(src, alt, sizes) {
     loading: "lazy",
     decoding: "async",
   };
-
   return Image.generateHTML(metadata, imageAttributes);
 }
 
@@ -58,12 +68,17 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addNunjucksFilter("isLongerThan", (content, threshold) => {
     return content.length > threshold;
   });
+  eleventyConfig.addFilter("splitLines", function (content) {
+    return content.split("\n");
+  });
 
   //plugins
   eleventyConfig.addPlugin(eleventySass);
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(emojiReadTime, { showEmoji: false });
   eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(faviconsPlugin, {'outputDir':'./public'});
+
 
   eleventyConfig.setLibrary("md", markdownIt);
   return {

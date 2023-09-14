@@ -13,7 +13,7 @@ permalink: /tagged/{{ tag | slugify}}/
 <h2>Tagged “{{ tag }}”</h2>
 <ol>
   {% set taglist = collections[ tag ] %}
-  {% for item in taglist | reverse %}
+  {% for item in taglist | sort %}
     <div class="art-box">
       <li>
         {% include  'components/art-card.njk' %}
@@ -27,7 +27,7 @@ permalink: /tagged/{{ tag | slugify}}/
   </summary>
  
   {% for name, content in collections  | dictsort %}
-    {% if name != "pages" and name != "all"  and name != "post"%}
+    {% if name not in config.excludedTags%}
      <span class="tag"><a href="/tagged/{{name | slugify}}">{{ name }}</a></span>
     {% endif %}
   {% endfor %}

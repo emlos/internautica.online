@@ -8,3 +8,4 @@ node_modules/*
 my-art/
 .directory
 .env
+package-lock.json
