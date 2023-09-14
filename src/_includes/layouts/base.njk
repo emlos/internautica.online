@@ -6,12 +6,8 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{{ title if title else about.title }}</title>
-            <link rel="icon" href="/favicon.ico" sizes="any">
-            <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-            
-            <link rel="stylesheet" href="{{ '/css/style.css' | url | safe }}">
-            <link type="text/plain" rel="author" href="/humans.txt"/>
-
+             <link rel="stylesheet" href="{{ '/css/style.css' | url | safe }}">
+                        {% favicons './src/favicon.png', appleIconBgColor='#123' %}
             {% if css %}
                 <link rel="stylesheet" href="{{ css | url | safe }}">
             {% endif %}
