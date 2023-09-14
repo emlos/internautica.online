@@ -44,12 +44,6 @@ module.exports = async function () {
     links: [
       {
         icon: "",
-        name: "twitter",
-        url: "https://twitter.com/milo_guts",
-        nsfw: true,
-      },
-      {
-        icon: "",
         name: "this repo",
         url: "https://github.com/emlos/internautica.online",
       },
