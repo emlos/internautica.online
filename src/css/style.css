@@ -50,6 +50,10 @@ section.song {
   max-width: fit-content;
 }
 
+.song {
+  text-align: center;
+}
+
 @media screen and (max-width: 480px) {
   .song .numbers {
     display: none;
@@ -69,12 +73,17 @@ section.song {
     width: auto;
   }
 
-
+  .art {
+    list-style: none;
+    padding-left: 0;
+  }
 }
 
 @media screen and (min-width: 480px) {
+ 
   .song-container {
     display: flex;
+    justify-content: center;
   }
 
   .song-container > .column {
