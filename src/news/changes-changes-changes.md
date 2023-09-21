@@ -5,7 +5,7 @@ changed_date: git Last Modified
 description: "what's new? not big but and not much!!"
 ---
 
-#### keeping it simple
+### keeping it simple
 changes:
 - a lot of internal eleventy stuff that you can check out in my (repository)[https://github.com/emlos/internautica.online] on github
 - adjusted a bit of css and removed some graphics + added some of mine
