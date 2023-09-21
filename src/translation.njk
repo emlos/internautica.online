@@ -5,7 +5,12 @@ pagination:
   data: collections.songs
   size: 10
 ---
-
+<section class="lower">
+  <p>hey have you ever heard a song that was <i>so good</i> that you wanted to show it to everybody you know, but they don't know english? ever want to be the weirdo at karaoke from a parallel universe? filled with unimaginable hubris?</p>
+  <p>I am! so here's my attempts at translating sounds and keeping the structure/meaning/vowels/syllabes whatever so it's singable!</p>
+  <p>theyre not perfect, there's some repetitive rhymes, but noone is doing it <i>just like me</i> :] so without further ado - here we go!</p>
+  <hr>
+</section>
 {% for song in pagination.items | reverse%}
     {% if song.data.translated %}
         <section class="song" title="{{song.data.hover if song.data.hover}}">
