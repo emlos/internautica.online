@@ -6,7 +6,7 @@ pagination:
   size: 10
 ---
 
-{% for song in pagination.items %}
+{% for song in pagination.items | reverse%}
     {% if song.data.translated %}
         <section class="song">
             <h2>
