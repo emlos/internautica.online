@@ -8,7 +8,7 @@ pagination:
 
 {% for song in pagination.items | reverse%}
     {% if song.data.translated %}
-        <section class="song">
+        <section class="song" title="{{song.data.hover if song.data.hover}}">
             <h2>
                 {{ song.data.name }}
             </h2>
