@@ -34,13 +34,56 @@ h5 {
   display: inline;
 }
 
-.art-content img {
-  max-width: 100%;
-  max-height: 800px;
-  width: auto;
+.song-container {
+  display: block;
+}
+
+section.song {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.song-container > .column {
+  padding: 20px;
+  border: 1px solid #000000; /* Just to make it visible */
+  text-align: center;
+  max-width: fit-content;
+}
+
+@media screen and (max-width: 480px) {
+  .song .numbers {
+    display: none;
+  }
+
+  .translation {
+    margin-bottom: 30px;
+  }
+
+  .song > h2 {
+    font-size: 2rem;
+  }
+
+  .art-content img {
+    max-width: 100%;
+    max-height: 800px;
+    width: auto;
+  }
+
+
 }
 
 @media screen and (min-width: 480px) {
+  .song-container {
+    display: flex;
+  }
+
+  .song-container > .column {
+    flex: 1; /* This makes both columns equal in width */
+  }
+  .column + .column {
+    margin-left: 20px;
+  }
+
   .art-content img {
     max-height: 400px;
     width: auto;

@@ -1,0 +1,44 @@
+---
+layout: 'layouts/base.njk'
+title: lost in translation
+pagination:
+  data: collections.songs
+  size: 10
+---
+
+{% for song in pagination.items %}
+    {% if song.data.translated %}
+        <section class="song">
+            <h2>
+                {{ song.data.name }}
+            </h2>
+            <p class="subheading">by {{ song.data.author }}</p>
+            <div class="song-container">
+                {% for translation in song.content | split("<h2>SONG</h2>\n") %}
+                    {% if loop.first %} {#THIS WAS SO FUCKING HARD GOD#}
+                        <div class="numbers column">
+                            {% set paragraphs = translation | countlinesregex("<p>([\\s\\S]*?)<\\/p>") %}
+                            {% set paragraphsAmount = paragraphs | length %}
+                            {% set current=0 %}
+                            {% for p in range(0,paragraphsAmount) %}
+                                <p>
+                                    {% set linesAmount = paragraphs[p] | countlines %}
+                                    {% for line in range(0, linesAmount) %}
+                                        {% set current = current + 1 %}
+                                        {{ current }}<br>
+                                        {% endfor %}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="translation column {{ song.data.languages[loop.index0] }}">{{ translation | safe }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    {% endfor %}
+    <div class="songs-navigation paging">
+        {% include 'components/paging.njk' %}
+    </div>
+    <br>
+    {% github %}

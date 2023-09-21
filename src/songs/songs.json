@@ -1,0 +1,6 @@
+{
+  "tags": "songs",
+  "translated": false,
+  "templateEngineOverride": "njk,md",
+  "permalink": false
+}
