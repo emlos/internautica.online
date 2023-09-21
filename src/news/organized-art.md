@@ -5,7 +5,7 @@ changed_date: git Last Modified
 description: "this is where i set up my page for the <s>first</s> second time"
 ---
 
-#### featuring: cool art gallery!
+### featuring: cool art gallery!
 
 i figured out (halfway anyway) how pagination an collections work! :D
 so here, check out my new page [here!]({{url}}/art/)!

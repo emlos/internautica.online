@@ -1,15 +1,18 @@
 <div class="newspost">
-    <h3 class="news-title">
+    <h2 class="news-title">
         <a href="{{ post.url | url }}">{{ post.data.title if post.data.title else site.title }}</a>
-    </h3>
+    </h2>
     <div class="news-subheading">
-        <ul>
+        <ul class="news-info">
             <li>Reading time: {{post.content  | emojiReadTime}}</li>
             <li>created: {{ post.date }}</li>
         </ul>
     </div>
     <details class="news-description">
-       <summary> {{ post.data.description | safe }} </summary>
+       <summary><b> {{ post.data.description | safe }}</b> </summary>
+       <hr>
+       <article>
        {{post.content | safe}}
+       </article>
     </details>
 </div>
