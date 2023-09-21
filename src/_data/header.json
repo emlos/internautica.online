@@ -3,6 +3,7 @@
     { "show": true,"name": "home", "url": "/home/" },
     { "show": true,"name": "news", "url": "/news/" },
     { "show": true,"name": "art i like", "url": "/art/" },
+    { "show": true,"name": "song translations", "url": "/translation/" },
     {
       "show": false,
       "name": "shrines",

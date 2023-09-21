@@ -9,9 +9,27 @@ const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
 
+function extract(html, regex) {
+  // Use parentheses to capture the content inside <p> tags
+
+  var regexObj = new RegExp(regex, "g");
+  const matches = [];
+
+  let match;
+  while ((match = regexObj.exec(html)) !== null) {
+    // Access the first captured group (index 1) to get the content inside <p> tags
+    matches.push(match[1]);
+  }
+ 
+  return matches
+}
+
 async function imageShortcode(src, alt, sizes, subdir = "") {
   var metadata = [];
-  if (process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" || process.env.INTERNAUTICA_ENV.toLowerCase() == 'debug') {
+  if (
+    process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" ||
+    process.env.INTERNAUTICA_ENV.toLowerCase() == "debug"
+  ) {
     metadata = await Image(`./src${src}`, {
       widths: [300, 800, null],
       formats: ["avif", "jpeg"],
@@ -47,8 +65,10 @@ function editOnGithubShortcode() {
   const base = "https://github.com/emlos/internautica.online/tree/master/src";
   const text = "Edit this page on github!";
 
-  return outdent`<div class="github-button"><a href=${path.join(base, this.page.filePathStem +"." + this.page.inputPath.split(".")[2])
-  }>${text}</a></div>`;
+  return outdent`<div class="github-button"><a href=${path.join(
+    base,
+    this.page.filePathStem + "." + this.page.inputPath.split(".")[2]
+  )}>${text}</a></div>`;
 }
 
 module.exports = function (eleventyConfig) {
@@ -65,11 +85,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
 
   //filters
-  eleventyConfig.addNunjucksFilter("isLongerThan", (content, threshold) => {
-    return content.length > threshold;
-  });
-  eleventyConfig.addFilter("splitLines", function (content) {
-    return content.split("\n");
+  eleventyConfig.addNunjucksFilter("countlinesregex", extract)
+  eleventyConfig.addNunjucksFilter("length", (content) => {return content.length})
+  eleventyConfig.addNunjucksFilter("countlines", (content) => {
+    return content.split("\n").length
+  })
+  eleventyConfig.addFilter("split", function (content, separator) {
+    return content.split(separator).filter((entry) => entry != "");
   });
 
   //plugins
@@ -77,8 +99,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(emojiReadTime, { showEmoji: false });
   eleventyConfig.addPlugin(syntaxHighlight);
-  eleventyConfig.addPlugin(faviconsPlugin, {'outputDir':'./public'});
-
+  eleventyConfig.addPlugin(faviconsPlugin, { outputDir: "./public" });
 
   eleventyConfig.setLibrary("md", markdownIt);
   return {
