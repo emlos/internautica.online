@@ -65,6 +65,7 @@ section.song {
 
   .translation {
     margin-bottom: 30px;
+    width: 100%;
   }
 
   .song > h2 {
