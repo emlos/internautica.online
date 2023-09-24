@@ -5,7 +5,7 @@ languages:
     - "english"
     - "polish"
     - "german"
-translated: false
+translated: true
 ---
 ## SONG
 She told me not to step on the cracks
@@ -91,23 +91,3 @@ Mówiąc hej, odsłoń swą twarz, [o-o-o-o]
 ciągle palce wtykasz, do nie swoich spra-a-a-a-a-aaa-aa-w
 Mówiąc hej, gdzie oko masz
 musiałam ci je zabrać, bo wzbudziłaś mój płacz
-## SONG
-Sie sagte mir, pass auf wo du läufst
-Ich fragte sie, warum sie so heult
-Kleines süßes Ding hat mich fast überholt
-Nun schläft sie mit nen offn'en Auge
-Und das ist ihr letzter Preis.
-
-Ich nahm ihr Aug und schnitt es heraus
-Versteckt, verrotet es jetzt in meinen haus
-xxx
-Nun schläft sie mit nen offn'en Auge
-Und das ist ihr letzter Preis.
-
-Mädchen du, mit einen Aug
-Halte deine Pfoten, aus meinen Teig
-Mädchen mit, nur einen Aug
-Ich hab dein herz zerissen, weil ich nicht weinen mag
-
-Mal greife ich unter ihr kleid
-Ich sag ihr "ruhig  
