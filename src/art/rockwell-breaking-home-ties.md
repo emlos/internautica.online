@@ -7,4 +7,4 @@ tags:
     - love
     - rockwell
 ---
-![rockwell breaking home ties](/images/art/rockwell-breaking-home-ties.jpg)
+{% EleventyImage "/images/art/rockwell-breaking-home-ties.jpg", "rockwell breaking home ties", "(min-width: 30rem) 50vw, 100vw", "generated" %}

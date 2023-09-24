@@ -8,4 +8,4 @@ tags:
     - headspace
     - bechdel
 ---
-![bechdel butch woman](/images/art/bechdel-butch-woman.jpg)
+{% EleventyImage "/images/art/bechdel-butch-woman.jpg", "bechdel butch woman", "(min-width: 30rem) 50vw, 100vw", "generated" %}

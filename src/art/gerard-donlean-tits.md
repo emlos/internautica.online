@@ -7,4 +7,4 @@ tags:
     - donelan
     - lesbian
 ---
-![gerard donlean boobs](/images/art/gerard-donlean-tits.jpg)
+{% EleventyImage "/images/art/gerard-donlean-tits.jpg", "gerard donlean tits", "(min-width: 30rem) 50vw, 100vw", "generated" %}

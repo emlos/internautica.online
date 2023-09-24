@@ -7,4 +7,4 @@ tags:
     - donelan
     - lesbian
 ---
-![gerard donlean sister](/images/art/gerard-donlean-sister.jpg)
+{% EleventyImage "/images/art/gerard-donlean-sister.jpg", "gerard donlean sister", "(min-width: 30rem) 50vw, 100vw", "generated" %}

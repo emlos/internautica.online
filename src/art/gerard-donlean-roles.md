@@ -7,4 +7,4 @@ tags:
     - donelan
     - lesbian
 ---
-![gerard donlean roles](/images/art/gerard-donlean-roles.jpg)
+{% EleventyImage "/images/art/gerard-donlean-roles.jpg", "gerard donlean roles", "(min-width: 30rem) 50vw, 100vw", "generated" %}

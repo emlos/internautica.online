@@ -7,4 +7,4 @@ tags:
     - xkcd
     - feminism
 ---
-![xkcd how it works](/images/art/xkcd-how_it_works.png)
+{% EleventyImage "/images/art/xkcd-how_it_works.png", "xkcd how it works", "(min-width: 30rem) 50vw, 100vw", "generated" %}

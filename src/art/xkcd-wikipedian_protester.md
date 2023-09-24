@@ -7,4 +7,4 @@ tags:
     - xkcd
     - wikipedia
 ---
-![xkcd wikipedian protester](/images/art/xkcd-wikipedian_protester.png)
+{% EleventyImage "/images/art/xkcd-wikipedian_protester.png", "xkcd wikipedian protester", "(min-width: 30rem) 50vw, 100vw", "generated" %}
