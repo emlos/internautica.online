@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 
 # Specify the directory where your images are stored
