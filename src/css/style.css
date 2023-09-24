@@ -38,6 +38,22 @@ h5 {
   font-size: 0.8rem;
 }
 
+.dark-mode {
+  background-color: black !important;
+  color: white !important;
+}
+
+.light-mode {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark-mode-toggle > *{
+  cursor: pointer;
+}
+
+/*---element specific styles---*/
+
 .song-container {
   display: block;
 }
