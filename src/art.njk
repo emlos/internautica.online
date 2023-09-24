@@ -3,17 +3,15 @@
   pagination: {
     data: "collections.art",
     size: 10,
-    addAllPagesToCollections: true,
-    before: function(paginationData, fullData) {
-      return paginationData.sort(() => Math.random() - 0.5);
-    }
-  },
+    reverse: true
+    },
   layout: "layouts/base.njk",
+  
 }
 ---
 
 <ul class="art">
-  {% for item in pagination.items %}
+  {% for item in pagination.items%}
     <div class="art-box">
       <li>
       {%include  'components/art-card.njk'%}
