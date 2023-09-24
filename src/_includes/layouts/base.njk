@@ -11,6 +11,8 @@
             {% if css %}
                 <link rel="stylesheet" href="{{ css | url | safe }}">
             {% endif %}
+
+            <script type="text/javascript" src="/scripts/dark-mode.js"></script>
         {% endblock %}
     </head>
     <body>
@@ -19,6 +21,8 @@
                 {% include "components/header.njk" %}
             {% endblock %}
             {% block body %}
+                {%include 'components/dark-mode-toggle.njk'%}
+
                 <main class="main container">
                     {{ content | safe }}
                 </main>
