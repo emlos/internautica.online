@@ -34,6 +34,13 @@ h5 {
   display: inline;
 }
 
+a {
+  color: #0000FF;
+}
+a:visited {
+  color: #ad0cad;
+}
+
 .lower {
   font-size: 0.8rem;
 }
