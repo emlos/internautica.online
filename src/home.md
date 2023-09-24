@@ -10,7 +10,7 @@ im mostly a collector of everything that i like and base my personality on, in m
 i *was* gonna port my shrines to this version of my site, but frankly i am starting to like the low-css/js approach here
 if you want something to get excited about, though, here you go:
  - [song translation page]({{'/translation/' | url}})
- - dark mode!
+ - dark mode! (check out the toggle above!)
  - eleventy base project maybe?
  - zines page? ive made two in my whole life but i had ideas for two more
  - fandomy art page! i deleted a lot of my social media recently and i would prefer to host my art here ^^
