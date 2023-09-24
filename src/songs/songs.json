@@ -2,5 +2,6 @@
   "tags": "songs",
   "translated": false,
   "templateEngineOverride": "njk,md",
-  "permalink": false
+  "permalink": false,
+  "date": "git Last Modified"
 }
