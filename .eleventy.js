@@ -27,8 +27,7 @@ function extract(html, regex) {
 async function imageShortcode(src, alt, sizes, subdir = "") {
   var metadata = [];
   if (
-    process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" ||
-    process.env.INTERNAUTICA_ENV.toLowerCase() == "debug"
+    process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" 
   ) {
     metadata = await Image(`./src${src}`, {
       widths: [300, 800, null],

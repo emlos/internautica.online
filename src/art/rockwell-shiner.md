@@ -6,4 +6,4 @@ tags:
     - visual
     - rockwell
 ---
-![rockwell shiner](/images/art/rockwell-shiner.jpg)
+{% EleventyImage "/images/art/rockwell-shiner.jpg", "rockwell shiner", "(min-width: 30rem) 50vw, 100vw", "generated" %}

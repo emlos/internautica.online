@@ -8,4 +8,4 @@ tags:
     - depression
     - love
 ---
-![xkcd helping](/images/art/xkcd-helping.png)
+{% EleventyImage "/images/art/xkcd-helping.png", "xkcd helping", "(min-width: 30rem) 50vw, 100vw", "generated" %}

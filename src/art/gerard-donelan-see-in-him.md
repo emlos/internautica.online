@@ -7,4 +7,4 @@ tags:
     - donelan
     - lgbt
 ---
-![gerard donelan see in him](/images/art/gerard-donelan-see-in-him.jpg)
+{% EleventyImage "/images/art/gerard-donelan-see-in-him.jpg", "gerard donelan see in him", "(min-width: 30rem) 50vw, 100vw", "generated" %}

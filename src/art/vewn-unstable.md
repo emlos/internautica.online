@@ -8,4 +8,4 @@ tags:
     - headspace
 
 ---
-![vewn unstable](/images/art/vewn-unstable.jpg)
+{% EleventyImage "/images/art/vewn-unstable.jpg", "vewn unstable", "(min-width: 30rem) 50vw, 100vw", "generated" %}

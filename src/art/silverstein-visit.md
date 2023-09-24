@@ -6,4 +6,4 @@ tags:
     - visual
     - lgbt
 ---
-![silverstein visit](/images/art/silverstein-visit.jpg)
+{% EleventyImage "/images/art/silverstein-visit.jpg", "silverstein visit", "(min-width: 30rem) 50vw, 100vw", "generated" %}

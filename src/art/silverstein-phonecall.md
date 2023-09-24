@@ -6,4 +6,4 @@ tags:
     - visual
     - lesbian
 ---
-![silverstein phonecall](/images/art/silverstein-phonecall.jpg)
+{% EleventyImage "/images/art/silverstein-phonecall.jpg", "silverstein phonecall", "(min-width: 30rem) 50vw, 100vw", "generated" %}

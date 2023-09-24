@@ -8,4 +8,4 @@ tags:
     - headspace
 
 ---
-![vewn self isolation](/images/art/vewn-self-isolation.jpg)
+{% EleventyImage "/images/art/vewn-self-isolation.jpg", "vewn self isolation", "(min-width: 30rem) 50vw, 100vw", "generated" %}

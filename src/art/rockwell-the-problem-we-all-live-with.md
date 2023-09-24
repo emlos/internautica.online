@@ -7,4 +7,4 @@ tags:
     - history
     - rockwell
 ---
-![rockwell the problem we all live with](/images/art/rockwell-the-problem-we-all-live-with.jpg)
+{% EleventyImage "/images/art/rockwell-the-problem-we-all-live-with.jpg", "rockwell the problem we all live with", "(min-width: 30rem) 50vw, 100vw", "generated" %}

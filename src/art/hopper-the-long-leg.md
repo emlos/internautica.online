@@ -5,4 +5,4 @@ author: "Edward Hopper"
 tags:
     - visual
 ---
-![hopper the long leg](/images/art/hopper-the-long-leg.jpg)
+{% EleventyImage "/images/art/hopper-the-long-leg.jpg", "hopper the long leg", "(min-width: 30rem) 50vw, 100vw", "generated" %}

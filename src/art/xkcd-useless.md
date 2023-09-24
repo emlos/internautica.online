@@ -7,4 +7,4 @@ tags:
     - xkcd
     - love
 ---
-![my usual approach is useless here xkcd](/images/art/xkcd-useless.jpg)
+{% EleventyImage "/images/art/xkcd-useless.jpg", "xkcd useless", "(min-width: 30rem) 50vw, 100vw", "generated" %}
