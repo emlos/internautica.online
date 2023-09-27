@@ -63,18 +63,18 @@ Przypodobam tobię się.
 Wiem że uczysz mnie jak postępować,
 Kiedy twoja dłoń trzyma smycz,
 Samej się nie mogę już rozpoznać,
-Nad wszystko chcę  wolna być, yeah!
+Nad wszystko chcę wolna być, yeah!
 
 [Chorus]
 Pokaż mi że kochasz mnie jak dawniej,
-Rżnij mnie aż nie będe mogła stać,
-
-
-
-
+Rżnij mnie aż nie będe więcej mogła stać
+nazywaj swoją dziwką mnie
+takie brzydkie małe pragnienię
+wiesz jak nazywam się?
+wiesz jak nazywam się-ę-ę-ę?
 
 [Verse]
-
+wiem że pokazujesz dobrą drogę
 
 
 
