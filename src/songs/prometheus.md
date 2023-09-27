@@ -72,9 +72,8 @@ a ruchów ich zołnierzy już nie było śledzić jak
 i nagle znikąd taki cud, miał informacji wszytskich w bród
 nie prosząc o zapłate, jakby nagle z nieba spadł
 
-
-
-
+nadzieji błysk w ciemną noc
+co pozwoliła nam odzyskać moc
 
 prometeusz! 
 bohater dał nam szansę zbawić swiat
@@ -86,7 +85,7 @@ poświecił się by myśmy mogli stać!
 kiedy Achron połknie wszystkich nas
 my bęziemy dalej grać.
 
-w końcu nawet olimp nie mógł już spokojnie spać,
+po wszystkim nawet olimp nie mógł już spokojnie spać,
 
 
 

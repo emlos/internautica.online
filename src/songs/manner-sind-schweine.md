@@ -36,6 +36,7 @@ Und dann am nächsten Morgen weiß
 Er nicht einmal mehr, wie du heißt
 Rücksichtslos und ungehemmt
 Gefühle sind ihm völlig fremd
+
 [Pre-Refrain]
 Für ihn ist Liebe gleich Samenverlust
 Mädchen, sei dir dessen stets bewusst
@@ -111,8 +112,10 @@ Facetem facet czuje się
 gdy pocałować może cię,
 I wciśnie tobie każdy kit,
 byś tylko się przespała z nim
-
-
+a następnego ranka on
+nie wie kogo do łóżka wziął
+a jaki on to tupet ma
+nie obchodzą go uczucia
 
 [Pre-Refrain]
 Dla ciebie miłość, dla niego to seks,
@@ -120,6 +123,8 @@ kochana sluchaj, zanim sparzysz się
 
 [Refrain]
 Facet to Świnia!
+nie łódź się o słońce z nim
+wyjątków po prostu nie ma
 
 
 [Strophe 3]
