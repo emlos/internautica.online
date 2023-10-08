@@ -1,17 +1,23 @@
----
-layout: 'layouts/base.njk'
-title: lost in translation
-pagination:
-  data: collections.songs
-  size: 10
+---js 
+{
+    layout : "layouts/base.njk",
+    title : "lost in translation",
+    pagination : {
+        data: "collections.songs",
+        size: 5,
+        before: function (paginationData, fullData) {
+            return paginationData.filter(entry => entry.data.translated).sort((a,b) => {return new Date(b.date) - new Date(a.date);})
+        }
+    }
+}
 ---
 <section class="lower">
-  <p>hey have you ever heard a song that was <i>so good</i> that you wanted to show it to everybody you know, but they don't know english? ever want to be the weirdo at karaoke from a parallel universe? filled with unimaginable hubris?</p>
-  <p>I am! so here's my attempts at translating sounds and keeping the structure/meaning/vowels/syllabes whatever so it's singable!</p>
-  <p>theyre not perfect, there's some repetitive rhymes, but noone is doing it <i>just like me</i> :] so without further ado - here we go!</p>
-  <hr>
+    <p>hey have you ever heard a song that was <i>so good</i> that you wanted to show it to everybody you know, but they don't know english? ever want to be the weirdo at karaoke from a parallel universe? filled with unimaginable hubris?</p>
+    <p>I am! so here's my attempts at translating sounds and keeping the structure/meaning/vowels/syllabes whatever so it's singable!</p>
+    <p>theyre not perfect, there's some repetitive rhymes, but noone is doing it <i>just like me</i> :] so without further ado - here we go!</p>
+    <hr>
 </section>
-{% for song in pagination.items | reverse%}
+{% for song in pagination.items%}
     {% if song.data.translated %}
         <section class="song" title="{{song.data.hover if song.data.hover}}">
             <h2>
@@ -20,30 +26,31 @@ pagination:
             <p class="subheading">by {{ song.data.author }}</p>
             <div class="song-container">
                 {% for translation in song.content | split("<h2>SONG</h2>\n") %}
-                    {% if loop.first %} {#THIS WAS SO FUCKING HARD GOD#}
+                    {% if loop.first %}
+                        {#THIS WAS SO FUCKING HARD GOD#}
                         <div class="numbers column">
                             {% set paragraphs = translation | countlinesregex("<p>([\\s\\S]*?)<\\/p>") %}
                             {% set paragraphsAmount = paragraphs | length %}
-                            {% set current=0 %}
-                            {% for p in range(0,paragraphsAmount) %}
+                            {% set current = 0 %}
+                            {% for p in range(0, paragraphsAmount) %}
                                 <p>
                                     {% set linesAmount = paragraphs[p] | countlines %}
                                     {% for line in range(0, linesAmount) %}
                                         {% set current = current + 1 %}
                                         {{ current }}<br>
-                                        {% endfor %}
-                                    </p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        <div class="translation column {{ song.data.languages[loop.index0] }}">{{ translation | safe }}</div>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
-    {% endfor %}
-    <div class="songs-navigation paging">
-        {% include 'components/paging.njk' %}
-    </div>
-    <br>
-    {% github %}
+                                    {% endfor %}
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="translation column {{ song.data.languages[loop.index0] }}">{{ translation | safe }}</div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endfor %}
+<div class="songs-navigation paging">
+    {% include 'components/paging.njk' %}
+</div>
+<br>
+{% github %}

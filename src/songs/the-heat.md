@@ -70,7 +70,9 @@ Dlaczego musisz z moim sercem grać?
 Ja tonę, słońce, line mi rzuć
 gubie sie w twoim oceanie uczuć
 płakać mi się chcę gdy opuszczasz mnie
-Nigdy nie dajesz nic od siebię
+Nigdy nie dajesz nic od siebie
 samej jest tak zimno czy słyszysz mnie?
 wiem że możesz więcej mi dać
+
+chłopcze ja chcę pożądania, dania, dania
 
