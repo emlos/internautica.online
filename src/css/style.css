@@ -35,7 +35,7 @@ h5 {
 }
 
 a {
-  color: #0000FF;
+  color: #0000ff;
 }
 a:visited {
   color: #ad0cad;
@@ -48,14 +48,17 @@ a:visited {
 .dark-mode {
   background-color: black !important;
   color: white !important;
+  border-color: black !important;
 }
 
 .light-mode {
   background-color: white !important;
   color: black !important;
+  border-color: white !important;
+
 }
 
-.dark-mode-toggle > *{
+.dark-mode-toggle > * {
   cursor: pointer;
 }
 
@@ -72,7 +75,7 @@ section.song {
 
 .song-container > .column {
   padding: 20px;
-  border: 1px solid #000000; /* Just to make it visible */
+  border: 1px solid; /* Just to make it visible */
   text-align: center;
   max-width: fit-content;
 }
@@ -101,7 +104,7 @@ section.song {
     width: auto;
   }
 
-  ul:not(article> ul) {
+  ul:not(article > ul) {
     list-style: none;
     padding-left: 0;
   }
@@ -112,7 +115,6 @@ section.song {
 }
 
 @media screen and (min-width: 480px) {
- 
   .song-container {
     display: flex;
     justify-content: center;
