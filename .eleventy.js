@@ -76,6 +76,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/images/");
   eleventyConfig.addPassthroughCopy({ "./src/favicons": "/" }); //favicons remap to root
   eleventyConfig.addPassthroughCopy("./src/scripts/*.js");
+  eleventyConfig.addPassthroughCopy("./src/fonts/");
 
   //shortcodes
   eleventyConfig.addShortcode("github", editOnGithubShortcode);

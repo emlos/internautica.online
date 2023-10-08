@@ -1,5 +1,13 @@
 /* CSS Variables */
 
+@font-face {
+  font-family: "OpenDyslexic";
+  src:
+    url("/fonts/opendyslexic-regular-webfont.woff") format("woff"),
+    url("/fonts/opendyslexic-regular-webfont.woff2") format("woff2");
+}
+
+
 html,
 body {
   height: 100%;
@@ -58,7 +66,18 @@ a:visited {
 
 }
 
-.dark-mode-toggle > * {
+.dyslexic-font {
+  font-family: "OpenDyslexic", sans-serif !important;
+}
+.serif-font {
+  font-family: initial !important;
+}
+
+.toggles > .toggle {
+  display: inline;
+}
+
+.toggle > * {
   cursor: pointer;
 }
 
