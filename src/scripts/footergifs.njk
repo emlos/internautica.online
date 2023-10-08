@@ -13,6 +13,7 @@ function makeImages(list, id, tag, amount) {
     shuffled.forEach((filename) => {
         const image = document.createElement('img');
         image.classList.add(tag);
+        image.classList.add("freezeframe") //used in freezergifjs 
         image.src = filename;
         container.appendChild(image);
     })

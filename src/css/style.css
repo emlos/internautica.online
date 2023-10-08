@@ -78,9 +78,7 @@ hr {
   font-family: initial !important;
 }
 
-.toggles > .toggle {
-  display: inline;
-}
+
 
 .toggle > * {
   cursor: pointer;
@@ -139,6 +137,11 @@ section.song {
 }
 
 @media screen and (min-width: 480px) {
+
+  .toggles > .toggle {
+    display: inline;
+  }
+
   .song-container {
     display: flex;
     justify-content: center;

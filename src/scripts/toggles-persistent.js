@@ -1,3 +1,5 @@
+var freeze
+
 document.addEventListener("DOMContentLoaded", (event) => {
   let currentMode = getCookie("d-l-toggle");
   if (currentMode === "dark") {
@@ -10,6 +12,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     setDyslexicFont();
   } else {
     setSerifFont();
+  }
+
+  freeze = new Freezeframe({responsive: false, warning: false});
+  currentMode = getCookie("gifs-toggle");
+  if (currentMode === "playing") {
+    freeze.start()
+  } else {
+    freeze.stop()
   }
 });
 
@@ -46,13 +56,9 @@ function setDyslexicFont() {
 
 function toggleMode(target, newClass, oldClass) {
   //let target = document.getElementById("test")
-  if (target != null) {
     target.classList.add(newClass);
     target.classList.remove(oldClass);
-  } else {
-    console.error(target);
-    console.error("no such class exist");
-  }
+  
 }
 
 function changeColor() {
@@ -74,6 +80,38 @@ function changeFont() {
   } else {
     setSerifFont();
     setCookie("font-toggle", "serif");
+  }
+}
+
+function toggleGifs() {
+  let currentMode = getCookie("gifs-toggle");
+  if (currentMode !== "playing") {
+    freeze.start()
+    setCookie("gifs-toggle", "playing");
+  } else {
+    freeze.stop()
+    setCookie("gifs-toggle", "paused");
+  }
+}
+
+function toggleGif(imageElement) {
+  const src = imageElement.getAttribute('src');
+  
+  if (/\.gif/i.test(src)) {
+    // Pause: Replace with the first frame of the animated GIF
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imageElement, 0, 0);
+    
+    // Replace the image source with the canvas data
+    imageElement.setAttribute('data-animated-src', src);
+    imageElement.setAttribute('src', canvas.toDataURL());
+  } else {
+    // Play: Replace with the original animated GIF
+    const animatedSrc = imageElement.getAttribute('data-animated-src');
+    if (animatedSrc) {
+      imageElement.setAttribute('src', animatedSrc);
+    }
   }
 }
 
