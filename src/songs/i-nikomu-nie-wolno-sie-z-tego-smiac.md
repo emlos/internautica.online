@@ -11,7 +11,7 @@ Wy kłamiecie aby kupić nas
 Sprzedajecie nasz bezcenny czas 
 Wciąż myślicie, że to tylko tłum 
 Zabraniacie dźwięków wszystkich strun 
-
+ 
 I nikomu nie wolno się z tego śmiać
 I nikomu nie wolno się z tego śmiać
 I nikomu nie wolno się z tego śmiać

@@ -3,5 +3,6 @@
   "translated": false,
   "templateEngineOverride": "njk,md",
   "permalink": false,
-  "date": "git Last Modified"
+  "date": "Last Modified"
+  
 }
