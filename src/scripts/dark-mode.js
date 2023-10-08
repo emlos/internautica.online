@@ -10,10 +10,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
 function applyDarkMode() {
   document.body.classList.add("dark-mode");
   document.body.classList.remove("light-mode");
+
+  let elements = document.querySelector(".column");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("dark-mode");
+    elements[i].classList.remove("light-mode");
+  }
 }
 function applyLightMode() {
   document.body.classList.add("light-mode");
   document.body.classList.remove("dark-mode");
+ 
+  let elements = document.querySelector(".column");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("light-mode");
+    elements[i].classList.remove("dark-mode");
+  }
 }
 
 function changeColor() {
