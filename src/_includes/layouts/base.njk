@@ -12,7 +12,7 @@
                 <link rel="stylesheet" href="{{ css | url | safe }}">
             {% endif %}
 
-            <script type="text/javascript" src="/scripts/dark-mode.js"></script>
+            <script type="text/javascript" src="/scripts/toggles-persistent.js"></script>
         {% endblock %}
     </head>
     <body>
@@ -21,8 +21,10 @@
                 {% include "components/header.njk" %}
             {% endblock %}
             {% block body %}
+            <div class="toggles">
                 {%include 'components/dark-mode-toggle.njk'%}
-
+                 {%include 'components/dyslexic-font-toggle.njk'%}
+            </div>
                 <main class="main container">
                     {{ content | safe }}
                 </main>
