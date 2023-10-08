@@ -49,6 +49,11 @@ a:visited {
   color: #ad0cad;
 }
 
+hr {  
+  margin-left: inherit;
+  width: 80%;
+}
+
 .lower {
   font-size: 0.8rem;
 }
