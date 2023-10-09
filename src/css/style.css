@@ -84,7 +84,29 @@ hr {
   cursor: pointer;
 }
 
+.column {
+  border: 1px solid; /* Just to make it visible */
+}
+
 /*---element specific styles---*/
+
+.git-commit  > * {
+  display: inline;
+}
+
+.git-container {
+  overflow-y: scroll;
+  text-wrap:balance;
+  margin: 10px;
+  padding: 10px;
+  list-style-position: inside;
+  list-style-type: none;
+}
+
+.git-container li::before{
+  content: "-"; /* Insert content that looks like bullets */
+  padding-right: 8px;
+}
 
 .song-container {
   display: block;
@@ -97,9 +119,7 @@ section.song {
 
 .song-container > .column {
   padding: 20px;
-  border: 1px solid; /* Just to make it visible */
   text-align: center;
-  max-width: fit-content;
 }
 
 .song {
@@ -107,6 +127,11 @@ section.song {
 }
 
 @media screen and (max-width: 480px) {
+
+  .column {
+    max-width: calc(100% - 40px) !important;
+  }
+
   .song .numbers {
     display: none;
   }
@@ -134,21 +159,50 @@ section.song {
   .news-info {
     display: none;
   }
+
+  .git-container {
+    max-height: 400px;
+  }
 }
 
 @media screen and (min-width: 480px) {
+
+  .git-container {
+    max-width: 300px;
+    max-height: 300px;
+    
+  }
+
+  .git-updates {
+    margin-left: auto;
+  }
 
   .toggles > .toggle {
     display: inline;
   }
 
-  .song-container {
+  .song-container, .side-by-side {
     display: flex;
+    
+  }
+
+  .side-by-side  {
+    flex-direction: row;
+    flex: 1 1 50%;
+    column-gap: 1rem;
+  }
+
+  .side-by-side > *{
+    max-width: 50%;
+  }
+
+  .song-container {
     justify-content: center;
   }
 
   .song-container > .column {
     flex: 1; /* This makes both columns equal in width */
+    max-width: fit-content;
   }
   .column + .column {
     margin-left: 20px;
