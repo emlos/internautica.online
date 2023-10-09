@@ -4,7 +4,6 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const faviconsPlugin = require("eleventy-plugin-gen-favicons");
-
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
@@ -20,15 +19,13 @@ function extract(html, regex) {
     // Access the first captured group (index 1) to get the content inside <p> tags
     matches.push(match[1]);
   }
- 
-  return matches
+
+  return matches;
 }
 
 async function imageShortcode(src, alt, sizes, subdir = "") {
   var metadata = [];
-  if (
-    process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy" 
-  ) {
+  if (process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy") {
     metadata = await Image(`./src${src}`, {
       widths: [300, 800, null],
       formats: ["avif", "jpeg"],
@@ -64,10 +61,10 @@ function editOnGithubShortcode() {
   const base = "https://github.com/emlos/internautica.online/tree/master/src";
   const text = "Edit this page on github!";
 
-  return outdent`<div class="github-button"><a href=${path.join(
-    base,
-    this.page.filePathStem + "." + this.page.inputPath.split(".")[2]
-  )}>${text}</a></div>`;
+  return outdent`<div class="github-button"><a href=${
+    base +
+    path.join(this.page.filePathStem + "." + this.page.inputPath.split(".")[2])
+  }>${text}</a></div>`;
 }
 
 module.exports = function (eleventyConfig) {
@@ -85,13 +82,22 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("date", () => `${new Date().getUTCDate}`);
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
+  eleventyConfig.addNunjucksAsyncShortcode(
+    "commitMessages",
+    async function (file = this.page.inputPath) {
+      const { latest } = await git.log({ file });
+      return latest.message;
+    }
+  );
 
   //filters
-  eleventyConfig.addNunjucksFilter("countlinesregex", extract)
-  eleventyConfig.addNunjucksFilter("length", (content) => {return content.length})
+  eleventyConfig.addNunjucksFilter("countlinesregex", extract);
+  eleventyConfig.addNunjucksFilter("length", (content) => {
+    return content.length;
+  });
   eleventyConfig.addNunjucksFilter("countlines", (content) => {
-    return content.split("\n").length
-  })
+    return content.split("\n").length;
+  });
   eleventyConfig.addFilter("split", function (content, separator) {
     return content.split(separator).filter((entry) => entry != "");
   });
@@ -104,6 +110,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(faviconsPlugin, { outputDir: "./public" });
 
   eleventyConfig.setLibrary("md", markdownIt);
+
   return {
     dir: {
       input: "src",
