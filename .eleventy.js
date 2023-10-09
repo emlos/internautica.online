@@ -4,6 +4,9 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const faviconsPlugin = require("eleventy-plugin-gen-favicons");
+
+const simpleGit = require("simple-git");
+const moment = require('moment');
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
@@ -82,11 +85,24 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("date", () => `${new Date().getUTCDate}`);
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
+
+  const git = simpleGit({multiLine: true});
   eleventyConfig.addNunjucksAsyncShortcode(
     "commitMessages",
-    async function (file = this.page.inputPath) {
-      const { latest } = await git.log({ file });
-      return latest.message;
+    async function () {
+      
+
+      var content='';
+
+      const  latest  = await git.log({});
+    
+      latest.all.forEach(commit => {
+        content = content + `<li class="git-commit"><div class="git-date"><b>${moment(new Date(commit.date)).format('DD-MM-YYYY HH:mm')}</b> - </div><div class="git-message">${commit.message}</div></li>\n`
+        //console.log(commit)
+      });
+
+      return content
+
     }
   );
 

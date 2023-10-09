@@ -1,7 +1,9 @@
 ---
 title: "internautica"
 layout: "layouts/base.njk"
+templateEngineOverride: "njk,md"
 ---
+<div class="side-by-side">
 <article>
 Hey its me [milo]!
 im a 2X year old depressee and college dropout :')
@@ -17,6 +19,10 @@ if you want something to get excited about, though, here you go:
 
 
 keep in mind that i cant remember when (and *if*) i ever finished a project :(
-so, um, be kind to me! i am always happy to share how and why i do things, and you can contact me on my social meia below, or my [neocities profile!](https://neocities.org/site/internautica)
+so, um, be kind to me! i am always happy to share how and why i do things, and you can contact me on my [neocities profile!](https://neocities.org/site/internautica)
 
 </article>
+
+{%include 'components/git-commit-log.njk'%}
+
+</div>
