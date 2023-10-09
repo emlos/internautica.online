@@ -14,12 +14,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     setSerifFont();
   }
 
-  freeze = new Freezeframe({responsive: false, warning: false});
+  freeze = new Freezeframe({responsive: false, warning: false, trigger: false});
   currentMode = getCookie("gifs-toggle");
   if (currentMode === "playing") {
-    freeze.start()
-  } else {
-    freeze.stop()
+    setTimeout(() => freeze.start(), 1000)
   }
 });
 
