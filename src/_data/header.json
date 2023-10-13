@@ -1,16 +1,22 @@
 {
   "links": [
-    { "show": true,"name": "home", "url": "/home/" },
-    { "show": true,"name": "news", "url": "/news/" },
-    { "show": true,"name": "art i like", "url": "/art/" },
-    { "show": true,"name": "song translations", "url": "/translation/" },
+    { "show": true, "name": "home", "url": "/home/" },
+    { "show": true, "name": "news", "url": "/news/" },
+    { "show": true, "name": "art i like", "url": "/art/" },
+    { "show": true, "name": "song translations", "url": "/translation/" },
+    { "show": true, "name": "my art", "url": "/mine/" },
+
     {
       "show": false,
       "name": "shrines",
       "url": "/shrines/",
       "suburls": [
-        {"name": "regina spektor shrine!", "url":"/shrines/regina-spektor/"},
-        {"name": "allied mastercomputer shrine!", "url":"/shrines/am-shrine/"}]
+        { "name": "regina spektor shrine!", "url": "/shrines/regina-spektor/" },
+        {
+          "name": "allied mastercomputer shrine!",
+          "url": "/shrines/am-shrine/"
+        }
+      ]
     }
   ]
 }

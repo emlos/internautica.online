@@ -168,6 +168,16 @@ section.song {
 
 @media screen and (min-width: 480px) {
 
+  /*gallery in*/
+  .three-columns {
+    column-count: 3;
+  }
+  .three-columns-item {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
   .git-container {
     max-width: 300px;
     max-height: 300px;
