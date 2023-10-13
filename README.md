@@ -8,3 +8,5 @@ afterwards, to serve via eleventys build server
 
 to generate files (in `/public`)
 `npm run build`
+
+! git needs to be installed on your system!!
