@@ -1,0 +1,19 @@
+{%extends 'layouts/base.njk'%}
+{%set category = artlinks.images[images]%}
+
+{% block body %}
+
+    <section class="gallery-container ">
+        <h2>{{category.title}}</h2>
+        <p>
+            {{category.description}}</p>
+        <div class="three-columns">
+            {%for image in category.images%}
+                <div class="gallery-item three-columns-item">
+                    {% EleventyImage image.source, image.alt, "(min-width: 480px) 50vw, 100vw", "generated" %}
+                </div>
+                {%endfor%}
+
+            </div>
+        </section>
+    {% endblock %}

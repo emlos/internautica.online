@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "debug": "export INTERNAUTICA_ENV=debug && rm -rf public && DEBUG=Eleventy* npx eleventy --serve",
-    "start": "export INTERNAUTICA_ENV=prod && rm -rf public && npx eleventy --serve --quiet",
+    "start": "export INTERNAUTICA_ENV=dev && rm -rf public && npx eleventy --serve --quiet",
     "build": "export INTERNAUTICA_ENV=deploy && rm -rf public && npx eleventy --quiet && echo -n size: && du -hs public",
     "upload": "neocities delete images/generated && neocities push public && neocities list /"
   },
