@@ -85,7 +85,7 @@ hr {
 }
 
 .column {
-  border: 1px solid; /* Just to make it visible */
+  border: 1px solid; /* everything that uses a border  */
 }
 
 /*---element specific styles---*/
@@ -148,7 +148,8 @@ section.song {
   .art-content img {
     max-width: 100%;
     max-height: 800px;
-    width: auto;
+    height: auto;
+    width:100%;
   }
 
   ul:not(article > ul) {
