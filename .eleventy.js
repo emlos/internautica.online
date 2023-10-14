@@ -6,7 +6,7 @@ const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const faviconsPlugin = require("eleventy-plugin-gen-favicons");
 
 const simpleGit = require("simple-git");
-const moment = require('moment');
+const moment = require("moment");
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
@@ -30,10 +30,16 @@ async function imageShortcode(src, alt, sizes, subdir = "") {
   var metadata = [];
   if (process.env.INTERNAUTICA_ENV.toLowerCase() === "deploy") {
     metadata = await Image(`./src${src}`, {
-      widths: [300, 800, null],
-      formats: ["avif", "jpeg"],
+      widths: [400, 800, 1280],
+      formats: ["webp", "jpeg"],
       urlPath: "/images/" + subdir,
       outputDir: "./public/images/" + subdir,
+      filenameFormat: function (id, src, width, format, options) {
+        const extension = path.extname(src);
+        const name = path.basename(src, extension);
+
+        return `${name}-${width}w.${format}`;
+      },
     });
   } else {
     metadata = await Image(`./src${src}`, {
@@ -86,25 +92,25 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
 
-  const git = simpleGit({multiLine: true});
-  eleventyConfig.addNunjucksAsyncShortcode(
-    "commitMessages",
-    async function () {
-      
+  const git = simpleGit({ multiLine: true });
+  eleventyConfig.addNunjucksAsyncShortcode("commitMessages", async function () {
+    var content = "";
 
-      var content='';
+    const latest = await git.log({});
 
-      const  latest  = await git.log({});
-    
-      latest.all.forEach(commit => {
-        content = content + `<li class="git-commit"><div class="git-date"><b>${moment(new Date(commit.date)).format('DD-MM-YYYY HH:mm')}</b> - </div><div class="git-message">${commit.message}</div></li>\n`
-        //console.log(commit)
-      });
+    latest.all.forEach((commit) => {
+      content =
+        content +
+        `<li class="git-commit"><div class="git-date"><b>${moment(
+          new Date(commit.date)
+        ).format("DD-MM-YYYY HH:mm")}</b> - </div><div class="git-message">${
+          commit.message
+        }</div></li>\n`;
+      //console.log(commit)
+    });
 
-      return content
-
-    }
-  );
+    return content;
+  });
 
   //filters
   eleventyConfig.addNunjucksFilter("countlinesregex", extract);

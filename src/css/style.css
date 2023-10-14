@@ -157,6 +157,14 @@ section.song {
     padding-left: 0;
   }
 
+ 
+  .three-columns-item img{
+
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
   .news-info {
     display: none;
   }
@@ -171,10 +179,12 @@ section.song {
   /*gallery in*/
   .three-columns {
     column-count: 3;
+   
   }
-  .three-columns-item {
+  .three-columns-item img{
     display: inline-block;
-    width: 100%;
+    max-width: 80%;
+    height: auto;
     margin-bottom: 15px;
   }
 
