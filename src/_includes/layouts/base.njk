@@ -21,7 +21,7 @@
             {% block header %}
                 {% include "components/header.njk" %}
             {% endblock %}
-            {% block body %}
+            {%block toggles%}
             <div class="toggles">
                 {%include 'components/dark-mode-toggle.njk'%}
                  {%include 'components/dyslexic-font-toggle.njk'%}
@@ -29,6 +29,8 @@
 
             </div>
             <hr>
+            {%endblock%}
+            {% block body %}
                 <main class="main container">
                     {{ content | safe }}
                 </main>

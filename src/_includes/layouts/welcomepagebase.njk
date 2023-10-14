@@ -5,17 +5,7 @@
             {% endblock %}
             {% block body %}
 
-            <h1>hey there!</h1>
-            <p>this is the entrance for my page, here's some disclaimers</p>
-            <div class="column">
-                <ol>
-                    <li>for accesibility purposes there are some js scripts on my site, that also save a local cookie</li>
-                    <li>there may be some flashing gifs if you have js disabled though</li>
-                    <li>this site is mobile friendly!</li>
-                    <li>unless stated otherwise, feel free to copy art/code/whatever! i'll also happily explain to you how i did anything :]</li>
-                </ol>
-            </div>
-           <a style="font-size: larger" href='/home'>go in</a>
+            {{content | safe}}
             {% endblock %}
 
             {% block footer %}
