@@ -40,7 +40,7 @@ module.exports = async function () {
     images: {
       cards: {
         title: "Deadpool Villains Cards!",
-        description: "description goes here",
+        description: "feel free to download and print those out, but please don't put them online and claim you upscaled them or whatever, this was a very autistic project for me and is hand redrawn!",
         images: cards,
       },
       selfportraits:
