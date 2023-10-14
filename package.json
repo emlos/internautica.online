@@ -1,13 +1,13 @@
 {
   "name": "website-mk2",
-  "version": "1.3.1",
+  "version": "1.3.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "debug": "export INTERNAUTICA_ENV=debug && rm -rf public && DEBUG=Eleventy* npx eleventy --serve",
     "start": "export INTERNAUTICA_ENV=dev && rm -rf public && npx eleventy --serve --quiet",
     "build": "export INTERNAUTICA_ENV=deploy && rm -rf public && npx eleventy --quiet && echo -n size: && du -hs public",
-    "upload": "neocities delete images/generated && neocities push public && neocities list /"
+    "upload": "npm run build && neocities push public && neocities list /"
   },
   "keywords": [],
   "author": "",
