@@ -7,10 +7,16 @@
         <h2>{{category.title}}</h2>
         <p>
             {{category.description}}</p>
-        <div class="three-columns">
+        <div class="three-columns" >
+           
             {%asyncEach image in category.images | reverse%}
                 <div class="gallery-item three-columns-item">
+                    {%set isGif = image.source | endswith(".gif")%}
+                    {%if isGif%}
+                    <img src="{{image.source}}" alt="image.alt" class="freezeframe" style="vertical-align: initial"> <!-- ugly workaround for the freezeframe forced js-->
+                    {%else%}
                     {% EleventyImage image.source, image.alt, "100vw", "generated" %}
+                   {%endif%}
                 </div>
                 {%endeach%}
 
