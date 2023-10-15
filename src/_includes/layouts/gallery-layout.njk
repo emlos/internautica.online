@@ -8,9 +8,8 @@
         <p>
             {{category.description}}</p>
         <div class="three-columns">
-            {%asyncEach image in category.images%}
+            {%asyncEach image in category.images | reverse%}
                 <div class="gallery-item three-columns-item">
-                    
                     {% EleventyImage image.source, image.alt, "100vw", "generated" %}
                 </div>
                 {%endeach%}
