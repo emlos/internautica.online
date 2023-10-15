@@ -5,8 +5,8 @@ layout: "layouts/base.njk"
 
 {%for link in artlinks.links%}
 <div class="art-link">
-<a href="{{link.url}}"><h2>{{link.name}}</h2></a>
-<p>{{link.description}}</p>
+<a href="{{"/mine/" + link.url | url}}"><h2>{{link.name}}</h2></a>
+<p>{{link.description | safe}}</p>
 </div>
 <hr class="shorthr">
 {%endfor%}
