@@ -10,6 +10,27 @@ const moment = require("moment");
 const markdownIt = require("./src/markdown.js");
 const outdent = require("outdent");
 const path = require("node:path");
+const git = simpleGit({ multiLine: true });
+
+
+async function gitCommitMessagesShortcode() {
+  var content = "";
+
+  const latest = await git.log({});
+
+  latest.all.forEach((commit) => {
+    content =
+      content +
+      `<li class="git-commit"><div class="git-date"><b>${moment(
+        new Date(commit.date)
+      ).format("DD-MM-YYYY HH:mm")}</b> - </div><div class="git-message">${
+        commit.message
+      }</div></li>\n`;
+    //console.log(commit)
+  });
+
+  return content;
+}
 
 function extract(html, regex) {
   // Use parentheses to capture the content inside <p> tags
@@ -82,6 +103,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/images/blinkies");
   eleventyConfig.addPassthroughCopy("./src/images/buttons");
   eleventyConfig.addPassthroughCopy("./src/images/generated");
+  eleventyConfig.addPassthroughCopy({"./src/images/mine/**/*.gif":"/images/generated"})
+
   eleventyConfig.addPassthroughCopy({ "./src/favicons": "/" }); //favicons remap to root
   eleventyConfig.addPassthroughCopy("./src/scripts/*.js");
   eleventyConfig.addPassthroughCopy("./src/fonts/");
@@ -92,30 +115,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
 
-  const git = simpleGit({ multiLine: true });
-  eleventyConfig.addNunjucksAsyncShortcode("commitMessages", async function () {
-    var content = "";
-
-    const latest = await git.log({});
-
-    latest.all.forEach((commit) => {
-      content =
-        content +
-        `<li class="git-commit"><div class="git-date"><b>${moment(
-          new Date(commit.date)
-        ).format("DD-MM-YYYY HH:mm")}</b> - </div><div class="git-message">${
-          commit.message
-        }</div></li>\n`;
-      //console.log(commit)
-    });
-
-    return content;
-  });
+  
+  eleventyConfig.addNunjucksAsyncShortcode("commitMessages", gitCommitMessagesShortcode);
 
   //filters
   eleventyConfig.addNunjucksFilter("countlinesregex", extract);
-  eleventyConfig.addNunjucksFilter("length", (content) => {
-    return content.length;
+  eleventyConfig.addNunjucksFilter("endswith", (content, filter) => {
+    return content.endsWith(filter);
   });
   eleventyConfig.addNunjucksFilter("countlines", (content) => {
     return content.split("\n").length;

@@ -13,8 +13,10 @@ function readImagePathsFromFolder(folderPath, subfolder) {
             ["gif", "png", "jpg", "jpeg", "webm"].includes(file.split(".")[1])
           )
           .map((file) => {
+            const destinationFolder = file.endsWith(".gif") ? "generated" : subfolder
+            
             return {
-              source: path.join("/images", subfolder, file),
+              source: path.join("/images", destinationFolder, file),
               alt: file.split(".")[0],
               date: fs.statSync(path.join(folderPath, file)).mtime.getTime(),
             };
