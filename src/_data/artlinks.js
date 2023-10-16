@@ -30,21 +30,42 @@ function readImagePathsFromFolder(folderPath, subfolder) {
   });
 }
 
+async function makeDir(category, subfolder = "mine") {
+  
+  const source = path.join(__dirname, "..", "images", subfolder, category)
+  
+  const dest = path.join(subfolder, category)
+  //1. rename files
+  const oldFiles = fs.readdirSync (source)
+  for (const file of oldFiles) {
+    var oldModified = fs.statSync(path.join(source, file)).mtime.getTime()
+
+    var newFile = file.replaceAll(" ", "-")
+    fs.renameSync(path.join(source, file), path.join(source, newFile)) //rename
+    fs.statSync(path.join(source, newFile)).mtime.setTime(oldModified) //set modified to original mod date
+
+  }
+
+
+
+
+  //2. map files to array
+  const categorized = await readImagePathsFromFolder(
+    source,
+    dest
+  );
+
+  return categorized
+}
+
 module.exports = async function () {
-  const cards = await readImagePathsFromFolder(
-    path.join(__dirname, "..", "images", "mine", "cards"),
-    path.join("mine", "cards")
-  );
+  const cards = await makeDir("cards")
 
-  const milo = await readImagePathsFromFolder(
-    path.join(__dirname, "..", "images", "mine", "milo"),
-    path.join("mine", "milo")
-  );
+  const milo = await makeDir("milo")
 
-  const transformers = await readImagePathsFromFolder(
-    path.join(__dirname, "..", "images", "mine", "transformers"),
-    path.join("mine", "transformers")
-  );
+  const transformers = await makeDir("transformers")
+  const nsfw = await makeDir("nsfw")
+
 
   //console.log(cards);
   return {
@@ -68,6 +89,12 @@ module.exports = async function () {
         description:
           "everyone has a 'sona' or whatever, so this page documents how i draw mine. my skin is green (when my hair isnt) and i always wear a thousand-yard stare and headphones, or grin like an idiot :3 <br> but yeah, i also change hair colors evey few weeks, and my art style is not consistent, so yknow",
       },
+      {
+        url: "nsfw",
+        name: "not safe for work... uh works",
+        description:
+          "butts. boobies even. no fr this is full on, even if cartoonish, pornography, so please be 18 if you want to see it!",
+      },
     ],
 
     images: {
@@ -87,6 +114,12 @@ module.exports = async function () {
         description:
           "all of my transformers pieces, in one place! also getaway > rodimus and rid > mtmte/ll sorry!",
         images: transformers,
+      },
+      nsfw: {
+        title: "naked people",
+        description:
+          "you can literally watch me improve starting from bottom right and going up the columns aakjhkahf",
+        images: nsfw,
       },
     },
   };
