@@ -38,12 +38,13 @@ async function makeDir(category, subfolder = "mine") {
   //1. rename files
   const oldFiles = fs.readdirSync (source)
   for (const file of oldFiles) {
+    if (file.includes(" ")) {
     var oldModified = fs.statSync(path.join(source, file)).mtime.getTime()
 
     var newFile = file.replaceAll(" ", "-")
     fs.renameSync(path.join(source, file), path.join(source, newFile)) //rename
     fs.statSync(path.join(source, newFile)).mtime.setTime(oldModified) //set modified to original mod date
-
+    }
   }
 
 

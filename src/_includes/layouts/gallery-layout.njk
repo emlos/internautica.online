@@ -6,7 +6,7 @@
     <section class="gallery-container ">
         <h2>{{category.title}}</h2>
         <p>
-            {{category.description}}</p>
+            {{category.description | safe}}</p>
         <div class="three-columns" >
            
             {%asyncEach image in category.images | reverse%}
