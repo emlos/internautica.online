@@ -66,6 +66,8 @@ module.exports = async function () {
 
   const transformers = await makeDir("transformers")
   const nsfw = await makeDir("nsfw")
+  const darkest = await makeDir("darkest")
+  const magnus = await makeDir("magnus")
 
 
   //console.log(cards);
@@ -96,6 +98,18 @@ module.exports = async function () {
         description:
           "butts. boobies even. no fr this is full on, even if cartoonish, pornography, so please be 18 if you want to see it!",
       },
+      {
+        url: "darkest",
+        name: "darkest, darlingest dungeon ",
+        description:
+          "yknow the incredibly athmospheric game by redhook? yeah i draw it"
+      },
+      {
+        url: "magnus",
+        name: "what should we do with the all-seeing space pirate? ",
+        description:
+          "yeah yeah tma is great the mechs are amazing play Slay The Princess. now."
+      },
     ],
 
     images: {
@@ -121,6 +135,18 @@ module.exports = async function () {
         description:
           "you can literally watch me improve starting from bottom right and going up the columns aakjhkahf",
         images: nsfw,
+      },
+      darkest: {
+        title: "dankest dunegon",
+        description:
+          "i am a dismas girlie through and through, though all of the women in dd have my full attaention. also arbalest > musketeer",
+        images: darkest,
+      },
+      magnus: {
+        title: "tma + mechs",
+        description:
+          "I GOT INTO THE MECHS TWO DAYS AFTER DTTM AND I AM STILL SO FUCKING MAD. oh and i was into tma once too",
+        images: magnus,
       },
     },
   };
