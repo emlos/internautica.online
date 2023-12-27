@@ -3,7 +3,7 @@ title: "Make Out Sonnet"
 author: "F. Douglas Brown"
 url: "https://www.fdouglasbrown.com/"
 tags: 
-    - poetry
+    - poem
     - love
     - lgbt
 ---

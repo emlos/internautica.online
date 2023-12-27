@@ -3,7 +3,7 @@ title: "I Am So Depressed I Feel Like Jumping in the River Behind My House but W
 author: "Sandra Cisneros"
 url: "https://www.sandracisneros.com/"
 tags: 
-    - poetry
+    - poem
     - depression
     - headspace
 ---

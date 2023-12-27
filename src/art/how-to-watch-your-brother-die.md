@@ -3,7 +3,7 @@ title: "How To Watch Your Brother Die"
 author: "Michael Lassell"
 url: "https://en.wikipedia.org/wiki/Michael_Lassell"
 tags: 
-    - poetry
+    - poem
     - lgbt
 ---
 

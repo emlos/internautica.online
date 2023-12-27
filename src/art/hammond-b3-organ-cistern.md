@@ -3,7 +3,7 @@ title: "Hammond B3 Organ Cistern"
 author: "Gabrielle Calvocoressi"
 url: "https://www.newyorker.com/magazine/2018/11/19/hammond-b3-organ-cistern"
 tags: 
-    - poetry
+    - poem
     - depression
     - love
 ---

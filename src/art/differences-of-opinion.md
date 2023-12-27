@@ -4,7 +4,7 @@ author: "Wendy Cope"
 url: "https://www.poetryfoundation.org/poets/wendy-cope"
 tags: 
     - cope
-    - poetry
+    - poem
     - feminism
 ---
 

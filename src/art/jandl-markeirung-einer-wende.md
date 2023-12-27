@@ -3,7 +3,7 @@ title: "Markierung einer Wende"
 author: "Ernst Jandl"
 url: "https://www.poetryfoundation.org/poets/ernst-jandl"
 tags: 
-    - poetry
+    - poem
     - history
     - german
     - war

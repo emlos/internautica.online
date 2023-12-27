@@ -3,7 +3,7 @@
 author: "Feather River Bulletin, Quincy, California, March 20, 1924  "
 url: ""
 tags: 
-    - poetry
+    - poem
     - love
     - lgbt
 ---
