@@ -1,0 +1,230 @@
+const STANDARD = [{% for image in minigames.dismas.standard %}"{{ image }}",{% endfor %}];
+const EXTRAS = [{% for image in minigames.dismas.extras %}"{{ image }}",{% endfor %}];
+const BASE = '{{minigames.dismas.base}}'
+const WARDROBE = '{{minigames.common.wardrobe}}'
+
+const STATUS = {
+
+}
+
+var CONTAINER; //eh bad practice
+
+var initialsMoved = 0;
+
+function createRect(imageElement) {
+  // Convert the image element to OpenCV Mat
+  let src = cv.imread(imageElement);
+  let gray = new cv.Mat();
+  let mask = new cv.Mat();
+
+  // Convert to grayscale
+  cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
+
+  // Threshold the image to create a binary mask
+  cv.threshold(gray, mask, 1, 255, cv.THRESH_BINARY);
+
+  let dilateSize = new cv.Size(5, 5); // Change the size as needed
+  let M = cv.Mat.ones(dilateSize, cv.CV_8U);
+  let anchor = new cv.Point(-1, -1);
+  cv.dilate(
+    mask,
+    mask,
+    M,
+    anchor,
+    1,
+    cv.BORDER_CONSTANT,
+    cv.morphologyDefaultBorderValue()
+  );
+
+  // Find contours
+  let contours = new cv.MatVector();
+  let hierarchy = new cv.Mat();
+  cv.findContours(
+    mask,
+    contours,
+    hierarchy,
+    cv.RETR_EXTERNAL,
+    cv.CHAIN_APPROX_SIMPLE
+  );
+
+  // Calculate the combined bounding rectangle
+  let minX = imageElement.width,
+    minY = imageElement.height,
+    maxX = 0,
+    maxY = 0;
+
+  let someThreshold = 100;
+
+  for (let i = 0; i < contours.size(); ++i) {
+    let cnt = contours.get(i);
+    let area = cv.contourArea(cnt, false);
+    if (area > someThreshold) {
+      // Define someThreshold based on your needs
+      let rect = cv.boundingRect(cnt);
+      minX = Math.min(minX, rect.x);
+      minY = Math.min(minY, rect.y);
+      maxX = Math.max(maxX, rect.x + rect.width);
+      maxY = Math.max(maxY, rect.y + rect.height);
+    }
+  }
+
+  let rect = {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+
+  // Clean up
+  src.delete();
+  gray.delete();
+  mask.delete();
+  contours.delete();
+  hierarchy.delete();
+
+  let percentRect = {
+    x: (rect.x / imageElement.width) * 100,
+    y: (rect.y / imageElement.height) * 100,
+    width: (rect.width / imageElement.width) * 100,
+    height: (rect.height / imageElement.height) * 100,
+  };
+
+  // Return the rectangle coordinates and dimensions
+  return percentRect;
+}
+
+function clipImages(images) {
+  images.forEach((img) => {
+    let rectPercent = createRect(img);
+    img.style.clipPath = `inset(${rectPercent.y}% ${
+      100 - rectPercent.x - rectPercent.width
+    }% ${100 - rectPercent.y - rectPercent.height}% ${rectPercent.x}%)`;
+  });
+}
+
+function makeDraggable() {
+  $(".draggable-image").draggable({
+    //containment: "#draggable-image-container",
+    snap: "#base-undress",
+    snapMode: "inner",
+    snapTolerance: 15,
+    start: function (event, ui) {
+        var draggedElementId = ui.helper.attr("id");
+        
+        //console.log(draggedElementId)
+        if(draggedElementId && draggedElementId.indexOf('initial') != -1) {
+        // Find the corresponding object in the startArray
+        var draggedObject = STATUS['baseElements'].find(function (obj) {
+          return obj.id === draggedElementId;
+        });
+
+        // Check if the element was dragged for the first time
+        if (!draggedObject.wasDragged) {
+          draggedObject.wasDragged = true; // Set wasDragged to true
+          initialsMoved++;
+
+          // Check if all elements have been dragged
+          if (initialsMoved === STATUS['baseElements'].length) {
+            unlockExtras()
+          }
+        }
+        }
+        //console.log(STATUS)
+      }
+
+  });
+}
+
+function start() {
+  //add base
+  CONTAINER = document.getElementById('draggable-image-container')
+  const base = document.createElement("img");
+  base.classList.add("image");
+  base.id = "base-undress";
+  base.src = trim(BASE); //remove dots or whatevrr
+
+  //add wardrobe
+  const wardrobe = document.createElement("img");
+  wardrobe.classList.add("image", "wardrobe");
+  wardrobe.src = trim(WARDROBE); //remove dots or whatevrr
+
+  CONTAINER.appendChild(base);
+  CONTAINER.appendChild(wardrobe);
+
+  const clothingInitial = makeMinigameImages(
+    CONTAINER,
+    STANDARD,
+    0,
+    "image",
+    "draggable-image",
+    "initial-draggable"
+  );
+
+  makeDraggable();
+}
+
+function makeMinigameImages(container, set, offset, ...classes) {
+  var totalOffsetX = 900;
+  set.forEach((filename) => {
+    var zindex = parseInt(filename.split("/").at(-1).split(".")[0]);
+
+    let image = document.createElement("img");
+
+    if (classes.indexOf("extra-draggable") != -1) {
+      image.style.left = totalOffsetX + "px";
+      totalOffsetX += offset;
+    }
+
+if (classes.indexOf("initial-draggable") != -1) {
+        image.id = "initial-" + zindex;
+      }
+    image.classList.add(...classes);
+    image.style.zIndex = zindex;
+
+    image.src = trim(filename);
+
+    //setting collission
+    image.onload = async function () {
+      let rectPercent = await createRect(image);
+      image.style.clipPath = `inset(${rectPercent.y}% ${
+        100 - rectPercent.x - rectPercent.width
+      }% ${100 - rectPercent.y - rectPercent.height}% ${rectPercent.x}%)`;
+    };
+
+    container.appendChild(image);
+  });
+
+  if (classes.indexOf("initial-draggable") != -1) {
+    STATUS['baseElements'] = set.map((item) => {
+      return { id: 'initial-' + parseInt(item.split("/").at(-1).split(".")[0]),
+      wasDragged: false};
+    });
+  }
+
+  //console.log(STATUS)
+}
+
+function unlockExtras() {
+  console.log("unlock!")
+  makeMinigameImages(
+    CONTAINER,
+    EXTRAS,
+    70,
+    "image",
+    "draggable-image",
+    "extra-draggable"
+  );
+
+  makeDraggable()
+}
+
+function trim(inputString, before = "/images") {
+  const index = inputString.indexOf(before);
+
+  // Check if '/images/' is found in the string
+  if (index !== -1) {
+    // Extract the substring starting from the index of '/images/'
+    const trimmedString = inputString.substring(index);
+    return trimmedString;
+  } else return "";
+}
