@@ -8,7 +8,7 @@
     "debug": "export INTERNAUTICA_ENV=debug && rm -rf public && DEBUG=Eleventy* npx eleventy --serve",
     "start": "export INTERNAUTICA_ENV=dev && rm -rf public && npx eleventy --serve --quiet",
     "build": "export INTERNAUTICA_ENV=deploy && rm -rf public && npx eleventy --quiet && echo -n size: && du -hs public",
-    "upload": "npm run build && neocities push public && neocities list /"
+    "upload": "git push && npm run build && neocities push public && neocities list /"
   },
   "keywords": [],
   "author": "",

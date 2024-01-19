@@ -6,13 +6,13 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/opencv.js"></script>
 
-  <script src="/scripts/stripgame.js"></script>
-
-{% endblock %}
-
-{%block body%}
-
   <style>
+
+    @font-face {
+      font-family: "Ubuntu-Regular";
+      src: url("/fonts/ubuntu-regular.woff") format("woff");
+    }
+
     #draggable-image-container {
       width: 100vw;
       /* Adjust based on your image size */
@@ -20,6 +20,40 @@
       margin: 0;
       padding: 0;
       position: relative;
+    }
+
+    #bubble-container {
+      position: absolute;
+      left: 930px;
+      top: 10px;
+    }
+
+    #bubble-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      
+      height: 100%;
+      margin: 0;
+      margin-left: 75px;
+      margin-right: 20px;
+
+      font-family: "Ubuntu-Regular", sans-serif !important;
+      font-size: 25px;
+      color: white;
+      line-height: 35px;
+      overflow-wrap: normal;
+
+      display: flex;
+
+      align-items: center;
+      text-align: left;
+    }
+
+    #bubble-image {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .image {
@@ -39,7 +73,7 @@
     #base-undress,
     .initial-draggable {
 
-      left: 600px;
+      left: 530px;
     }
 
     .extra-draggable {
@@ -51,15 +85,23 @@
       z-index: 1;
       cursor: grab;
 
-      .wardrobe {
-        height: 1000px;
-        width: auto;
-        top: -100px;
-        z-index: -1;
-        left: 50px;
-      }
     }
   </style>
+
+{% endblock %}
+
+{%block body%}
+
+  <script>
+    const STANDARD = [{% for image in minigames.stripgame[character].standard %}"{{ image }}",{% endfor %}];
+    const EXTRAS = [{% for image in minigames.stripgame[character].extras %}"{{ image }}",{% endfor %}];
+    const BASE = '{{minigames.stripgame[character].base}}'
+    const SPEECH = [{% for bark in minigames.stripgame[character].speech %}"{{ bark  }}",{% endfor %}];
+
+    const WARDROBE = '{{minigames.stripgame.common.wardrobe}}'
+    const BUBBLE = '{{minigames.stripgame.common.bubble}}'
+  </script>
+  <script src="/scripts/stripgame.js"></script>
 
   {{super()}}
 
