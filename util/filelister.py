@@ -6,6 +6,9 @@ import sys
 path = "."
 if len(sys.argv) > 1:
 	path = sys.argv[1]
+else:
+	print('need a path')
+	exit
 
 print("const files=[")
 for file in os.listdir(path):
