@@ -12,6 +12,8 @@ const outdent = require("outdent");
 const path = require("node:path");
 const git = simpleGit({ multiLine: true });
 
+const outputDir = process.env.INTERNAUTICA_ENV.toLowerCase() == 'deploy' ? '_site' : 'public'
+
 
 async function gitCommitMessagesShortcode() {
   var content = "";
@@ -54,7 +56,7 @@ async function imageShortcode(src, alt, sizes, subdir = "") {
       widths: [400, 800, 1280],
       formats: ["webp", "jpeg"],
       urlPath: "/images/" + subdir,
-      outputDir: "./public/images/" + subdir,
+      outputDir: "./" + outputDir + "/images/" + subdir,
       filenameFormat: function (id, src, width, format, options) {
         const extension = path.extname(src);
         const name = path.basename(src, extension);
@@ -67,7 +69,7 @@ async function imageShortcode(src, alt, sizes, subdir = "") {
       widths: [100],
       formats: ["jpeg"],
       urlPath: "/images/" + subdir,
-      outputDir: "./public/images/" + subdir,
+      outputDir: "./" + outputDir + "/images/" + subdir,
     });
   }
 
@@ -77,7 +79,10 @@ async function imageShortcode(src, alt, sizes, subdir = "") {
     loading: "lazy",
     decoding: "async",
   };
-  return Image.generateHTML(metadata, imageAttributes);
+  
+  let image = Image.generateHTML(metadata, imageAttributes);
+  //console.log(image)
+  return image
 }
 
 function markdownToHtmlShortcode(children, tag, class_ = false, id = false) {
@@ -139,14 +144,14 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(emojiReadTime, { showEmoji: false });
   eleventyConfig.addPlugin(syntaxHighlight);
-  eleventyConfig.addPlugin(faviconsPlugin, { outputDir: "./public" });
+  eleventyConfig.addPlugin(faviconsPlugin, { outputDir: "./" + outputDir });
 
   eleventyConfig.setLibrary("md", markdownIt);
 
   return {
     dir: {
       input: "src",
-      output: "public",
+      output: outputDir,
       markdownTemplateEngine: "njk",
     },
   };
