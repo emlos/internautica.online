@@ -88,6 +88,20 @@ hr {
   border: 1px solid; /* everything that uses a border  */
 }
 
+button {
+  border: 1px solid white;
+  border-color: inherit;
+  color: inherit;
+  background-color: inherit;
+  font: inherit;
+  cursor:  pointer;
+}
+
+button:active {
+      border: 0px solid white;
+      margin: 1px;
+    }
+
 .ff-image img{
   vertical-align: initial;
 }

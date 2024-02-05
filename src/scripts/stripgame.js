@@ -3,6 +3,8 @@ const STATUS = {};
 var CONTAINER; //eh bad practice
 const bubble = document.createElement("div");
 
+const outfitnames = Object.keys(OUTFITS);
+
 var initialsMoved = 0;
 
 function start() {
@@ -49,6 +51,7 @@ function start() {
     CONTAINER,
     STANDARD,
     0,
+    base.offsetLeft,
     "image",
     "draggable-image",
     "initial-draggable"
@@ -58,34 +61,61 @@ function start() {
 }
 
 function unlockExtras() {
-  console.log("unlock!");
+  let offset = 900;
+  Object.keys(OUTFITS).forEach((key, item) => {
+    //console.log(offset)
+    makeMinigameImages(
+      CONTAINER,
+      OUTFITS[key],
+      0,
+      offset,
+      "image",
+      "draggable-image",
+      "outfit-draggable",
+      key + "-outfit-draggable"
+    );
+    offset += 300;
+  });
+
+  //console.log("unlock!");
   makeMinigameImages(
     CONTAINER,
     EXTRAS,
-    70,
+    5,
+    0,
     "image",
     "draggable-image",
     "extra-draggable"
   );
 
   makeDraggable();
+
+  document.querySelectorAll('.unlockable-button').forEach(btm =>{
+    btm.style.display = 'inline-block'
+  })
 }
 
-function makeMinigameImages(container, set, offset, ...classes) {
-  var totalOffsetX = 900;
+function makeMinigameImages(
+  container,
+  set,
+  offset,
+  initialOffset,
+  ...classes
+) {
+  var totalOffsetX = initialOffset;
   set.forEach((filename) => {
     var zindex = parseInt(filename.split("/").at(-1).split(".")[0]);
 
     let image = document.createElement("img");
 
-    if (classes.indexOf("extra-draggable") != -1) {
-      image.style.left = totalOffsetX + "px";
-      totalOffsetX += offset;
-    }
+    image.style.left = totalOffsetX + "px";
+    totalOffsetX += offset;
+
 
     if (classes.indexOf("initial-draggable") != -1) {
       image.id = "initial-" + zindex;
     }
+
     image.classList.add(...classes);
     image.style.zIndex = zindex;
 
@@ -208,6 +238,57 @@ function showBubble() {
 function hideBubble() {
   bubble.style.display = "none";
   bubble.classList.remove("bubble-animation");
+}
+
+/// ----------------------------------------------------- BUTTONS
+
+function undress() {
+  console.log("undress clicked!")
+  let base = document.getElementById("base-undress");
+  let basePosition = base.offsetLeft;
+
+  let standard = document.querySelectorAll(".initial-draggable");
+  let extras = document.querySelectorAll(".extra-draggable");
+
+  let distance = 300;
+
+  moveImages(standard, basePosition + distance);
+
+  outfitnames.forEach((outfit) => {
+    distance += 300;
+    let outfits = document.querySelectorAll("." + outfit + "-outfit-draggable");
+    moveImages(outfits, basePosition + distance);
+   
+  });
+
+  moveImages(extras, -10, 10);
+}
+
+function sort() {
+  console.log("sort clicked!")
+  let base = document.getElementById("base-undress");
+  let basePosition = base.offsetLeft;
+
+  let standard = document.querySelectorAll(".initial-draggable");
+  let extras = document.querySelectorAll(".extra-draggable");
+
+  let distance = 300;
+  outfitnames.forEach((outfit) => {
+    let outfits = document.querySelectorAll("." + outfit + "-outfit-draggable");
+    moveImages(outfits, basePosition + distance);
+    distance += 300;
+  });
+
+  moveImages(standard, basePosition);
+
+  moveImages(extras, -10, 10);
+}
+
+function moveImages(images, where, offset = 0) {
+  images.forEach((img) => {
+    img.style.top = 0;
+    img.style.left = where + offset + "px";
+  });
 }
 
 // -----------------------------UTIL
