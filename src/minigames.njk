@@ -4,6 +4,7 @@ layout: "layouts/base.njk"
 ---
 
 {%for minigame in collections.minigames%}
+{%if minigame.data.hidden != true%}
 <div class='minigame-desc'>
     <h2 class="minigame-title"> <a href='{{minigame.url}}'> {{minigame.data.name}} </a></h2>
     {%if minigame.data.nsfw%}
@@ -12,4 +13,5 @@ layout: "layouts/base.njk"
     <div class='minigame-summary'> {{minigame.data.description}}</div>
 </div>
 <hr>
+{%endif%}
 {%endfor%}

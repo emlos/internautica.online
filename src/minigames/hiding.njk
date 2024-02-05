@@ -1,0 +1,44 @@
+---
+title: "sneaky snek snek"
+nsfw: false
+layout: layouts/base.njk
+name: "4bit sneaking around simulator"
+description: 'test'
+hidden: true
+---
+<style>
+    #hiding-container .hiding-grid {
+        column-gap: 0;
+        row-gap: 0;
+    }
+    #hiding-container .grid-space{
+        height: 30px;
+        width: 30px;
+        border: 1px solid black;
+    }
+    #hiding-container .grid-0 {
+        background-color: {{minigames.hiding.colors.WHITE}};
+    }
+    #hiding-container .grid-1 {
+        background-color: {{minigames.hiding.colors.WHITE}};
+    }
+    #hiding-container .grid-2 {
+        background-color: {{minigames.hiding.colors.WHITE}};
+    }
+    #hiding-container .grid-3 {
+        background-color: {{minigames.hiding.colors.WHITE}};
+    }
+    #hiding-container .grid-999 {
+        background-color: {{minigames.hiding.colors.NORMAL_BLUE}};
+    }
+</style>
+
+<section id='hiding-container'>
+    </section>
+
+
+<script src = '/scripts/hiding-game.js'>
+
+init()
+
+</script>
