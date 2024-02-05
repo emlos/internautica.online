@@ -23,10 +23,14 @@
       position: relative;
     }
 
+    .unlockable-button {
+      display: none;
+    }
+
     #bubble-container {
       position: absolute;
       left: 910px;
-      top: 10px;
+      top: 10px;  z-index: 9999;
     }
 
     #bubble-text {
@@ -53,6 +57,7 @@
       display: block;
       width: 100%;
       height: auto;
+     
     }
 
     .bubble-animation {
@@ -90,7 +95,7 @@
       left: 530px;
     }
 
-    .extra-draggable {
+    .extra-draggable, .outfit-draggable {
       top: 0;
       left: 900px;
     }
@@ -109,7 +114,14 @@
   <script>
     const STANDARD = [{% for image in minigames.stripgame[character].standard %}"{{ image }}",{% endfor %}];
     const EXTRAS = [{% for image in minigames.stripgame[character].extras %}"{{ image }}",{% endfor %}];
-    const BASE = '{{minigames.stripgame[character].base}}'
+
+  const OUTFITS = {
+    {% for name, items in minigames.stripgame[character].outfits %}
+      {{ name }} : [{% for image in minigames.stripgame[character].outfits[name] %}"{{ image }}",{% endfor %}],
+    {% endfor %}
+  }
+
+    const BASE = '{{minigames.stripgame[character].base}}';
     const SPEECH = [{% for bark in minigames.stripgame[character].speech %}`{{ bark  | safe}}`,{% endfor %}];
 
     const WARDROBE = '{{minigames.stripgame.common.wardrobe}}'

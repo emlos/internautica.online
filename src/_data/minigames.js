@@ -10,7 +10,7 @@ module.exports = {
       )[1],
       bubble: util.readImagePathsFromFolder(
         base,
-        "../images/minigames/stripgame/"
+        "../images/minigames/stripgame/" //base is relative to this script location
       )[0],
     },
     dismas: {
@@ -26,6 +26,16 @@ module.exports = {
         base,
         "../images/minigames/stripgame/dismas/acc"
       ),
+      outfits: {
+        prison: util.readImagePathsFromFolder(
+          base,
+          "../images/minigames/stripgame/dismas/prison"
+        ),
+        maid: util.readImagePathsFromFolder(
+          base,
+          "../images/minigames/stripgame/dismas/maid"
+        ),
+      },
       speech: [
         "Mh, I like *that*.",
         "This one's one of my favorites!",
@@ -65,5 +75,32 @@ module.exports = {
         `Oh, I think one's still a bit bloody, careful.`,
       ],
     },
+  },
+  hiding: {
+    colors: Object.freeze({
+      BLACK: " #000000",
+      DARK_GREEN: "#005500",
+      NORMAL_GREEN: "#00ab00",
+      LIGHT_GREEN: "#00ff00",
+      DARK_BLUE: "#0000ff",
+      NORMAL_BLUE: "#0055ff",
+      LIGHT_BLUE: "#00abff",
+      NORMAL_TEAL: "#00ffff",
+      NORMAL_RED: "#ff0000",
+      DARK_ORANGE: "#ff5500",
+      LIGHT_ORANGE: "#ffab00",
+      NORMAL_YELLOW: "#ffff00",
+      DARK_PINK: "#ff00ff",
+      NORMAL_PINK: "#ff55ff",
+      LIGHT_PINK: "#ffabff",
+      WHITE: " #ffffff",
+    }),
+    entities: Object.freeze({
+      EMPTY: 0,
+      WALL: 1,
+      GUARD: 2,
+      DOG: 3,
+      PLAYER: 999,
+    }),
   },
 };
