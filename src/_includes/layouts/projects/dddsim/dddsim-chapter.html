@@ -1,0 +1,23 @@
+{%extends 'layouts/projects/dddsim-base.njk'%}
+
+<div id="dddsim-container">
+
+<section id="dddsim-chapter-menu" class="dddsim-scene">
+    <h2>{{config.title}}</h2>
+    <h3>{{chapter.title}}</h3>
+    <nav class="dddsim-menu">
+        <button class="dddsim-start">{{config.strings.menu.start}}</button>
+        <button class="dddsim-save">{{config.strings.menu.save}}</button>
+        <button class="dddsim-load">{{config.strings.menu.load}}</button>
+        <button class="dddsim-restart">{{config.strings.menu.restart}}</button>
+    </nav>
+
+</section>
+
+{%for scene in chapter.scenes%}
+
+{%include "components/dddsim/scene.njk"%}
+
+{%endfor%}
+
+</div>
