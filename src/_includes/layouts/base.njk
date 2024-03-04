@@ -12,7 +12,7 @@
                 <link rel="stylesheet" href="{{ css | url | safe }}">
             {% endif %}
 
-            <script type="text/javascript" src="/scripts/toggles-persistent.js"></script> <!-- accesibility toggles-->
+            
             <script src="https://unpkg.com/freezeframe/dist/freezeframe.min.js"></script> <!--freezeframe js for pausing gifs-->
         {% endblock %}
     </head>
@@ -26,7 +26,7 @@
                 {%include 'components/dark-mode-toggle.njk'%}
                  {%include 'components/dyslexic-font-toggle.njk'%}
                                    {%include 'components/pause-gifs-toggle.njk'%}
-
+                <script type="text/javascript" src="/scripts/toggles-persistent.js"></script> <!-- accesibility toggles-->
             </div>
             <hr>
             {%endblock%}

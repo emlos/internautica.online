@@ -51,6 +51,7 @@ module.exports = {
   },
 
   Bgs: {
+    Placeholder:imagesrc + "backgrounds/" + "placeholder.png",
     Forest: imagesrc + "backgrounds/" + "forestIntro.jpg",
     IntroCarriage: imagesrc + "backgrounds/" + "brokenCarriageIntro.jpg",
     HamletViewDay: imagesrc + "backgrounds/" + "hamletViewDay.png",

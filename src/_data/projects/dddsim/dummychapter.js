@@ -4,12 +4,18 @@ const Bgs = data.Bgs;
 const Characters = data.Characters;
 const PlayerState = data.PlayerState
 
-const dummyScenes = {
-    scenes: [
+const dummyScenes = [
       {
+        //on init render first dialogue
         id: "intro-old-road-start",
-        background: Bgs.Forest,
+        background: Bgs.Placeholder,
         dialogues: [
+          {
+            characters: [Characters.Dismas, Characters.Dismas],
+            speaking: "Dismas",
+            text: ["Wazza?."], //draw one after the other for multiple lines
+            choices: null,
+          },
           {
             characters: [Characters.Narrator],
             speaking: "Narrator",
@@ -245,8 +251,7 @@ const dummyScenes = {
           },
         ],
       },
-    ],
-  };
+    ]
   
   const scenes = dummyScenes;
 

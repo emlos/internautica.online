@@ -5,11 +5,14 @@
 
   <link rel="stylesheet" href="/css/dddsim.css">
 
+  {%endblock%}
 
-{%endblock%}
+  {%block toggles%}{%endblock %}
 
+  {%block body%}
 
-{%block body%}
-{{super()}}
+    {{super()}}
 
-{%endblock%}
+    {%endblock%}
+
+    {% block footer %}{% endblock %}

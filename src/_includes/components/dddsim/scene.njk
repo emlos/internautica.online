@@ -1,0 +1,49 @@
+<section id="{{scene.id}}" class="dddsim-scene">
+  <div
+    class="dddsim-characters"
+    style="background-image:  url(
+      {% if scene.dialogues[0].background %}  
+      {{scene.dialogues[0].background}}
+      {%else%}
+      {{scene.background}}
+    {% endif %})"
+  >
+    <div class="dddsim-options-button disabled"></div>
+    <div class="dddsim-characters-sprites">
+      <!-- rendering sprites -->
+       {%for character in scene.dialogues[0].characters%} 
+        <div class="dddsim-sprite {{"talking" if character.name ==
+        scene.dialogues[0].speaking}}" 
+         {{('style="background-image: url(' + character.sprites.neutral +');"' if character.sprites != undefined) | safe}}
+
+        >
+        </div>
+      {%endfor%}
+    </div>
+  </div>
+
+  <div class="dddsim-talk-area">
+    <div class="dddsim-talkbox">
+      <div class="dddsim-talkbox-nametag">{{scene.dialogues[0].speaking}}</div>
+      <div class="dddsim-talkbox-area">
+        <p>{{scene.dialogues[0].text[0]}}</p>
+      </div>
+      <div class="dddsim-talkbox-nextbutton enabled"></div>
+    </div>
+
+    <div class="dddsim-talkbox-side-menu">
+      <ul class="dddsim-talkbox-menu-list">
+        {%for key, value in projects.dddsim.config.strings.menu%}
+
+        <li
+          class="dddsim-talkbox-menu-item enabled"
+          id="dddsim-{{key}}-menu-item"
+        >
+          <p>{{value}}</p>
+        </li>
+
+        {%endfor%}
+      </ul>
+    </div>
+  </div>
+</section>

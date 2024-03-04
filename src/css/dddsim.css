@@ -1,38 +1,43 @@
+@font-face {
+  font-family: "Ubuntu-Regular";
+  src: url("/fonts/ubuntu-regular.woff") format("woff");
+}
+
+/*styling scenes----------------------------------------------*/
+
 #dddsim-container {
   display: flex;
   width: 98vw;
+  height: 95vh;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 
   background-color: black;
 }
 
 .dddsim-scene {
   position: relative;
-  height: 600px;
+  height: 80vh;
 }
 
 .dddsim-options-button {
-    background-image: url(/images/projects/dddsim/ui/menu_button.png);
-  background-size:contain;
+  background-image: url(/images/projects/dddsim/ui/menu_button.png);
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  
 
   position: absolute;
   left: 0;
   top: 0;
-  
+
   height: 50px;
   width: 50px;
 
   z-index: 50;
 }
 
-
-
 .dddsim-characters {
-  background-image: url(/images/projects/dddsim/backgrounds/intro-carriage.png);
+  background-image: url(/images/projects/dddsim/backgrounds/placeholder.png);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -49,42 +54,39 @@
 
 .dddsim-characters-sprites {
   position: absolute;
-  top: 0;
+  right: 0;
   left: 0;
-  width: 100%;
+  width: 65%;
   height: 100%;
 
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-end;
-  
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .dddsim-sprite {
-    
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 30%;
-    height:600px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  height: 75%;
+  width: 100%;
 }
 
-.dddsim-sprite:not(.talking){
-    height: 550px;
-    filter: brightness(0.6);
+.dddsim-sprite:not(.talking) {
+  height: 90%;
+  filter: brightness(0.6);
 }
 
 .dismas-neutral {
-    background-image: url(/images/projects/dddsim/characters/dismas/neutral.webp);
+  background-image: url(/images/projects/dddsim/characters/dismas/neutral.png);
 }
 
-.dddsim-talkbox {
-  background-image: url(/images/projects/dddsim/ui/talkbox.png);
-  background-size: cover;
-  height: 200px;
-  width: 60%;
-
+.dddsim-talk-area {
   position: absolute;
   left: 0;
   right: 0;
@@ -92,23 +94,41 @@
   margin-left: auto;
   margin-right: auto;
 
+  height: 200px;
+  width: 100%;
+
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.dddsim-talkbox-nextbutton {
-    background-image: url(/images/projects/dddsim/ui/next_icon.png);
 
-    background-size:contain;
+.dddsim-talkbox {
+  background-image: url(/images/projects/dddsim/ui/talkbox.png);
+  background-size: 100% 100%;
+  background-position: center;
+  height: 200px;
+  width: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.dddsim-talkbox-nextbutton {
+  background-image: url(/images/projects/dddsim/ui/next_icon.png);
+
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  
 
   position: absolute;
   right: 0;
   bottom: 0;
-  
+
   height: 50px;
   width: 50px;
 
@@ -116,40 +136,175 @@
 }
 
 .dddsim-talkbox-nametag {
-  background-image: url(/images/projects/dddsim/ui/nametag.png);
-  background-size:  100% 100%;
+  background-image: url(/images/projects/dddsim/ui/small_box.png);
+  background-size: 100% 100%;
   background-position: center;
   height: fit-content;
   background-repeat: no-repeat;
+  background-color: black;
 
   position: absolute;
-  top: 0;
-  left: 0;
-  background-color: black;
-  color: white;
+  top: -1rem;
+  left: -2rem;
 
-  padding: 1rem;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  margin: 0;
+
+  font-size: 1.3rem;
+}
+
+.dddsim-talkbox-area {
+
+  line-height: 3rem;
+
+  margin: 0;
+  padding: 1rem 2rem;
+  padding-left: 3rem;
+  
+  overflow: hidden;
+
+  font-size: 2rem;
+
+}
+
+.dddsim-talkbox-side-menu {
+  height: calc(200px - 3%);
+  width: fit-content;
+}
+
+.dddsim-talkbox-menu-list{
+  list-style-type: none;
+  list-style-position: inside;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-size: 1.3rem;
+}
+
+.dddsim-talkbox-menu-item {
+  background-image: url(/images/projects/dddsim/ui/small_box.png);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-grow: 1;
+
+  height: fit-content;
+}
+.dddsim-talkbox-menu-item > p {
+  padding: 0 1rem;
+  margin: 0;
 }
 
 /*UTIL=====================================================*/
 
 .disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .disabled:hover {
-    filter: none !important;
+  filter: none !important;
 }
 
 .enabled {
-    cursor:pointer;
+  cursor: pointer;
 }
 
 .enabled:hover {
-    filter: brightness(1.6);
+  filter: brightness(1.6);
 }
 
-
 /*STYLING DEFAULT SITE---------------------------------------------------------*/
+
+body {
+  font-family: "Ubuntu-Regular", sans-serif !important;
+  font-size: 1vw;
+
+  height: 100%;
+  overflow-y: hidden;
+
+  color: white !important;
+  background-color: black;
+}
+
+hr {
+  width: 100%;
+  color: white;
+}
+
+.title {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-container {
+  display: inline-block;
+  width: fit-content;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+  justify-content: stretch;
+
+  list-style-type: none;
+  list-style-position: inside;
+
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links > li {
+  display: inline-block;
+
+  background-color: black;
+
+  border: white 1px solid;
+
+  padding: 0.2rem 0.5rem;
+}
+
+.nav-links > li:hover {
+  cursor: pointer;
+  filter: brightness(1.25);
+}
+
+.nav-link {
+  padding: 1rem;
+}
+
+.nav-link > a {
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:active {
+  color: inherit;
+}
+
+.toggle {
+  display: none !important;
+}
