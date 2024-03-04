@@ -14,7 +14,18 @@ const dummyScenes = [
             characters: [Characters.Dismas, Characters.Dismas],
             speaking: "Dismas",
             text: ["Wazza?."], //draw one after the other for multiple lines
-            choices: null,
+            choices: [
+              {
+                text: "Dismas 1.",
+                flags: null,
+                goto: null,
+              },
+              {
+                text: "Dismas2",
+                flags: null,
+                goto: null,
+              },
+            ],
           },
           {
             characters: [Characters.Narrator],

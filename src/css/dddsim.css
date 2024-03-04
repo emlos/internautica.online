@@ -36,6 +36,31 @@
   z-index: 50;
 }
 
+.dddsim-choice-area{ 
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20%;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+
+  height: 50%;
+  width: fit-content;
+  z-index: 55;
+}
+
+.dddsim-choice-button {
+  padding: 1rem 2rem;
+  font-size: 1.7rem;
+}
+
+
 .dddsim-characters {
   background-image: url(/images/projects/dddsim/backgrounds/placeholder.png);
   background-size: contain;
@@ -56,7 +81,7 @@
   position: absolute;
   right: 0;
   left: 0;
-  width: 65%;
+  width: 80%;
   height: 100%;
 
   display: flex;
@@ -73,8 +98,8 @@
   background-position: center;
   background-repeat: no-repeat;
   
-  height: 75%;
-  width: 100%;
+  height: 85%;
+  width: 38%;
 }
 
 .dddsim-sprite:not(.talking) {
@@ -136,11 +161,8 @@
 }
 
 .dddsim-talkbox-nametag {
-  background-image: url(/images/projects/dddsim/ui/small_box.png);
-  background-size: 100% 100%;
-  background-position: center;
+  
   height: fit-content;
-  background-repeat: no-repeat;
   background-color: black;
 
   position: absolute;
@@ -190,10 +212,6 @@
 }
 
 .dddsim-talkbox-menu-item {
-  background-image: url(/images/projects/dddsim/ui/small_box.png);
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
 
   display: flex;
   justify-content: center;
@@ -206,6 +224,28 @@
 .dddsim-talkbox-menu-item > p {
   padding: 0 1rem;
   margin: 0;
+}
+
+/*ui elements*/
+
+.panel{
+  background-image: url(/images/projects/dddsim/ui/small_box.png);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+button{
+  background-color: none;
+  border: none;
+  
+} 
+
+button:active {
+  border: none;
+  margin: 0;
+ filter:  brightness(2);
 }
 
 /*UTIL=====================================================*/
@@ -224,6 +264,17 @@
 
 .enabled:hover {
   filter: brightness(1.6);
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 51;
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/
