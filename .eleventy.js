@@ -148,6 +148,12 @@ module.exports = function (eleventyConfig) {
       input: "src",
       output: outputDir,
       markdownTemplateEngine: "njk",
+      
     },
+    templateFormats: [
+      'njk',
+      'md',
+      'js'
+    ],
   };
 };

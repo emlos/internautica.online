@@ -1,0 +1,7 @@
+{
+    "nunjucksFormat.commline": true,
+    "nunjucksFormat.spaceclose": false,
+    "nunjucksFormat.style": true,
+    "prettier.useTabs": true,
+    "prettier.singleAttributePerLine": true
+}

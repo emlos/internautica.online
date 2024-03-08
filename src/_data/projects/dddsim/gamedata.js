@@ -13,18 +13,14 @@ module.exports = {
       honesty: 0, //lie (and dont get caught).. or do
     },
 
-    flags: {
-      //dynamically added + saved
+    flags: []
       //load all possible flags from script and save them as flag_name: "did-something-flag,
-      //set:
-      //PlayerState.flags["new-survived-the-onceler-flag"] = true
-    },
   },
 
   //generate lists from files
   Characters: {
     Player: {
-      name: "You",
+      name: "Player", //NEVER Show this
       sprites: null,
     },
     Narrator: {
@@ -51,11 +47,11 @@ module.exports = {
   },
 
   Bgs: {
-    Placeholder:imagesrc + "backgrounds/" + "placeholder.png",
-    Forest: imagesrc + "backgrounds/" + "forestIntro.jpg",
-    IntroCarriage: imagesrc + "backgrounds/" + "brokenCarriageIntro.jpg",
-    HamletViewDay: imagesrc + "backgrounds/" + "hamletViewDay.png",
-    HamletViewNight: imagesrc + "backgrounds/" + "hamletViewNight.png",
+    Placeholder:imagesrc + "backgrounds/" + "intro-carriage.png",
+    Forest: imagesrc + "backgrounds/" + "intro-carriage.jpg",
+    IntroCarriage: imagesrc + "backgrounds/" + "intro-carriage.jpg",
+    HamletViewDay: imagesrc + "backgrounds/" + "intro-carriage.png",
+    HamletViewNight: imagesrc + "backgrounds/" + "intro-carriage.png",
   },
 };
 

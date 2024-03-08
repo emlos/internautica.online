@@ -33,7 +33,7 @@
   height: 50px;
   width: 50px;
 
-  z-index: 50;
+  z-index: 55;
 }
 
 .dddsim-choice-area{ 
@@ -48,6 +48,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+
 
 
   height: 50%;
@@ -126,6 +127,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  z-index: 55;
 }
 
 
@@ -275,6 +278,8 @@ button:active {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 51;
+
+  pointer-events: none
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/
