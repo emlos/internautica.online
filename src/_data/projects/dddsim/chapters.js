@@ -197,7 +197,7 @@ const chapter1 = {
 						"What ruin has he left you?",
 					],
 					choices: null,
-					conditions: "dismas_route_started",
+					conditions: ["dismas_route_started"],
 				},
 				{
 					characters: [Characters.Dismas, ],
@@ -207,7 +207,7 @@ const chapter1 = {
 						"Let's go down, and see what the pervious owner's done with this place.",
 					],
 					choices: null,
-					conditions: "dismas_route_started",
+					conditions: ["dismas_route_started"],
 				},
 				{
 					characters: [Characters.Dismas, ],
@@ -216,7 +216,7 @@ const chapter1 = {
 						"He climbs down with the grace of a fox, showing both you and the knight where to step.",
 					],
 					choices: null,
-					conditions: "dismas_route_started",
+					conditions: ["dismas_route_started"],
 				},
 
 				{
@@ -228,14 +228,14 @@ const chapter1 = {
 						"Now, as you stared down at the remnants of your houses glory, a shover ran through you.",
 					],
 					choices: null,
-					conditions: "reynauld_route_started",
+					conditions: ["reynauld_route_started"],
 				},
 				{
 					characters: [Characters.Reynauld, ],
 					speaking: "Reynauld",
 					text: ["Keep your courage, my friend."],
 					choices: null,
-					conditions: "reynauld_route_started",
+					conditions: ["reynauld_route_started"],
 				},
 				{
 					characters: [Characters.Reynauld, ],
@@ -244,7 +244,7 @@ const chapter1 = {
 						"His hand feels heavy on your shoulder, though reassuringly so.",
 					],
 					choices: null,
-					conditions: "reynauld_route_started",
+					conditions: ["reynauld_route_started"],
 				},
 				{
 					characters: [Characters.Reynauld,],
@@ -254,7 +254,7 @@ const chapter1 = {
 						"Where there art the men of Light, we shall find allies.",
 					],
 					choices: null,
-					conditions: "reynauld_route_started",
+					conditions: ["reynauld_route_started"],
 				},
 				{
 					characters: [Characters.Reynauld, ],
@@ -263,7 +263,7 @@ const chapter1 = {
 						"He makes sure you make it down safely, the thief following behind.",
 					],
 					choices: null,
-					conditions: "reynauld_route_started",
+					conditions: ["reynauld_route_started"],
 				},
 
 				{

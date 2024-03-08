@@ -234,7 +234,7 @@ function choiceSetsFlags(choice, button) {
 		console.log("LOG: setting flags on choice " + choice.id);
 
 		register(button, function () {
-			setUserFlags(choice.flags);
+			setUserFlags(...choice.flags);
 		});
 	} else {
 		console.log("LOG: choice " + choice.id + " has no Flags!");
@@ -351,10 +351,15 @@ function setUserFlags(...flags) {
 	});
 }
 
+//true if user has all the param flags
 function userHasFlags(...flags) {
+
+	console.log(flags)
+	console.log(PlayerState.flags)
 	let hasFlags = true;
 
 	flags.forEach((flag) => {
+
 		if (!PlayerState.flags.includes(flag)) {
 			hasFlags = false;
 		}
