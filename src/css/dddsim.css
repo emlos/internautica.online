@@ -1,9 +1,24 @@
+:root {
+  --cursor-normal: url(/images/projects/dddsim/ui/arrow.png);
+  --cursor-pointer: url(/images/projects/dddsim/ui/arrow.png);
+
+
+}
+
+
 @font-face {
   font-family: "Ubuntu-Regular";
   src: url("/fonts/ubuntu-regular.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Dwarvenaxe";
+  src: url("/fonts/dwarvenaxe.woff") format("woff");
+}
+
 /*styling scenes----------------------------------------------*/
+
+
 
 #dddsim-container {
   display: flex;
@@ -58,7 +73,9 @@
 
 .dddsim-choice-button {
   padding: 1rem 2rem;
-  font-size: 1.7rem;
+
+  font-family: "Dwarvenaxe", sans-serif !important;
+  font-size: 3rem;
 }
 
 
@@ -104,8 +121,8 @@
 }
 
 .dddsim-sprite:not(.talking) {
-  height: 75%;
-  filter: brightness(0.6);
+  height: 80%;
+  filter: brightness(0.7);
 }
 
 .dismas-neutral {
@@ -165,6 +182,7 @@
 
 .dddsim-talkbox-nametag {
   
+  
   height: fit-content;
   background-color: black;
 
@@ -175,7 +193,8 @@
   padding: 0.5rem 1rem;
   margin: 0;
 
-  font-size: 1.3rem;
+  font-family: "Dwarvenaxe", sans-serif !important;
+  font-size: 2rem;
 }
 
 .dddsim-talkbox-area {
@@ -216,6 +235,9 @@
 
 .dddsim-talkbox-menu-item {
 
+  font-family: "Dwarvenaxe", sans-serif !important;
+  font-size: 1.5rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,7 +276,7 @@ button:active {
 /*UTIL=====================================================*/
 
 .disabled {
-  cursor: not-allowed;
+  cursor: none;
 }
 
 .disabled:hover {
@@ -262,7 +284,7 @@ button:active {
 }
 
 .enabled {
-  cursor: pointer;
+  cursor: var(--cursor-pointer), pointer;
 }
 
 .enabled:hover {
@@ -285,14 +307,16 @@ button:active {
 /*STYLING DEFAULT SITE---------------------------------------------------------*/
 
 body {
-  font-family: "Ubuntu-Regular", sans-serif !important;
+  font-family: "Ubuntu-Regular", sans-serif;
   font-size: 1vw;
 
   height: 100%;
   overflow-y: hidden;
 
-  color: white !important;
+  color: white;
   background-color: black;
+
+  cursor: var(--cursor-normal), auto;
 }
 
 hr {
@@ -335,7 +359,7 @@ hr {
 }
 
 .nav-links > li:hover {
-  cursor: pointer;
+  cursor: var(--cursor-pointer), auto;
   filter: brightness(1.25);
 }
 

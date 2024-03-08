@@ -1,0 +1,30 @@
+features for 1.0
+- script parser
+- emotional sprites
+- save/load game screen
+- text animation
+- sprites animations
+- main menu
+-end game screen
+- spacebar clicing forward
+- namebox user input
+-restarting
+- options menu
+- handdrawn sprites
+- cookie discaimer
+-job offer?
+- graphing tool to visualise choice branches?
+
+----
+
+-organize code
+
+-------------
+
+- visual confirmation when flag set, hearts or somrthing
+
+- add text effects
+- animation to next button
+- savegame screenshots
+
+-behind choices effects eg talking while making a choice
