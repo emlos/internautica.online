@@ -1,0 +1,123 @@
+# this is a comment
+
+###
+variable names: 
+
+###
+
+# Narrator + Player is already included as N and P, can be overwritten
+Character d is
+    # required
+    name is Dismas
+
+    # optional
+    sprites as angry, neutral, happy #list
+    defaultEmotion is neutral #if no emotion specified when talking
+Character r is
+    # required
+    name is Reynauld
+
+    # optional
+    sprites are angry, neutral, happy #list
+    defaultEmotion is neutral #if no emotion specified when talking
+
+
+
+Chapter first_chapter is
+    title is "Title of First Chapter"
+    #order is 1 #works like z index or sequence in apex
+
+    Scene start is # needs to be unique
+        background is Ruins #relative to src
+
+        N: Ruin has come to our family.
+        N: In my darkest hour - an assault halted the recipient of my letter.
+        N: The name on the missive...
+
+        input into Player.name
+
+        N: Shrieks of the wheels, crying of the horses - an ambush!
+
+        show d, r           # limit to four
+
+        P: The brigands are on us! Defend me!
+            choice: Hide in the stagecoach.
+                go ambush-hid
+            choice: is Help them with a makeshift weapon
+                go end
+
+        # all shown characters automatically hidden here
+
+    Scene ambush_hid is
+        background is IntroCarriage
+
+        N: You hear shouts as you crawl into your stagecoach
+        N: Looking out, you see your guards draw their weapons.
+
+        show d #hehe
+
+        d: Good! Keep your head down, pipsqueak!
+
+        show r
+
+        r: This is no way to talk to our generous benefactor, thief.
+        r: Now to arms! T'is an ambush!
+
+        d: Fuckin'-
+
+        hide r
+
+        d: Yeah Yeah, I'm comin'
+
+        hide d
+
+        N: Your voice carries over the cacophonous sounds of battle, as you watch and command from the back.
+        N: Directing them, you make sure to align the situation to the safety of...
+            choice: Dismas. 
+                set dismas_route_started
+            choice: Reynauld. 
+                set reynauld_route_started
+
+        if dismas_route_started
+            show d
+
+            N: Blood drips from blades, after the dust falls.
+            N: Your eyes dart to Dismas, assessing him of any harm.
+            N: He catches you looking at him from the corner of his eye, and the corners of his eyes lift.
+
+            show d happy #must be one of the sprite types
+
+            d: Heh, not even a scratch. Not bad.
+            d: So, ya gonna keep starin', or are we marchin' on? It's a day's walk to the hamlet from 'ere.
+
+            #after if close all showed characters
+
+        if reynauld_route_started
+            show r
+
+            N: Crimson ribbons adorn the knight's second skin as the battle ends.
+            N: Immediately you survey your armeds companions state, making sure the blood is not his.
+            N: He turns to you, sheathing his sword, and does somethign sexy idk reynauld.
+
+            show r ###happy### sad
+
+            r: Thou insincts were shrewd, Light be thanked ### inline block comment!  ###
+
+            N: You can't be sure but he sounds like he's smiling under all that armor.
+
+            r: We need to make haste. 'Tis a few hour's walk til we reach the estate, we must march swiftly.
+        
+        N: In the end, blades glinting, guns blazing, your two companions managed to fend off the bringand's ambuscade.
+        N: As dawn broke, you took the trek to the estate, protected by light and darkness alike.
+
+        go end
+
+
+###
+# indented language cause why not
+# keywords:
+# Start: creates new scene/chapter
+#   Start: [Scene or Chapter] <whatever name you wanna give it>:
+#
+###
+
