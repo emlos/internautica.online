@@ -1,8 +1,8 @@
 const data = require("./gamedata");
 
-const Bgs = data.Bgs;
-const Characters = data.Characters;
-const PlayerState = data.PlayerState;
+const backgrounds = data.backgrounds;
+const characters = data.characters;
+const PlayerState = data.playerstate;
 
 const chapter1 = {
 	title: "the Old road",
@@ -12,10 +12,10 @@ const chapter1 = {
 		{
 			//on init render first dialogue
 			id: "intro-old-road-start",
-			background: Bgs.Placeholder,
+			background: backgrounds.placeholder,
 			dialogues: [ //cant be empty
 				{
-					characters: [Characters.Dismas, Characters.Reynauld],
+					characters: [characters.Dismas, characters.Reynauld],
 					speaking: "Dismas",
 					text: ["Ayo girl what'cha doin; there? "], //draw one after the other for multiple lines
 				},
@@ -46,7 +46,7 @@ const chapter1 = {
 		},
 		{
 			id: "intro-hid-during-attack-scene",
-			background: Bgs.IntroCarriage,
+			background: backgrounds.introcarriage,
 			dialogues: [
 				{
 					characters: [],
@@ -58,26 +58,26 @@ const chapter1 = {
 					choices: null,
 				},
 				{
-					characters: [Characters.Dismas],
+					characters: [characters.Dismas],
 					speaking: "Dismas",
 					text: ["Good! Keep your head down, pipsqueak!"],
 				},
 				{
-					characters: [Characters.Dismas, Characters.Reynauld],
+					characters: [characters.Dismas, characters.Reynauld],
 					speaking: "Reynauld",
 					text: [
 						"This is no way to talk to our generous benefactor, thief. Now to arms! T'is an ambush!",
 					],
 				},
 				{
-					characters: [Characters.Dismas],
+					characters: [characters.Dismas],
 					speaking: "Dismas",
 					text: ["Fuckin'-", "Yeah Yeah, I'm comin'"],
 				},
 				{
 					characters: [
-						Characters.Dismas,
-						Characters.Reynauld,
+						characters.Dismas,
+						characters.Reynauld,
 	
 					],
 					speaking: "Narratror",
@@ -100,7 +100,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Dismas],
+					characters: [characters.Dismas],
 					speaking: "Narrator",
 					text: [
 						"Blood drips from blades, after the dust falls. ",
@@ -112,7 +112,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Dismas, ],
+					characters: [characters.Dismas, ],
 					speaking: "Dismas",
 					text: [
 						"Heh, not even a scratch.",
@@ -123,7 +123,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Narrator",
 					text: [
 						"Crimson ribbons are splattered against dented plate, as the battle ends.",
@@ -135,7 +135,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Reynauld",
 					text: ["Thou insincts were shrewd, Light be thanked."],
 					conditions: ["reynauld_route_started"], //flag name
@@ -143,7 +143,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Narrator",
 					text: [
 						"You can't be sure but he sounds like he's smiling under all that armor.",
@@ -153,7 +153,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Reynauld",
 					text: [
 						"We need to make haste. 'Tis a few hour's walk til we reach the estate, we must march swiftly.",
@@ -164,8 +164,8 @@ const chapter1 = {
 
 				{
 					characters: [
-						Characters.Dismas,
-						Characters.Reynauld,
+						characters.Dismas,
+						characters.Reynauld,
 						
 					],
 					speaking: "Narrator",
@@ -180,7 +180,7 @@ const chapter1 = {
 
 		{
 			id: "intro-old-road-end",
-			background: Bgs.HamletViewDay,
+			background: backgrounds.placeholder,
 			dialogues: [
 				{
 					characters: [],
@@ -189,7 +189,7 @@ const chapter1 = {
 					choices: null,
 				},
 				{
-					characters: [Characters.Dismas],
+					characters: [characters.Dismas],
 					speaking: "Narrator",
 					text: [
 						"You couldn't tear your gaze away from Dismas as some more ruffians attacked you during the trek.",
@@ -200,7 +200,7 @@ const chapter1 = {
 					conditions: ["dismas_route_started"],
 				},
 				{
-					characters: [Characters.Dismas, ],
+					characters: [characters.Dismas, ],
 					speaking: "Dismas",
 					text: [
 						`Hey now, ${PlayerState.name}, what'cha lookin' all downtrodden for?`,
@@ -210,7 +210,7 @@ const chapter1 = {
 					conditions: ["dismas_route_started"],
 				},
 				{
-					characters: [Characters.Dismas, ],
+					characters: [characters.Dismas, ],
 					speaking: "Narrator",
 					text: [
 						"He climbs down with the grace of a fox, showing both you and the knight where to step.",
@@ -220,7 +220,7 @@ const chapter1 = {
 				},
 
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Narrator",
 					text: [
 						"The knight stayed silent throughout the journey home.",
@@ -231,14 +231,14 @@ const chapter1 = {
 					conditions: ["reynauld_route_started"],
 				},
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Reynauld",
 					text: ["Keep your courage, my friend."],
 					choices: null,
 					conditions: ["reynauld_route_started"],
 				},
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Narrator",
 					text: [
 						"His hand feels heavy on your shoulder, though reassuringly so.",
@@ -247,7 +247,7 @@ const chapter1 = {
 					conditions: ["reynauld_route_started"],
 				},
 				{
-					characters: [Characters.Reynauld,],
+					characters: [characters.Reynauld,],
 					speaking: "Reynauld",
 					text: [
 						"The Abbeys light's are shining bright.",
@@ -257,7 +257,7 @@ const chapter1 = {
 					conditions: ["reynauld_route_started"],
 				},
 				{
-					characters: [Characters.Reynauld, ],
+					characters: [characters.Reynauld, ],
 					speaking: "Narrator",
 					text: [
 						"He makes sure you make it down safely, the thief following behind.",

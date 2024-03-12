@@ -276,7 +276,7 @@ button:active {
 /*UTIL=====================================================*/
 
 .disabled {
-  cursor: none;
+  cursor: not-allowed;
 }
 
 .disabled:hover {

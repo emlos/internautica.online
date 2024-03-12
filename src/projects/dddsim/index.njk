@@ -3,7 +3,7 @@ layout: "layouts/projects/dddsim/dddsim-base.njk"
 ---
 
 <script>
-    const chapter = {{projects.dddsim.dummychapter | dump | safe}}
+    const chapter = {{projects.dddsim.chapters.chapters[0] | dump | safe}}
 </script>
 
 {%set scene = projects.dddsim.dummychapter.scenes[0]%}

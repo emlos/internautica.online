@@ -1,65 +1,47 @@
-<section id="scene-container" class="dddsim-scene">
-  <div 
-    id="background-panel"
-    class="dddsim-characters"
-    style="background-image:  url(
-      {% if scene.dialogues[0].background %}  
-      {{scene.dialogues[0].background}}
-      {%else%}
-      {{scene.background}}
-    {% endif %})"
-  >
-    <div id= "options-button" class="dddsim-options-button disabled"></div>
+<!-- image backdrop -->
+<sectionid="scene-container" class="dddsim-scene"
+>
+	<div id="background-panel" class="dddsim-characters" style="">
+		<div id="options-button" class="dddsim-options-button disabled"></div>
 
-  <!-- buttons to be hidden -->
-    <div id="choice-panel" class="dddsim-choice-area">
+		<!-- choices via  script -->
+		<div id="choice-panel"class="dddsim-choice-area"></div>
 
-        {%for choice in scene.dialogues[0].choices%} 
-        <button class="dddsim-choice-button panel enabled">{{choice.text}}</button>
-    
-        {%endfor%}
+		<div id="overlay"class="overlay state-choice"></div>
 
-    </div>
+		<!-- sprites via  script -->
+		<div id="sprite-panel" class="dddsim-characters-sprites"></div>
+	</div>
 
-    <div id="overlay" class="overlay state-choice"></div>
+	<div id="talk-panel"class="dddsim-talk-area">
+		<div class="dddsim-talkbox">
+			<div id="nametag"class="dddsim-talkbox-nametag panel">SPEAKER</div>
+			<div class="dddsim-talkbox-area">
+				<p id="line">TEXT SPOKEN BY CHARACTER</p>
+				
+			</div>
+			<div id="next-line-button" class="dddsim-talkbox-nextbutton enabled"></div>
+		</div>
 
-
-
-    <div id="sprite-panel" class="dddsim-characters-sprites">
-      <!-- rendering sprites -->
-       {%for character in scene.dialogues[0].characters%} 
-        <div class="dddsim-sprite {{"talking" if character.name ==
-        scene.dialogues[0].speaking}}" 
-         {{('style="background-image: url(' + character.sprites.neutral +');"' if character.sprites != undefined) | safe}}
-
-        >
-        </div>
-      {%endfor%}
-    </div>
-  </div>
-
-  <div id = "talk-panel" class="dddsim-talk-area">
-    <div class="dddsim-talkbox">
-      <div id="nametag" class="dddsim-talkbox-nametag panel">{{scene.dialogues[0].speaking}}</div>
-      <div class="dddsim-talkbox-area">
-        <p id="line">{{scene.dialogues[0].text[0]}}</p>
-      </div>
-      <div id="next-line-button" class="dddsim-talkbox-nextbutton enabled"></div>
-    </div>
-
-    <div class="dddsim-talkbox-side-menu" id='game-menu'>
-      <div class="dddsim-talkbox-menu-list ">
-        {%for key, value in projects.dddsim.config.strings.menu%}
-
-        <button
-          class="dddsim-talkbox-menu-item enabled panel"
-          id="dddsim-{{key}}-menu-item"
-        >
-          <p>{{value}}</p>
-        </button>
-
-        {%endfor%}
-      </div>
-    </div>
-  </div>
+		<div class="dddsim-talkbox-side-menu" id="game-menu" >
+			<div class="dddsim-talkbox-menu-list">
+				<button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-start-menu-item" >
+					<p>Start</p>
+				</button>
+				<button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
+					<p>Save</p>
+				</button>
+				<button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-load-menu-item">
+					<p>Load</p>
+				</button>
+				<button class="dddsim-talkbox-menu-item disabled panel" id="dddsim-back-menu-item">
+					<p>&lt;&lt;</p>
+				</button>
+			</div>
+		</div>
+	</div>
 </section>
+
+<script>
+	init();
+</script>
