@@ -360,6 +360,7 @@ button:active {
 
 .disabled:hover {
 	filter: none !important;
+	
 }
 
 .enabled {

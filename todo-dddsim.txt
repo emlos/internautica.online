@@ -9,7 +9,7 @@ features for demo: 1.0: co można pokazać ludziom;
 - main menu
 - end game screen
 - spacebar/enter clicing forward
-- namebox user input
+            - namebox user input
 - restarting
 - options menu
 - intropopup with credits for assets
@@ -36,6 +36,9 @@ ux:
 
 html:
     - make EVERYTHING clickable buttons 4 accesibility
+
+code:
+    - add GameState flags, for settings secret routes n co
 
 devtools:
     - graphing tool to visualise choice branches?

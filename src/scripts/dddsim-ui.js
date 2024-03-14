@@ -235,7 +235,7 @@ function loadInput (dialogueInput) {
     'Towarzysz',
     'Heir',
     'Ebony Way',
-    '24601'
+    '24601', "Paul Allen"
   ]
 
   //user is supposed to input
@@ -243,16 +243,18 @@ function loadInput (dialogueInput) {
     hide(HTML.nextbutton) //can only go next after inputting
     display(HTML.inputpanel, 'flex')
 
-	validateInput() //cached textboxes
+    validateInput() //cached textboxes
 
     //register clicking on ok done writing
     registerButtonClick(() => {
-      setUserAttribute(dialogueInput, HTML.inputbox.value)
-      display(HTML.inputpanel, 'none')
+      if (validateInput()) {
+        setUserAttribute(dialogueInput, HTML.inputbox.value)
+        display(HTML.inputpanel, 'none')
 
-      removeInputEvents(HTML.inputbox)
+        removeInputEvents(HTML.inputbox)
 
-      nextDialogue()
+        nextDialogue()
+      }
     }, HTML.confirminputbutton)
 
     //random button click
@@ -263,9 +265,7 @@ function loadInput (dialogueInput) {
     }, HTML.randominputbutton)
 
     //validate and unblock the next button
-    registerInputs(HTML.inputbox, () => {
-		validateInput()
-	})
+    registerInputs(HTML.inputbox, validateInput)
 
     HTML.inputbox.focus() //start user on in writing
   } else {
@@ -273,6 +273,7 @@ function loadInput (dialogueInput) {
   }
 }
 
+//for names only
 function validateInput () {
   const restrictednames = [
     'dismas',
@@ -296,24 +297,28 @@ function validateInput () {
     'alhazred'
   ]
 
-  const input = HTML.inputbox.value
+  const input = HTML.inputbox.value.toLowerCase().trim()
 
-  if (input == '') {
+  if (!input) {
     setTooltip(
       HTML.confirminputbutton,
       'Gotta have something to call you, chief'
     )
     disableButton(HTML.confirminputbutton)
-  } else if (restrictednames.includes(input.toLowerCase())) {
+    return false
+  } else if (restrictednames.includes(input)) {
+
     setTooltip(
       HTML.confirminputbutton,
       'Hey, ' + input + ' is *my* name! -' + input
     )
     disableButton(HTML.confirminputbutton)
+    return false
   } else {
     setTooltip(HTML.confirminputbutton, '')
 
     enableButton(HTML.confirminputbutton)
+    return true
   }
 }
 
