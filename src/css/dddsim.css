@@ -1,390 +1,469 @@
 :root {
-  --cursor-normal: url(/images/projects/dddsim/ui/arrow.png);
-  --cursor-pointer: url(/images/projects/dddsim/ui/arrow.png);
+	--cursor-normal: url(/images/projects/dddsim/ui/arrow.png);
+	--cursor-pointer: url(/images/projects/dddsim/ui/arrow.png);
 
-
-}
-
-
-@font-face {
-  font-family: "Ubuntu-Regular";
-  src: url("/fonts/ubuntu-regular.woff") format("woff");
+	--color-gold: #887849;
+	--color-yellow: #dbb74f;
 }
 
 @font-face {
-  font-family: "Dwarvenaxe";
-  src: url("/fonts/dwarvenaxe.woff") format("woff");
+	font-family: "Ubuntu-Regular";
+	src: url("/fonts/ubuntu-regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Ubuntu-Mono-Regular";
+	src: url("/fonts/ubuntu-mono-regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Dwarvenaxe";
+	src: url("/fonts/dwarvenaxe.woff") format("woff");
 }
 
 /*styling scenes----------------------------------------------*/
 
-
-
 #dddsim-container {
-  display: flex;
-  width: 98vw;
-  height: 95vh;
-  flex-direction: column;
-  justify-content: flex-start;
+	display: flex;
+	width: 98vw;
+	height: 95vh;
+	flex-direction: column;
+	justify-content: flex-start;
 
-  background-color: black;
+	background-color: black;
 }
 
 .dddsim-scene {
-  position: relative;
-  height: 80vh;
+	position: relative;
+	height: 80vh;
 }
 
 .dddsim-options-button {
-  background-image: url(/images/projects/dddsim/ui/menu_button.png);
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+	background-image: url(/images/projects/dddsim/ui/menu_button.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 
-  position: absolute;
-  left: 0;
-  top: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
 
-  height: 50px;
-  width: 50px;
+	height: 50px;
+	width: 50px;
 
-  z-index: 55;
+	z-index: 55;
 }
 
-.dddsim-choice-area{ 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 20%;
-  margin-left: auto;
-  margin-right: auto;
+.dddsim-choice-area {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 20%;
+	margin-left: auto;
+	margin-right: auto;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
 
-
-
-  height: 50%;
-  width: fit-content;
-  z-index: 55;
+	height: 50%;
+	width: fit-content;
+	z-index: 55;
 }
 
 .dddsim-choice-button {
-  padding: 1rem 2rem;
+	padding: 1rem 2rem;
 
-  font-family: "Dwarvenaxe", sans-serif !important;
-  font-size: 3rem;
+	font-family: "Dwarvenaxe", sans-serif !important;
+	font-size: 3rem;
 }
 
-
 .dddsim-characters {
-  background-image: url(/images/projects/dddsim/backgrounds/placeholder.png);
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+	background-image: url(/images/projects/dddsim/backgrounds/placeholder.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
 
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .dddsim-characters-sprites {
-  position: absolute;
-  right: 0;
-  left: 0;
-  width: 80%;
-  height: 100%;
+	position: absolute;
+	right: 0;
+	left: 0;
+	width: 80%;
+	height: 100%;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-end;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: flex-end;
 
-  margin-left: auto;
-  margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .dddsim-sprite {
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  
-  height: 85%;
-  width: 38%;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	height: 85%;
+	width: 38%;
 }
 
 .dddsim-sprite:not(.talking) {
-  height: 80%;
-  filter: brightness(0.7);
+	height: 80%;
+	filter: brightness(0.7);
 }
 
 .dismas-neutral {
-  background-image: url(/images/projects/dddsim/characters/dismas/neutral.png);
+	background-image: url(/images/projects/dddsim/characters/dismas/neutral.png);
 }
 
 .dddsim-talk-area {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
 
-  height: 200px;
-  width: 100%;
+	height: 200px;
+	width: 100%;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 
-  z-index: 55;
+	z-index: 55;
 }
 
-
 .dddsim-talkbox {
-  background-image: url(/images/projects/dddsim/ui/talkbox.png);
-  background-size: 100% 100%;
-  background-position: center;
-  height: 200px;
-  width: 50%;
+	background-image: url(/images/projects/dddsim/ui/talkbox.png);
+	background-size: 100% 100%;
+	background-position: center;
+	height: 200px;
+	width: 50%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-  position: relative;
+	position: relative;
 }
 
 .dddsim-talkbox-nextbutton {
-  background-image: url(/images/projects/dddsim/ui/next_icon.png);
+	background-image: url(/images/projects/dddsim/ui/next_icon.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	right: 0;
+	bottom: 0;
 
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+	height: 50px;
+	width: 50px;
 
-  position: absolute;
-  right: 0;
-  bottom: 0;
+	z-index: 50;
+}
 
-  height: 50px;
-  width: 50px;
+.dddsim-talkbox-textinput {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 
-  z-index: 50;
+	column-gap: 1rem;
+
+}
+
+.dddsim-talkbox-textinput > button {
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	height: 50px;
+	width: 50px;
+}
+
+#talkbox-text-input {
+	color: var(--color-yellow);
+
+	display: block;
+	border: none;
+	padding: 0;
+	width: 22.5ch;
+	background: repeating-linear-gradient(90deg, var(--color-gold) 0, var(--color-gold) 1ch, transparent 0, transparent 1.5ch) 0 100%/22ch 2px no-repeat;
+	font: 2.5rem "ubuntu-mono-regular", monospace !important;
+	letter-spacing: 0.5ch;
+}
+
+#talkbox-text-input::-webkit-input-placeholder {
+	/* WebKit, Blink, Edge */
+	color: var(--color-gold) !important;
+}
+#talkbox-text-input:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	color: var(--color-gold) !important;
+}
+#talkbox-text-input::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	color: var(--color-gold) !important;
+}
+#talkbox-text-input:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	color: var(--color-gold) !important;
+}
+#talkbox-text-input::-ms-input-placeholder {
+	/* Microsoft Edge */
+	color: var(--color-gold) !important;
+}
+
+#talkbox-text-input::placeholder {
+	/* Most modern browsers support this now. */
+	color: #909;
+}
+
+input#talkbox-text-input:focus,
+input#talkbox-text-input:focus-within {
+	outline: none;
+	color: white;
+}
+
+#random-textinput-button {
+	background-image: url(/images/projects/dddsim/ui/random_button.png);
+}
+
+#confirm-textinput-button {
+	background-image: url(/images/projects/dddsim/ui/ok_button.png);
 }
 
 .dddsim-talkbox-nametag {
-  
-  
-  height: fit-content;
-  background-color: black;
+	height: fit-content;
+	background-color: black;
 
-  position: absolute;
-  top: -1rem;
-  left: -2rem;
+	position: absolute;
+	top: -1rem;
+	left: -2rem;
 
-  padding: 0.5rem 1rem;
-  margin: 0;
+	padding: 0.5rem 1rem;
+	margin: 0;
 
-  font-family: "Dwarvenaxe", sans-serif !important;
-  font-size: 2rem;
+	font-family: "Dwarvenaxe", sans-serif !important;
+	font-size: 2rem;
 }
 
 .dddsim-talkbox-area {
+	line-height: 3rem;
 
-  line-height: 3rem;
+	padding: 2rem;
+	padding-left: 3.5rem;
 
-  margin: 0;
-  padding: 1rem 2rem;
-  padding-left: 3rem;
-  
-  overflow: hidden;
+	overflow: hidden;
 
-  font-size: 2rem;
+	font-size: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
+	justify-content: space-evenly;
+
+	height: 100%;
+	width: 100%;
+}
+
+
+
+.dddsim-talkbox-area > * {
+	margin: 0;
+	padding: 0;
+}
+
+
+ #input-textbox-panel + #line {
+	padding-bottom: 0;
 }
 
 .dddsim-talkbox-side-menu {
-  height: calc(200px - 3%);
-  width: fit-content;
+	height: calc(200px - 3%);
+	width: fit-content;
 }
 
-.dddsim-talkbox-menu-list{
-  list-style-type: none;
-  list-style-position: inside;
+.dddsim-talkbox-menu-list {
+	list-style-type: none;
+	list-style-position: inside;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-
-  font-size: 1.3rem;
+	font-size: 1.3rem;
 }
 
 .dddsim-talkbox-menu-item {
+	font-family: "Dwarvenaxe", sans-serif !important;
+	font-size: 1.5rem;
 
-  font-family: "Dwarvenaxe", sans-serif !important;
-  font-size: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	flex-grow: 1;
 
-  flex-grow: 1;
-
-  height: fit-content;
+	height: fit-content;
 }
+
 .dddsim-talkbox-menu-item > p {
-  padding: 0 1rem;
-  margin: 0;
+	padding: 0 1rem;
+	margin: 0;
 }
 
 /*ui elements*/
 
-.panel{
-  background-image: url(/images/projects/dddsim/ui/small_box.png);
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-
+.panel {
+	background-image: url(/images/projects/dddsim/ui/small_box.png);
+	background-size: 100% 100%;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
-button{
-  background-color: none;
-  border: none;
-  
-} 
+button {
+	background-color: none;
+	border: none;
+}
 
 button:active {
-  border: none;
-  margin: 0;
- filter:  brightness(2);
+	border: none;
+	margin: 0;
+	filter: brightness(2);
 }
 
 /*UTIL=====================================================*/
 
 .disabled {
-  cursor: not-allowed;
+	cursor: not-allowed;
 }
 
 .disabled:hover {
-  filter: none !important;
+	filter: none !important;
 }
 
 .enabled {
-  cursor: var(--cursor-pointer), pointer;
+	cursor: var(--cursor-pointer), pointer;
 }
 
 .enabled:hover {
-  filter: brightness(1.6);
+	filter: brightness(1.6);
 }
 
-.overlay{
-  position: absolute;
-  top: 0;
-  left: 0;
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
 
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 51;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 51;
 
-  pointer-events: none
+	pointer-events: none;
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/
 
 body {
-  font-family: "Ubuntu-Regular", sans-serif;
-  font-size: 1vw;
+	font-family: "Ubuntu-Regular", sans-serif;
+	font-size: 1vw;
 
-  height: 100%;
-  overflow-y: hidden;
+	height: 100%;
+	overflow-y: hidden;
 
-  color: white;
-  background-color: black;
+	color: white;
+	background-color: black;
 
-  cursor: var(--cursor-normal), auto;
+	cursor: var(--cursor-normal), auto;
 }
 
 hr {
-  width: 100%;
-  color: white;
+	width: 100%;
+	color: white;
 }
 
 .title {
-  display: inline;
-  padding: 0;
-  margin: 0;
+	display: inline;
+	padding: 0;
+	margin: 0;
 }
 
 .nav-container {
-  display: inline-block;
-  width: fit-content;
+	display: inline-block;
+	width: fit-content;
 }
 
 .nav-links {
-  display: flex;
-  flex-direction: row;
-  flex-flow: row;
-  justify-content: stretch;
+	display: flex;
+	flex-direction: row;
+	flex-flow: row;
+	justify-content: stretch;
 
-  list-style-type: none;
-  list-style-position: inside;
+	list-style-type: none;
+	list-style-position: inside;
 
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .nav-links > li {
-  display: inline-block;
+	display: inline-block;
 
-  background-color: black;
+	background-color: black;
 
-  border: white 1px solid;
+	border: white 1px solid;
 
-  padding: 0.2rem 0.5rem;
+	padding: 0.2rem 0.5rem;
 }
 
 .nav-links > li:hover {
-  cursor: var(--cursor-pointer), auto;
-  filter: brightness(1.25);
+	cursor: var(--cursor-pointer), auto;
+	filter: brightness(1.25);
 }
 
 .nav-link {
-  padding: 1rem;
+	padding: 1rem;
 }
 
 .nav-link > a {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 a:visited {
-  color: inherit;
+	color: inherit;
 }
 
 a:active {
-  color: inherit;
+	color: inherit;
 }
 
 .toggle {
-  display: none !important;
+	display: none !important;
 }

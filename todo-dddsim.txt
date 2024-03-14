@@ -8,11 +8,11 @@ features for demo: 1.0: co można pokazać ludziom;
 - text animation
 - main menu
 - end game screen
-- spacebar clicing forward
+- spacebar/enter clicing forward
 - namebox user input
 - restarting
 - options menu
-
+- intropopup with credits for assets
 - cookie discaimer
 - job offer?
 
@@ -25,11 +25,14 @@ polish:
     - add text effects (emphasis, omnious + keep parser up to date)
     - animation to next button
     - handdrawn sprites
+    - sigh. backgrounds
     - sprites animations [pop in/out]
 
 ux:
     - savegame screenshots
     - sound effects!
+    - settings for that
+    - pronoun choice?
 
 html:
     - make EVERYTHING clickable buttons 4 accesibility

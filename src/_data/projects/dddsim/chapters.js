@@ -15,9 +15,10 @@ const chapter1 = {
 			background: backgrounds.placeholder,
 			dialogues: [ //cant be empty
 				{
-					characters: [characters.Dismas, characters.Reynauld],
-					speaking: "Dismas",
-					text: ["Ayo girl what'cha doin; there? "], //draw one after the other for multiple lines
+					characters: [],
+					speaking: "Narrator",
+					text: ["What is your name?"], //draw one after the other for multiple lines
+					input: "name"
 				},
 				{
 					characters: [],

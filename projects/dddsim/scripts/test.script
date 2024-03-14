@@ -6,14 +6,14 @@ variable names:
 ###
 
 # Narrator + Player is already included as N and P, can be overwritten
-Character d is
+character d is
     # required
     name is Dismas
 
     # optional
     sprites as angry, neutral, happy #list
     defaultEmotion is neutral #if no emotion specified when talking
-Character r is
+character r is
     # required
     name is Reynauld
 
@@ -24,7 +24,7 @@ Character r is
 
 
 Chapter first_chapter is
-    title is "Title of First Chapter"
+    title is Title of First Chapter
     #order is 1 #works like z index or sequence in apex
 
     Scene start is # needs to be unique
@@ -41,15 +41,15 @@ Chapter first_chapter is
         show d, r           # limit to four
 
         P: The brigands are on us! Defend me!
-            choice: Hide in the stagecoach.
+            choice Hide in the stagecoach. is
                 go ambush-hid
-            choice: is Help them with a makeshift weapon
+            choice Help them with a makeshift weapon is
                 go end
 
         # all shown characters automatically hidden here
 
     Scene ambush_hid is
-        background is IntroCarriage
+        background is introcarriage
 
         N: You hear shouts as you crawl into your stagecoach
         N: Looking out, you see your guards draw their weapons.
@@ -73,9 +73,9 @@ Chapter first_chapter is
 
         N: Your voice carries over the cacophonous sounds of battle, as you watch and command from the back.
         N: Directing them, you make sure to align the situation to the safety of...
-            choice: Dismas. 
+            choice is Dismas. 
                 set dismas_route_started
-            choice: Reynauld. 
+            choice is Reynauld. 
                 set reynauld_route_started
 
         if dismas_route_started
