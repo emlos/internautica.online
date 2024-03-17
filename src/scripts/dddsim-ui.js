@@ -225,17 +225,18 @@ function loadDialogueChoices (choices) {
 }
 
 function loadInput (dialogueInput) {
+  // TODO: name based easter eggs?
   const names = [
     'Milo',
     'AM',
     'Zoosmell',
     'Dick Mullen',
-    'Ring? Rang?',
     'Jadwiga',
     'Towarzysz',
     'Heir',
     'Ebony Way',
-    '24601', "Paul Allen"
+    '24601',
+    'Paul Allen', 'Beetlejuice',
   ]
 
   //user is supposed to input
@@ -307,7 +308,6 @@ function validateInput () {
     disableButton(HTML.confirminputbutton)
     return false
   } else if (restrictednames.includes(input)) {
-
     setTooltip(
       HTML.confirminputbutton,
       'Hey, ' + input + ' is *my* name! -' + input

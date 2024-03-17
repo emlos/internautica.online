@@ -22,30 +22,32 @@ module.exports = {
 	//generate lists from files
 	characters: {
 		Player: {
-			name: "Player", //NEVER Show this
-			sprites: null,
+			name: "hahaha",
+			sprites: null
 		},
 		Narrator: {
 			name: "Narrator",
-			sprites: null,
+			sprites: null
 		},
-
 		Dismas: {
 			name: "Dismas",
 			sprites: {
-				neutral: characterssrc + "dismas/neutral.png",
-				happy: characterssrc + "dismas/happy.png",
-				angry: characterssrc + "dismas/angry.png",
+				angry: "/images/projects/dddsim/characters/dismas/angry.png",
+				neutral: "/images/projects/dddsim/characters/dismas/neutral.png",
+				happy: "/images/projects/dddsim/characters/dismas/happy.png",
+				default: "/images/projects/dddsim/characters/dismas/neutral.png",
 			},
 		},
 		Reynauld: {
 			name: "Reynauld",
 			sprites: {
-				neutral: characterssrc + "reynauld/neutral.png",
-				happy: characterssrc + "reynauld/happy.png",
-				angry: characterssrc + "reynauld/angry.png",
+				angry: "/images/projects/dddsim/characters/reynauld/angry.png",
+				neutral: "/images/projects/dddsim/characters/reynauld/neutral.png",
+				happy: "/images/projects/dddsim/characters/reynauld/happy.png",
+				default: "/images/projects/dddsim/characters/reynauld/neutral.png",
 			},
 		},
+		Milo: { name: "Milo", sprites: { normal: "/images/projects/dddsim/characters/milo/normal.png", default: "/images/projects/dddsim/characters/milo/normal.png" } },
 	},
 
 	//to be generated

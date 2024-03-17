@@ -1,17 +1,13 @@
 # this is a comment
 
-###
-variable names: 
-
-###
 
 # Narrator + Player is already included as N and P, can be overwritten
 character d is
     # required
     name is Dismas
 
-    # optional
-    sprites as angry, neutral, happy #list
+    # optional, sprites have to use "are"
+    sprites are angry, neutral, happy #list
     defaultEmotion is neutral #if no emotion specified when talking
 character r is
     # required
@@ -21,15 +17,24 @@ character r is
     sprites are angry, neutral, happy #list
     defaultEmotion is neutral #if no emotion specified when talking
 
+character milo_mena is
+    # required
+    name is Milo
+
+    # optional
+    sprites are normal
+
 
 
 Chapter first_chapter is
     title is Title of First Chapter
     #order is 1 #works like z index or sequence in apex
 
+    #start required
     Scene start is # needs to be unique
         background is Ruins #relative to src
 
+        #N and P is built in
         N: Ruin has come to our family.
         N: In my darkest hour - an assault halted the recipient of my letter.
         N: The name on the missive...
@@ -111,13 +116,4 @@ Chapter first_chapter is
         N: As dawn broke, you took the trek to the estate, protected by light and darkness alike.
 
         go end
-
-
-###
-# indented language cause why not
-# keywords:
-# Start: creates new scene/chapter
-#   Start: [Scene or Chapter] <whatever name you wanna give it>:
-#
-###
 
