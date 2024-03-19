@@ -24,8 +24,6 @@ character milo_mena is
     # optional
     sprites are normal
 
-
-
 Chapter first_chapter is
     title is Title of First Chapter
     #order is 1 #works like z index or sequence in apex
@@ -46,9 +44,9 @@ Chapter first_chapter is
         show d, r           # limit to four
 
         P: The brigands are on us! Defend me!
-            choice Hide in the stagecoach. is
-                go ambush-hid
-            choice Help them with a makeshift weapon is
+            choice is Hide in the stagecoach.
+                go ambush_hid
+            choice is Help them with a makeshift weapon
                 go end
 
         # all shown characters automatically hidden here

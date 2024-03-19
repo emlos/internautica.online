@@ -6,6 +6,7 @@ const targetGamedata = require('../src/_data/projects/dddsim/gamedata')
 const targetChaptersdata = require('../src/_data/projects/dddsim/chapters')
 
 const characterssrc = '/images/projects/dddsim/characters/' //TODO: cleanup for 1.0
+const backgroundsrc = '/images/projects/dddsim/backgrounds/'
 
 const arguments = process.argv // [node, parser.js, [operator: parse, make], <fromfile>, <tofile>]
 
@@ -64,15 +65,16 @@ function parse (text) {
     },
     attibutes: {
       valueIs: {
-        regex: /^\s*(\w+)\s+is\s+(\w+)$/,
+        regex: /^\s*(\w+)\s+is\s+(\w+\s*)+$/,
         expectedChildren: null
       },
       valuesAre: {
         regex: /^\s*(\w+)\s+are\s+((\w+\s*,\s*)*\w+)\s*$/,
         expectedChildren: null
       },
+      //special case of valueIs attribute, onli in scenes
       choice: {
-        regex: /^\s*choice+\s+is+$/,
+        regex: /^\s*choice+\s+is\s+(.)+$/,
         expectedChildren: ['actions']
       }
     },
@@ -91,17 +93,20 @@ function parse (text) {
         expectedChildren: null
       },
       go: {
-        regex: /^go\s+\w+$/,
+        regex: /^go\s+(\w+)$/,
         expectedChildren: null
       },
       set: {
         regex: /^set\s+\w+(\s*,\s*\w+)*$/,
         expectedChildren: null
-      }
+      },
+      input: {
+        regex:
+          /^\s*input\s+into\s+(\w+.\w+)+$/,
+        expectedChildren: null
+      },
     }
   }
-
-  const keywords = ['is', 'are', 'character', 'chapter', 'scene']
 
   //variables inside script, scene names, characters
   const references = {
@@ -115,31 +120,37 @@ function parse (text) {
   //all lines sanitized
   const lines = init(text)
 
-  parseCharacters(lines)
+  console.log(lines)
 
-  parseChapters()
+  //parseCharacters(lines)
 
-  console.log(references)
+ // parseChapters()
+
+  //console.log(JSON.stringify(outData))
+
+ // console.log(references)
 
   //helper functions--------------------------------------------------------------------------
 
-  //done 1 todo left
+  //done
   function init (text) {
     //normalize text
 
     const lines = text
       .split('\n')
       .map((line, index) => {
+        let linetext =line.replace(/#.*$/g, '').trim()
+
         //map out every line to FILE line nr !important
         return {
           fileLine: index + 1,
           indent: getIndent(line),
-          text: line.replace(/#.*$/g, '').trim() //remove comments
+          text: linetext, //remove comments
         }
       })
       .filter(line => line.text.trim()) //filter out empty lines
       .map((line, index) => {
-        line.text = isDialogue(line.text) ? line.text : line.text.toLowerCase()
+        line.type = getPatternType(line)
         line.index = index
         return line
       }) //normalise
@@ -204,6 +215,7 @@ function parse (text) {
       characterDataOut[name] = character
     })
 
+    //narrator and player always availabale in out code
     characterDataOut['Player'] = {
       name: 'placeholder',
       sprites: null
@@ -215,6 +227,8 @@ function parse (text) {
     }
 
     setOutput('characters', characterDataOut)
+
+    console.log(lines)
 
     //const characterBlocks = getBlocks(lines, ...characterLines);
   }
@@ -239,11 +253,32 @@ function parse (text) {
     }
   }
 
+  function parseChapters () {
+    //make references from
+    const characterDataIn = lines
+      .filter(line => line.indent == 0) //chapters are always level 0
+      .filter(line => isBlock(line.text, 'chapter')) //needs to be a chapter block
+      //assign chapters to be parsed into scenes
+      .map(line => {
+       // let scenes = makeScenes(line) //make scenes belonging to this chapter
+
+       // let currentChapter = makeChapter(scenes) //[id, attr, scenes]
+      //  setReference('chapters', currentChapter.id, currentChapter.attr)
+
+        return line // currentChapter
+      })
+
+    const characterDataOut = characterDataIn.map(character => {
+    //  let title = character.attr.title
+      //let id = character.attr.id
+    })
+
+    //setOutput('chapters', characterDataOut)
+  }
+
   function regexFromLine (line, regex) {
     return line.text.split(regex)
   }
-
-  function formatCharacterData (characters = []) {}
 
   //done
   function getIndent (line) {
@@ -251,23 +286,11 @@ function parse (text) {
     return indents ? indents[0].length : 0
   }
 
-  //not ddone
-  function getBlocks (lines = [], ...start) {}
-
-  //done-ish
-  function removeComments (text) {
-    //1.remove block commoents. 2. remove trailing spaces, 3. remove line comments
-
-    const rawtext = text
-    return rawtext
-  }
-
   //line is init lineobject
+  //done
   function getPatternType (line) {
-    const text = line.text
-
-    patterns.flow
-
+    text = line.text.toLowerCase()
+   
     if (isBlock(text, 'character')) {
       return 'character'
     }
@@ -278,26 +301,45 @@ function parse (text) {
     if (isAction(text, 'hide')) return 'hide'
     if (isAction(text, 'go')) return 'go'
     if (isAction(text, 'set')) return 'set'
+    if (isAction(text, 'input')) return 'input'
 
+    if (isAttribute(text, 'choice')) return 'choice'
     if (isAttribute(text, 'valueIs')) return 'valueIs'
     if (isAttribute(text, 'valuesAre')) return 'valuesAre'
-    if (isAttribute(text, 'choice')) return 'choice'
 
-    if (ifFlow(text, 'if')) return 'if'
+
+    if (isFlow(text, 'if')) return 'if'
 
     if (isDialogue(text)) return 'dialogue'
+
+   compileError("notKnownPattern", line.fileLine, line.text)
   }
+
+  // --------------=============================== validation functions
 
   //done
   function isDialogue (line) {
     return patterns.dialogue.regex.test(line)
   }
 
-  function isChoice (line) {
-    return patterns.attibutes.choice.test(line)
-  }
+  function isAction (line, type = false) {
+    let matches = false
 
-  function isAction (line) {}
+    if (type) {
+      if (patterns.actions[type].regex.test(line)) {
+        matches = true
+      } 
+    } else {
+      Object.keys(patterns.actions).forEach(key => {
+        let attr = patterns.actions[key]
+
+        if (attr.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
+  }
 
   function isAttribute (line, type = false) {
     let matches = false
@@ -346,6 +388,23 @@ function parse (text) {
     return result
   }
 
+  function isFlow (line, type = false) {
+    let matches = false
+
+    if (type) {
+      matches = patterns.flow[type].regex.test(line)
+    } else {
+      Object.keys(patterns.flow).forEach(key => {
+        let attr = patterns.flow[key]
+
+        if (attr.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
+  }
+
   //type is patterns.blocks etc object of parent
   function isBlock (line, type = false) {
     let matches = false
@@ -380,6 +439,8 @@ function parse (text) {
       }
     })
   }
+
+  //================================= util functions
 
   //returns: [lines as below, belonging to startBlock line indented block]
   // first line is always the head of the block, index is based on first indented line
@@ -450,25 +511,27 @@ function parse (text) {
     //console.log(references)
   }
 
-  function compileError (type, errorLine, causingLine, expectedPattern) {
-    const messages = [`Error when compiling on line: ${errorLine}`]
+  function compileError (type, errorLine, causingLine, ...fillers) {
+    const messages = [`Error when compiling on line: ${errorLine}: "${causingLine}"`]
     //types: match, invalidCharacters, redeclarationScene, redeclarationChapter, ,
     switch (type) {
-      case 'match':
-        messages.push(`Unrecognized pattern for`, `"${causingLine}"`)
+      case 'notKnownPattern':
+        messages.push(`Unrecognized pattern for`)
 
+        break
+      case 'requiredAttr':
+        messages.push(
+          `Attributte ${fillers[0]} is required for type ${fillers[1]}`
+        )
         break
 
       default:
         break
     }
 
-    messages.push('Breaking...')
-
     throw new Error(messages.join('\n'))
   }
 }
-
 // Function to parse the custom text format
 function parseTextToJSON (text) {
   const lines = text.split('\n')
