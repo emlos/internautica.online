@@ -17,20 +17,55 @@ character r is
     sprites are angry, neutral, happy #list
     defaultEmotion is neutral #if no emotion specified when talking
 
-character milo_mena is
+character dummy is
+    # required
+    name is DumDUmSon the Mcumb
+
+    sprites are normal
+    secretStats are handsomeness, sexiness, SUPERPENIS
+
+character milo is
     # required
     name is Milo
 
-    # optional
     sprites are normal
+
+
+
+chapter second_chapter_test is
+    title is short_chapter
+    # PASSED:      secretStats is wrong,use , of, is #error
+    order is 2
+    Scene start is
+        background is none # keyword for backgrounds
+
+        P: I should be named the name you gave me previously!
+        # no goto -> error
+        # go error
+    
+    Scene error is
+          
+        background is NotFound # error
+
+        not_found: I am a missing character! # error
+
+        input into Player.name
+
+        show N, P #NOT error, handled by parser to not be actually shown
+
+        P: Now i should be named like you just said! #UI test
+
+        show d,r
+
+      
 
 Chapter first_chapter is
     title is Title of First Chapter
-    #order is 1 #works like z index or sequence in apex
+    #order is 1 #works like z index or sequence in apex if not set: file order
 
     #start required
     Scene start is # needs to be unique
-        background is Ruins #relative to src
+        background is Ruins #relative to src, case insensitive
 
         #N and P is built in
         N: Ruin has come to our family.
