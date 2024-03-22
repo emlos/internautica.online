@@ -63,9 +63,9 @@ function parse (text) {
         expectedChildren: ['actions', 'dialogue']
       }
     },
-    attibutes: {
+    attributes: {
       valueIs: {
-        regex: /^\s*(\w+)\s+is\s+(\w+\s*)+$/,
+        regex: /^\s*(\w+)\s+is\s+((?:\w+\s*)+)$/,
         expectedChildren: null
       },
       valuesAre: {
@@ -74,7 +74,7 @@ function parse (text) {
       },
       //special case of valueIs attribute, onli in scenes
       choice: {
-        regex: /^\s*choice+\s+is\s+(.)+$/,
+        regex: /\s*choice+\s+is\s+(.*)$/,
         expectedChildren: ['actions']
       }
     },
@@ -101,10 +101,9 @@ function parse (text) {
         expectedChildren: null
       },
       input: {
-        regex:
-          /^\s*input\s+into\s+(\w+.\w+)+$/,
+        regex: /^\s*input\s+into\s+(\w+.\w+)+$/,
         expectedChildren: null
-      },
+      }
     }
   }
 
@@ -120,15 +119,12 @@ function parse (text) {
   //all lines sanitized
   const lines = init(text)
 
-  console.log(lines)
-
-  //parseCharacters(lines)
-
- // parseChapters()
+  parseCharacters(lines)
+  parseChapters(lines)
 
   //console.log(JSON.stringify(outData))
 
- // console.log(references)
+  // console.log(JSON.stringify(references))
 
   //helper functions--------------------------------------------------------------------------
 
@@ -139,13 +135,13 @@ function parse (text) {
     const lines = text
       .split('\n')
       .map((line, index) => {
-        let linetext =line.replace(/#.*$/g, '').trim()
+        let linetext = line.replace(/#.*$/g, '').trim()
 
         //map out every line to FILE line nr !important
         return {
           fileLine: index + 1,
           indent: getIndent(line),
-          text: linetext, //remove comments
+          text: linetext //remove comments
         }
       })
       .filter(line => line.text.trim()) //filter out empty lines
@@ -169,10 +165,12 @@ function parse (text) {
   function parseCharacters (lines = []) {
     const characterDataOut = {}
 
+    // console.log(lines)
+
     //make references from
     const characterDataIn = lines
       .filter(line => line.indent == 0) //characters are always level 0
-      .filter(line => isBlock(line.text, 'character')) //needs to be character block
+      .filter(line => line.type === 'character') //needs to be character block
       //assign blocks to be parsed into json
       .map(line => {
         let character = makeCharacter(line)
@@ -228,7 +226,7 @@ function parse (text) {
 
     setOutput('characters', characterDataOut)
 
-    console.log(lines)
+    //console.log(lines)
 
     //const characterBlocks = getBlocks(lines, ...characterLines);
   }
@@ -240,7 +238,7 @@ function parse (text) {
     //all remainaining lines
 
     const attributes = {}
-
+    //all valid character sublock lines are attributes
     block.slice(1).forEach(attr => {
       const kv = parseAttribute(attr) //TODO: isValidSubblock validation or something
 
@@ -253,27 +251,65 @@ function parse (text) {
     }
   }
 
-  function parseChapters () {
+  function parseChapters (lines = []) {
     //make references from
     const characterDataIn = lines
       .filter(line => line.indent == 0) //chapters are always level 0
-      .filter(line => isBlock(line.text, 'chapter')) //needs to be a chapter block
+      .filter(line => line.type === 'chapter') //needs to be a chapter block
       //assign chapters to be parsed into scenes
       .map(line => {
-       // let scenes = makeScenes(line) //make scenes belonging to this chapter
+        //console.log(line)
+        let scenes = makeScenes(line) //make scenes belonging to this chapter
 
-       // let currentChapter = makeChapter(scenes) //[id, attr, scenes]
-      //  setReference('chapters', currentChapter.id, currentChapter.attr)
+        // let currentChapter = makeChapter(scenes) //[id, attr, scenes]
+        //  setReference('chapters', currentChapter.id, currentChapter.attr)
 
         return line // currentChapter
       })
 
     const characterDataOut = characterDataIn.map(character => {
-    //  let title = character.attr.title
+      //  let title = character.attr.title
       //let id = character.attr.id
     })
 
     //setOutput('chapters', characterDataOut)
+  }
+
+  function makeChapter (line, scenes) {}
+
+  //returns array of scenes {id, attr, dialogues}
+  function makeScenes (line) {
+    //console.log(line)
+    const rawChapterBlock = getRawBlock(line) //chapter as lines
+    const scenes = getRawChildBlocks(rawChapterBlock).map(scene =>
+      makeScene(scene)
+    )
+
+    //console.log(rawChapterBlock)
+
+    return scenes
+  }
+
+  function makeScene (sceneLines) {
+    // console.log(sceneLines)
+    const id = regexFromLine(sceneLines[0], patterns.blocks.scene.regex)[1]
+    const children = sceneLines.slice(1)
+
+    const scene = { id: '', attr: {}, dialogue: [] } //output
+
+    const attributes = {}
+
+    children.forEach(line => {
+      if (isAttribute(line)) {
+        const kv = parseAttribute(line) //TODO: isValidSubblock validation or something
+
+        scene.attr[kv[0]] = kv[1]
+      }
+    })
+
+    console.log(scene)
+
+    return scene
   }
 
   function regexFromLine (line, regex) {
@@ -290,80 +326,73 @@ function parse (text) {
   //done
   function getPatternType (line) {
     text = line.text.toLowerCase()
-   
-    if (isBlock(text, 'character')) {
+
+    if (_isBlock(text, 'character')) {
       return 'character'
     }
-    if (isBlock(text, 'scene')) return 'scene'
-    if (isBlock(text, 'chapter')) return 'chapter'
+    if (_isBlock(text, 'scene')) return 'scene'
+    if (_isBlock(text, 'chapter')) return 'chapter'
 
-    if (isAction(text, 'show')) return 'show'
-    if (isAction(text, 'hide')) return 'hide'
-    if (isAction(text, 'go')) return 'go'
-    if (isAction(text, 'set')) return 'set'
-    if (isAction(text, 'input')) return 'input'
+    if (_isAction(text, 'show')) return 'show'
+    if (_isAction(text, 'hide')) return 'hide'
+    if (_isAction(text, 'go')) return 'go'
+    if (_isAction(text, 'set')) return 'set'
+    if (_isAction(text, 'input')) return 'input'
 
-    if (isAttribute(text, 'choice')) return 'choice'
-    if (isAttribute(text, 'valueIs')) return 'valueIs'
-    if (isAttribute(text, 'valuesAre')) return 'valuesAre'
+    if (_isAttribute(text, 'choice')) return 'choice'
+    if (_isAttribute(text, 'valueIs')) return 'valueIs'
+    if (_isAttribute(text, 'valuesAre')) return 'valuesAre'
 
+    if (_isFlow(text, 'if')) return 'if'
 
-    if (isFlow(text, 'if')) return 'if'
+    if (_isDialogue(text)) return 'dialogue'
 
-    if (isDialogue(text)) return 'dialogue'
-
-   compileError("notKnownPattern", line.fileLine, line.text)
+    compileError('notKnownPattern', line.fileLine)
   }
-
-  // --------------=============================== validation functions
 
   //done
-  function isDialogue (line) {
-    return patterns.dialogue.regex.test(line)
-  }
-
-  function isAction (line, type = false) {
-    let matches = false
-
-    if (type) {
-      if (patterns.actions[type].regex.test(line)) {
-        matches = true
-      } 
-    } else {
-      Object.keys(patterns.actions).forEach(key => {
-        let attr = patterns.actions[key]
-
-        if (attr.regex.test(line.text)) {
-          matches = true
-        }
-      })
-    }
-    return matches
-  }
-
-  function isAttribute (line, type = false) {
-    let matches = false
-
-    if (type) {
-      matches = patterns.attibutes[type].regex.test(line)
-    } else {
-      Object.keys(patterns.attibutes).forEach(key => {
-        let attr = patterns.attibutes[key]
-
-        if (attr.regex.test(line.text)) {
-          matches = true
-        }
-      })
-    }
-    return matches
+  function isAttribute (line) {
+    return Object.keys(patterns.attributes).includes(line.type)
   }
 
   function parseAttribute (line) {
-    const text = line.text
+   // console.log(line)
+    const text = line.text.trim()
+
+    const regex = patterns.attributes[line.type].regex //ading type made this SO much easier holy shit
+
+    if (regex && regex.test(text)) {
+      const match = text
+        .match(regex)
+        .slice(1)
+        .filter(m => m)
+
+      if (line.type == 'choice') {
+        match[1] = match[0]
+      
+        match[0] = 'choice'
+        
+      } else {
+        match[0] = match[0].trim() //first match is always variable name... or
+        match[1] = match[1].split(',').map(m => m.trim())
+      }
+
+    
+
+      //if its NOT an array
+      if (match[1].length == 1 && line.type !== 'valuesAre') {
+        match[1] = match[1][0] //[element] -> element
+      } 
+
+      match.slice(0, 2) //everything else after the second one doesnt onterest us for attributes
+
+
+      return match
+    }
 
     let result = false
-    Object.keys(patterns.attibutes).forEach(key => {
-      let attr = patterns.attibutes[key]
+    Object.keys(patterns.attributes).forEach(key => {
+      let attr = patterns.attributes[key]
 
       //you can get both first and second part of the attr
       if (!result && attr.regex.test(text)) {
@@ -388,39 +417,25 @@ function parse (text) {
     return result
   }
 
-  function isFlow (line, type = false) {
-    let matches = false
-
-    if (type) {
-      matches = patterns.flow[type].regex.test(line)
-    } else {
-      Object.keys(patterns.flow).forEach(key => {
-        let attr = patterns.flow[key]
-
-        if (attr.regex.test(line.text)) {
-          matches = true
-        }
-      })
-    }
-    return matches
+  //done 100%
+  function isBlock (line) {
+    return Object.keys(patterns.blocks).includes(line.type)
   }
 
-  //type is patterns.blocks etc object of parent
-  function isBlock (line, type = false) {
-    let matches = false
+  function parseBlock (line) {
+    const text = line.text
+    const regex = patterns.blocks[line.type]
 
-    if (type) {
-      matches = patterns.blocks[type].regex.test(line)
+    if (regex && regex.test(text)) {
+      const match = text
+        .match(regex)
+        .slice(1)
+        .filter(m => m)
     } else {
-      Object.keys(patterns.blocks).forEach(key => {
-        let block = patterns.blocks[key]
-
-        if (block.regex.test(line.text)) {
-          matches = true
-        }
-      })
+      throw Error(
+        `"${line.text}" of type "${line.type}" did not match ${regex}`
+      )
     }
-    return matches
   }
 
   function isValidSubblock (line, type) {
@@ -430,8 +445,6 @@ function parse (text) {
         .map(child => child.trim())
         .filter(child => child)
     )
-
-    //console.log(allowed)
 
     allowed.forEach(path => {
       let line_type = getPatternType('line')
@@ -446,33 +459,31 @@ function parse (text) {
   // first line is always the head of the block, index is based on first indented line
   //error on wrong input :)
   //{ fileLine: 0, indent: 0, text: 'character d is', index: 0 } -> nextBlockLine,  startLine required
-  function getRawBlock (startLine, nextBlockLine) {
+  function getRawBlock (startLine) {
     let result = []
 
     //slice lines from startBlock to endBlock
-    if (nextBlockLine) {
-      result = lines.slice(startLine.index, nextBlockLine.index) //exit
-    } else {
+    {
       let nextLine = lines[startLine.index + 1] //next line relative to start
 
       if (nextLine) {
         //whatever state state: single line block retrns itself
         if (nextLine.indent == startLine.indent) {
           //exit
-          result = [startLine]
+          compileError('emptyBlock', startLine)
         }
 
         //error state: trying to get block from a nonheader
         else if (nextLine.indent < startLine.indent) {
-          //console.log(startLine)
-          throw Error('^^^ <- line is not head: cant get Block!')
+          //console.log(startLinet
+          compileError('wrongIndent', nextLine, ' < ' + startLine.indent)
         }
         // = is nextline.indent > startline.index
         else {
           let firstBlock = true //TODO: this is such a bad solution but im high and i wanna be done with this
           let indentedBlock = lines.slice(nextLine.index).filter(line => {
             //
-            if (firstBlock && line.indent == nextLine.indent) {
+            if (firstBlock && line.indent >= nextLine.indent) {
               return true
             } else {
               firstBlock = false
@@ -488,6 +499,35 @@ function parse (text) {
     }
 
     return result
+  }
+
+  //abovefunction hint hint
+  function getRawChildBlocks (rawblock = []) {
+    //array of arrays
+    const childBlocks = []
+
+    //start
+    const parentRaw = rawblock[0]
+    //console.log(rawblock)
+
+    const childrenRaw = rawblock.slice(1)
+
+    //cant have empty chapters... and peace of mind
+
+    const baseIndent = parentRaw.indent //base indent
+    const blockIndent = childrenRaw[0].indent //expecte indent of rest of block
+
+    childrenRaw.forEach(current => {
+      //if current is block - nice
+      if (isBlock(current) && current.indent == blockIndent) {
+        childBlocks.push(getRawBlock(current))
+      }
+    })
+
+    // console.log(`${parentRaw.type} has `)
+
+    //console.log(childBlocks.length)
+    return childBlocks
   }
 
   //sets json t
@@ -511,8 +551,13 @@ function parse (text) {
     //console.log(references)
   }
 
-  function compileError (type, errorLine, causingLine, ...fillers) {
-    const messages = [`Error when compiling on line: ${errorLine}: "${causingLine}"`]
+  //use when the USER wrote the script wrong
+  function compileError (type, line, ...info) {
+    const errorLine = line.fileLine
+    const causingLine = line.text
+    const messages = [
+      `Error when compiling on script line: ${errorLine}: "${causingLine}"`
+    ]
     //types: match, invalidCharacters, redeclarationScene, redeclarationChapter, ,
     switch (type) {
       case 'notKnownPattern':
@@ -520,16 +565,104 @@ function parse (text) {
 
         break
       case 'requiredAttr':
-        messages.push(
-          `Attributte ${fillers[0]} is required for type ${fillers[1]}`
-        )
+        messages.push(`Attributte ${info[0]} is required for type ${line.type}`)
         break
+
+      case 'emptyBlock':
+        messages.push(`Block "${line.type}" can't be empty!`)
+        break
+
+      case 'wrongIndent':
+        messages.push(
+          `Wrong Indentation! Expected: ${info[0]}, Got: ${line.indent}`
+        )
 
       default:
         break
     }
 
+    messages.push('\n')
+
     throw new Error(messages.join('\n'))
+  }
+
+  //DO NOT USE OR MOIFY ------------------------------------- use line.type instead <= bad practice whatever
+
+  // --------------=============================== validation functions
+
+  //done
+  function _isDialogue (line) {
+    return patterns.dialogue.regex.test(line)
+  }
+
+  function _isAction (line, type = false) {
+    let matches = false
+
+    if (type) {
+      if (patterns.actions[type].regex.test(line)) {
+        matches = true
+      }
+    } else {
+      Object.keys(patterns.actions).forEach(key => {
+        let attr = patterns.actions[key]
+
+        if (attr.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
+  }
+
+  function _isAttribute (line, type = false) {
+    let matches = false
+
+    if (type) {
+      matches = patterns.attributes[type].regex.test(line)
+    } else {
+      Object.keys(patterns.attributes).forEach(key => {
+        let attr = patterns.attributes[key]
+
+        if (attr.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
+  }
+  function _isFlow (line, type = false) {
+    let matches = false
+
+    if (type) {
+      matches = patterns.flow[type].regex.test(line)
+    } else {
+      Object.keys(patterns.flow).forEach(key => {
+        let attr = patterns.flow[key]
+
+        if (attr.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
+  }
+
+  //type is patterns.blocks etc object of parent
+  function _isBlock (line, type = false) {
+    let matches = false
+
+    if (type) {
+      matches = patterns.blocks[type].regex.test(line)
+    } else {
+      Object.keys(patterns.blocks).forEach(key => {
+        let block = patterns.blocks[key]
+
+        if (block.regex.test(line.text)) {
+          matches = true
+        }
+      })
+    }
+    return matches
   }
 }
 // Function to parse the custom text format
@@ -577,6 +710,7 @@ function parseTextToJSON (text) {
   return Characters
 }
 
+//from string to String
 function capt (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
