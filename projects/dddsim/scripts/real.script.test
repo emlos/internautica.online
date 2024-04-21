@@ -14,7 +14,7 @@ character r is
     defaultEmotion is neutral #if no emotion specified when talking
 
 Chapter first_chapter is
-    title is The Old Road
+    title is Title of First Chapter
     #order is 1 #works like z index or sequence in apex if not set: file order
 
     #start required

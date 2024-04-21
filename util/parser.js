@@ -49,23 +49,23 @@ function parse (text) {
         expectedChildren: ['attributes.valueIs', 'attributes.valuesAre']
       },
       chapter: {
-        regex: /^chapter+\s*\w+\s*is*$/,
+        regex: /^chapter+\s*(\w+)\s*is*$/,
         expectedChildren: ['attributes.valueIs', 'blocks.scene']
       },
       scene: {
-        regex: /^scene+\s*\w+\s*is*$/,
+        regex: /^scene+\s*(\w+)\s*is*$/,
         expectedChildren: ['attributes.valueIs', 'dialogue', 'actions', 'flow']
       }
     },
     flow: {
       if: {
-        regex: /^if\s+\w+(\s+(?:and|or)\s+\w+)*$/,
+        regex: /^if\s+(\w+)*$/,
         expectedChildren: ['actions', 'dialogue']
       }
     },
     attributes: {
       valueIs: {
-        regex: /^\s*(\w+)\s+is\s+((?:\w+\s*)+)$/,
+        regex: /^\s*(\w+)\s+is\s+(.+)$/,
         expectedChildren: null
       },
       valuesAre: {
@@ -79,7 +79,7 @@ function parse (text) {
       }
     },
     dialogue: {
-      regex: /^\s*\w+\s*:\s*[^:\s].*$/,
+      regex: /^\s*(\w+)\s*:\s+(.+)$/,
       expectedChildren: ['attributes.choice']
     },
     actions: {
@@ -89,7 +89,8 @@ function parse (text) {
         expectedChildren: null
       },
       hide: {
-        regex: /^hide\s+\w+(\s*,\s*\w+)*$/,
+        regex:
+          /^hide\s+([\w]+\s*(?:\s[\w]+)?\s*(?:,\s*[\w]+\s*(?:\s[\w]+)?\s*)*)$/,
         expectedChildren: null
       },
       go: {
@@ -97,11 +98,12 @@ function parse (text) {
         expectedChildren: null
       },
       set: {
-        regex: /^set\s+\w+(\s*,\s*\w+)*$/,
+        regex:
+          /^set\s+([\w]+\s*(?:\s[\w]+)?\s*(?:,\s*[\w]+\s*(?:\s[\w]+)?\s*)*)$/,
         expectedChildren: null
       },
       input: {
-        regex: /^\s*input\s+into\s+(\w+.\w+)+$/,
+        regex: /^input\s+into\s+(\w+)$/,
         expectedChildren: null
       }
     }
@@ -114,6 +116,7 @@ function parse (text) {
     characters: {}
   }
 
+  //allowed to be referenced?
   const outData = {}
 
   //all lines sanitized
@@ -122,9 +125,9 @@ function parse (text) {
   parseCharacters(lines)
   parseChapters(lines)
 
-  //console.log(JSON.stringify(outData))
+  console.log(JSON.stringify(outData))
 
-  // console.log(JSON.stringify(references))
+  //console.log(JSON.stringify(references))
 
   //helper functions--------------------------------------------------------------------------
 
@@ -214,19 +217,8 @@ function parse (text) {
     })
 
     //narrator and player always availabale in out code
-    characterDataOut['Player'] = {
-      name: 'placeholder',
-      sprites: null
-    }
-
-    characterDataOut['Narrator'] = {
-      name: 'Narrator',
-      sprites: null
-    }
 
     setOutput('characters', characterDataOut)
-
-    //console.log(lines)
 
     //const characterBlocks = getBlocks(lines, ...characterLines);
   }
@@ -234,7 +226,7 @@ function parse (text) {
   function makeCharacter (line) {
     const block = getRawBlock(line)
 
-    const id = regexFromLine(block[0], patterns.blocks.character.regex)[1] //second is first aka onlymatch
+    const id = parseBlockId(block[0], patterns.blocks.character.regex) //second is first aka onlymatch
     //all remainaining lines
 
     const attributes = {}
@@ -242,7 +234,10 @@ function parse (text) {
     block.slice(1).forEach(attr => {
       const kv = parseAttribute(attr) //TODO: isValidSubblock validation or something
 
-      attributes[kv[0]] = kv[1]
+      const key = kv[0]
+      const value = kv[1]
+
+      attributes[key] = value
     })
 
     return {
@@ -253,67 +248,356 @@ function parse (text) {
 
   function parseChapters (lines = []) {
     //make references from
-    const characterDataIn = lines
+    const chaptersData = lines
       .filter(line => line.indent == 0) //chapters are always level 0
       .filter(line => line.type === 'chapter') //needs to be a chapter block
       //assign chapters to be parsed into scenes
       .map(line => {
-        //console.log(line)
+        let currentChapter = {
+          scenes: [],
+          id: '',
+          order: -1,
+          title: '',
+          start: ''
+        }
+
+        //cosole
         let scenes = makeScenes(line) //make scenes belonging to this chapter
+        currentChapter.scenes = scenes
 
-        // let currentChapter = makeChapter(scenes) //[id, attr, scenes]
-        //  setReference('chapters', currentChapter.id, currentChapter.attr)
+        let id = parseBlockId(line, patterns.blocks.chapter.regex)
+        currentChapter.id = id
 
-        return line // currentChapter
+        let attr = getRawBlock(line)
+        let expectedIndent = attr[1].indent
+        //console.log(attr)
+        attr = attr.filter(l => isAttribute(l) && l.indent == expectedIndent)
+
+        attr.forEach(a => {
+          // console.log(a)
+          const parsed = parseAttribute(a)
+          const at = parsed[0]
+          const value = parsed[1]
+
+          currentChapter[at] = value
+        })
+
+        if(!currentChapter["start"]) {
+          currentChapter["start"] = scenes[0].id
+          
+        }
+        //console.log(currentChapter)
+        // setReference('chapters', currentChapter.id, currentChapter.attr)
+
+        return currentChapter // currentChapter
       })
 
-    const characterDataOut = characterDataIn.map(character => {
-      //  let title = character.attr.title
-      //let id = character.attr.id
-    })
+    // console.log(chaptersData)
 
-    //setOutput('chapters', characterDataOut)
+    setOutput('chapters', chaptersData)
   }
-
-  function makeChapter (line, scenes) {}
 
   //returns array of scenes {id, attr, dialogues}
   function makeScenes (line) {
-    //console.log(line)
+    const parent = parseBlockId(line, patterns.blocks.chapter.regex)
+
     const rawChapterBlock = getRawBlock(line) //chapter as lines
     const scenes = getRawChildBlocks(rawChapterBlock).map(scene =>
-      makeScene(scene)
+      //  console.log(scene)
+      makeScene(scene, parent)
     )
-
-    //console.log(rawChapterBlock)
 
     return scenes
   }
 
-  function makeScene (sceneLines) {
-    // console.log(sceneLines)
-    const id = regexFromLine(sceneLines[0], patterns.blocks.scene.regex)[1]
+  function makeScene (sceneLines = [], parentId) {
+    const id = parseBlockId(sceneLines[0], patterns.blocks.scene.regex)
     const children = sceneLines.slice(1)
 
-    const scene = { id: '', attr: {}, dialogue: [] } //output
+    const scene = { id: id, dialogues: [], parentChapter: parentId } //output
 
-    const attributes = {}
-
+    //attributes of scene ============
+    let attrs = true // lazy workaround for having the attribures be the first thing ever
     children.forEach(line => {
-      if (isAttribute(line)) {
-        const kv = parseAttribute(line) //TODO: isValidSubblock validation or something
+      const type = line.type
 
-        scene.attr[kv[0]] = kv[1]
+      if (attrs && isAttribute(line)) {
+        const kv = parseAttribute(line)
+        const key = kv[0]
+        const value = kv[1]
+
+        scene[key] = value
+      } else {
+        attrs = false
       }
     })
 
-    console.log(scene)
+    //required attrs
+
+    if (!scene['background']) {
+      scene['background'] = null
+    }
+
+    if (!scene['order']) {
+      //TODO: ordering algorithm
+    }
+    
+
+    //dialogue of scene -----------=====================================
+
+    scene.dialogues = makeDialogue(sceneLines)
+
+    //	console.log(scene);
 
     return scene
   }
 
-  function regexFromLine (line, regex) {
-    return line.text.split(regex)
+  function makeDialogue (sceneLines = []) {
+    const firstDialogueStartIndex = sceneLines.findIndex(
+      line => line.type == 'dialogue'
+    )
+
+    const rawLines = sceneLines.slice(firstDialogueStartIndex) //lines are just all dialogue
+
+    const dialogue = makeDialogueLines(rawLines)
+
+    //console.log(rawLines)
+
+    return dialogue
+  }
+
+  function makeDialogueLines (lines = []) {
+    // console.log(lines)
+    const dialogueTemplate = {
+      text: '',
+      speaking: '',
+      characters: null,
+      input: null,
+      choices: null,
+      background: null,
+      conditions: null, //required for dialogue shown
+      flags: null, //set when dialogue shown
+      goto: null
+    }
+
+    const dialogues = [] //dinal array
+
+    var dialogue = null
+    const status = {
+      currentLine: 0,
+      baseIndent: -1,
+      //runtime
+      choices: [],
+      currentChoice: {},
+      showing: [], //characters on screen
+      background: null, //current bg
+      conditions: [], //in how many ifs you are, idex: 'condition'
+      inChoice: false,
+      inIf: false
+    }
+
+    //whatever idgaf this needs to get DONE
+    while (true) {
+      let line = lines[status.currentLine]
+      //	console.log(line);
+
+      switch (line.type) {
+        case 'dialogue':
+          //1. start fresh
+          if (dialogue) {
+            //finish prev choice to be with rpevious dialogue
+            if (status.inChoice) dialogue.choices.push(status.currentChoice)
+            dialogues.push(dialogue)
+          }
+          dialogue = structuredClone(dialogueTemplate)
+
+          //2. set previously queued data
+          //shown characters from previous line (cheezy)
+          status.showing.forEach(ref => {
+            let character = getReference('characters', ref)
+            dialogue.characters.push(character)
+          })
+          //prev background if set
+          dialogue.background = status.background
+
+          //3. get new data
+          let diag = parseDialogue(line)
+          let speaker = diag[0]
+          let text = diag[1]
+
+          dialogue.text = text
+
+          //4. apply conditions
+          if (line.indent == status.baseIndent) {
+            //no ident means its choice
+            status.inIf = false
+            status.conditions = []
+          }
+          if (!status.inIf) status.baseIndent = line.indent
+
+          if (status.inIf) dialogue.conditions = status.conditions.slice(0)
+          dialogue.speaking = getReference('characters', speaker).name
+
+          status.inChoice = false
+          status.currentChoice = null
+          status.currentLine++
+          break
+
+        case 'show':
+          if (!status.inChoice) {
+            let toShow = parseDialogue(line)[0]
+            //reson for doing this in this order: things happen like the script writer expects ig to
+            //add new characters
+            toShow.forEach(ref => {
+              //duplicates
+              if (!status.showing.includes(ref)) {
+                status.showing.push(ref)
+              }
+            })
+            //  console.log(line)
+          }
+          status.currentLine++
+          break
+
+        case 'hide':
+          if (!status.inChoice) {
+            let toHide = parseDialogue(line)[0]
+
+            //remove values to hide
+            toHide.forEach(ref => {
+              let i = status.showing.indexOf(ref)
+
+              if (i > -1) status.showing.splice(i, 1)
+            })
+          }
+          status.currentLine++
+          break
+
+        case 'go':
+          let destination = parseDialogue(line)[0][0]
+          if (!status.inChoice) {
+            dialogue.goto = destination
+          } else {
+            status.currentChoice.goto = destination
+          }
+          status.currentLine++
+          break
+
+        case 'valueIs':
+          if (!status.inChoice) {
+            let parsed = parseAttribute(line)
+            let attr = parsed[0]
+            let value = parsed[1]
+
+            if (attr.toLowerCase() == 'background') {
+              if (value == 'none') status.background = null
+              else status.background = backgroundsrc + value
+            }
+          }
+
+          status.currentLine++
+          break
+
+        case 'set':
+          let flags = parseDialogue(line)[0]
+          if (!status.inChoice) {
+            dialogue.flags = flags
+          } else {
+            status.currentChoice.flags = flags
+          }
+          status.currentLine++
+          break
+
+        case 'input':
+          if (!status.inChoice) {
+            let input = parseDialogue(line)[0][0]
+            dialogue.input = input
+          }
+          status.currentLine++
+          break
+
+        case 'choice':
+          //means previous choice is done
+          if (status.inChoice) dialogue.choices.push(status.currentChoice)
+
+          status.inChoice = true
+
+          let choice = {
+            text: '',
+            flags: [],
+            goto: ''
+          }
+
+          let choiceText = parseDialogue(line)[0][0]
+          choice.text = choiceText
+
+          status.currentChoice = choice
+          status.currentLine++
+          break
+
+        case 'if':
+          //unavalable inchoice
+          if (!status.inChoice) {
+            status.inIf = true
+
+            let flag = parseDialogue(line)[0]
+            status.conditions = [flag]
+          }
+          status.currentLine++
+          break
+
+        default:
+          status.currentLine++
+      }
+
+      //   console.log(status)
+
+      //cleanup
+      //if last dialogue
+      if (status.currentLine == lines.length) {
+        //missing gotos
+        if (!dialogue.goto) dialogue.goto = 'end'
+
+        //final visible/invisible characters
+        status.showing.forEach(ref => {
+          let character = getReference('characters', ref)
+          //		dialogue.characters.push(character);
+        })
+
+        if (status.currentChoice && status.inChoice) {
+          dialogue.choices.push(status.currentChoice)
+        }
+
+        //background
+        dialogue.background = status.background
+
+        //final dialogue push
+        dialogues.push(dialogue)
+
+        //end loop
+        break
+      }
+    }
+
+    dialogues.forEach(d => {
+      //	console.log(d.text);
+      //	console.log(d.choices);
+    })
+
+    //  console.log(dialogues)
+    //  console.log(lines)
+
+    return dialogues
+  }
+
+
+  //done
+  function parseBlockId (line, regex) {
+    const text = line.text.toLowerCase()
+
+    const match = text.match(regex).slice(1, 2)[0]
+
+    return match
   }
 
   //done
@@ -347,7 +631,58 @@ function parse (text) {
 
     if (_isDialogue(text)) return 'dialogue'
 
-    compileError('notKnownPattern', line.fileLine)
+    compileError('notKnownPattern', line)
+  }
+
+  //dialogue AND actions AND choice AND
+  function isDialogue (line) {
+    const type = line.type
+
+    return (
+      type == 'dialogue' || isFlow(line) || isAction(line) || type == 'choice'
+    )
+  }
+
+  function parseDialogue (line) {
+    const text = line.text.trim()
+    const type = line.type
+    let regex = false
+
+    if (type == 'dialogue') regex = patterns.dialogue.regex
+    if (type == 'choice') regex = patterns.attributes.choice.regex
+    if (patterns.actions[line.type]) regex = patterns.actions[line.type].regex
+    if (patterns.flow[line.type]) regex = patterns.flow[line.type].regex
+
+    if (!regex) {
+      console.log(line)
+      throw Error('cant match dialogue!')
+    }
+
+    if (regex.test(text)) {
+      const match = text
+        .match(regex)
+        .slice(1) // [string, ...matches] -> [...matches]
+        .filter(m => m)
+        .map(m => m.trim())
+
+      if (type == 'dialogue' || type == 'if') {
+        //TODO: check if character exists in references
+      } else {
+        //return the parameters
+        match[0] = match[0]
+          .split(',')
+          .filter(match => match)
+          .map(m => m.trim())
+
+        //if (match[0].length == 1) match[0] = match[0][0]
+      }
+
+      match.slice(0, 2) //cleanup
+
+      //console.log(match)
+
+      return match
+    }
   }
 
   //done
@@ -356,7 +691,7 @@ function parse (text) {
   }
 
   function parseAttribute (line) {
-   // console.log(line)
+    // console.log(line)
     const text = line.text.trim()
 
     const regex = patterns.attributes[line.type].regex //ading type made this SO much easier holy shit
@@ -369,23 +704,19 @@ function parse (text) {
 
       if (line.type == 'choice') {
         match[1] = match[0]
-      
+
         match[0] = 'choice'
-        
       } else {
         match[0] = match[0].trim() //first match is always variable name... or
         match[1] = match[1].split(',').map(m => m.trim())
       }
 
-    
-
       //if its NOT an array
       if (match[1].length == 1 && line.type !== 'valuesAre') {
         match[1] = match[1][0] //[element] -> element
-      } 
+      }
 
       match.slice(0, 2) //everything else after the second one doesnt onterest us for attributes
-
 
       return match
     }
@@ -415,6 +746,16 @@ function parse (text) {
     }
 
     return result
+  }
+
+  //done
+  function isFlow (line) {
+    return Object.keys(patterns.flow).includes(line.type)
+  }
+
+  //done
+  function isAction (line) {
+    return Object.keys(patterns.actions).includes(line.type)
   }
 
   //done 100%
@@ -502,6 +843,7 @@ function parse (text) {
   }
 
   //abovefunction hint hint
+  //results in array of arrays of lines
   function getRawChildBlocks (rawblock = []) {
     //array of arrays
     const childBlocks = []
@@ -537,18 +879,38 @@ function parse (text) {
     //console.log(outData)
   }
 
+  function getOutput (filename) {
+    return outData[filename]
+  }
+
   //type: char, id: char, infor: {}
-  function setReference (type, id, info) {
-    if (type && id && info) {
+  function setReference (type, id, value) {
+    if (type && id && value) {
       if (!references[type.toLowerCase()]) {
         references[type.toLowerCase()] = {}
       }
 
-      references[type.toLowerCase()][id] = info
+      //TODO: pass line object too? if(references[type.toLowerCase()][id]) compileError("duplicate reference")
+      references[type.toLowerCase()][id] = value
       //TODO: id restricted words etc etc
     } else throw Error('compiler doesnt know what the reference is its setting')
 
     //console.log(references)
+  }
+
+  function getReference (type, id) {
+    // console.log(id)
+    if (references[type]) {
+      if (references[type][id]) {
+        return references[type][id]
+      } else {
+        console.log('cant access reference: no id: ' + id)
+        //compileError('badReference') todo as above
+      }
+    } else {
+      console.log('cant access reference: no type: ' + type)
+      //compileError('badReference') todo as above
+    }
   }
 
   //use when the USER wrote the script wrong
@@ -561,7 +923,7 @@ function parse (text) {
     //types: match, invalidCharacters, redeclarationScene, redeclarationChapter, ,
     switch (type) {
       case 'notKnownPattern':
-        messages.push(`Unrecognized pattern for`)
+        messages.push(`Line "${causingLine}" doesn't match any pattern!`)
 
         break
       case 'requiredAttr':
@@ -713,4 +1075,32 @@ function parseTextToJSON (text) {
 //from string to String
 function capt (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+//ignore this idgaf anympre
+function getDialogueBlocks (arr) {
+  const result = []
+  let temp = []
+
+  arr.forEach(item => {
+    // Check if the current item is a 'dialogue'
+    if (item.type === 'dialogue') {
+      // If temp is not empty, push it to result (except for the first encounter)
+      if (temp.length > 0) {
+        result.push(temp)
+      }
+      // Start a new temp array including the current 'dialogue' item
+      temp = [item]
+    } else {
+      // For non-'dialogue' items, just add them to the current temp
+      temp.push(item)
+    }
+  })
+
+  // After the loop, push any remaining items to result
+  if (temp.length > 0) {
+    result.push(temp)
+  }
+
+  return result
 }
