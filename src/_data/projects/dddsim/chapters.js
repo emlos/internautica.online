@@ -983,5 +983,6 @@ const game = {
 
 module.exports = {
   gameName: 'Heart of Darkness: A DD1 Dating Sim',
+  background: '/images/projects/dddsim/backgrounds/main.png',
   chapters: game.chapters
 }

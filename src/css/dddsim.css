@@ -33,6 +33,13 @@
 	background-color: black;
 }
 
+.dddsim-main-title {
+	font-family: "Dwarvenaxe", sans-serif !important;
+	font-size: 6rem;
+	-webkit-text-stroke: 2px black;
+
+}
+
 .dddsim-scene {
 	position: relative;
 	height: 80vh;
@@ -356,6 +363,7 @@ button:active {
 
 .disabled {
 	cursor: not-allowed;
+	pointer-events: none;
 }
 
 .disabled:hover {

@@ -21,7 +21,13 @@ const HTML = {
   textbox: document.createElement('div'),
   nametag: document.createElement('div'), //inside the talk-panel
   text: document.createElement('p'), //inside the talk-panel
-  menu: document.createElement('div'), //inside the talk-panel
+  menu: {
+    panel: document.createElement('div'),
+    start: document.createElement('button'),
+    save: document.createElement('button'),
+    load: document.createElement('button'),
+    back: document.createElement('button')
+  }, //inside the talk-panel
   nextbutton: document.createElement('button'), //inside the talk-panel
   optionsbutton: document.createElement('button'), //inside the talk-panel
   inputpanel: document.createElement('div'),
@@ -43,7 +49,13 @@ function init () {
   HTML.characters = document.getElementById('sprite-panel')
   HTML.choices = document.getElementById('choice-panel')
   HTML.text = document.getElementById('line')
-  HTML.menu = document.getElementById('game-menu')
+  //menu
+  HTML.menu.panel = document.getElementById('game-menu')
+  HTML.menu.start = document.getElementById('dddsim-start-menu-item')
+  HTML.menu.save = document.getElementById('dddsim-save-menu-item')
+  HTML.menu.load = document.getElementById('dddsim-load-menu-item')
+  HTML.menu.back = document.getElementById('dddsim-back-menu-item')
+
   HTML.nextbutton = document.getElementById('next-line-button')
   HTML.optionsbutton = document.getElementById('options-button')
   HTML.inputpanel = document.getElementById('input-textbox-panel')
@@ -58,16 +70,11 @@ function init () {
 
   //console.log(html);
 
-  //loadMainMenu()
+  loadMainMenu()
 
-  //loadSaves()
+  loadSideMenu()
 
-  showTitle(CURRENT.chapter.title)
-
-  //start chapter
-  registerButtonClick(function () {
-    start(CURRENT.chapter.start)
-  })
+  loadSaves()
 }
 
 function start (scene_id) {
@@ -94,6 +101,39 @@ function start (scene_id) {
   //continue here
 }
 
+function loadMainMenu () {
+  hideAll()
+  display(HTML.inputpanel, 'none')
+  changeBackground(HTML.background, Story.background)
+  setTextbox('')
+
+  const title = document.createElement('h2')
+  title.classList.add('dddsim-main-title')
+  title.innerHTML = Story.gameName
+
+  HTML.choices.appendChild(title)
+  show(HTML.choices, HTML.textbox, HTML.menu.panel)
+}
+
+function loadSideMenu () {
+  enableMenu()
+  disableButton(HTML.menu.back)
+
+  //when start clicked
+  registerButtonClick(() => {
+    showTitle(CURRENT.chapter.title)
+    //start chapter
+    registerButtonClick(function () {
+      start(CURRENT.chapter.start)
+    })
+
+    registerButtonClick(() => {
+      console.log("confirm restart?")
+      //confirmRestart()
+    }, HTML.menu.start)
+  }, HTML.menu.start)
+}
+
 function showTitle (title) {
   hide(
     HTML.characters,
@@ -103,7 +143,7 @@ function showTitle (title) {
     HTML.optionsbutton
   )
 
-  show(HTML.textbox, HTML.nextbutton, HTML.background, HTML.menu)
+  show(HTML.textbox, HTML.nextbutton, HTML.background, HTML.menu.panel)
   display(HTML.inputpanel, 'none')
 
   changeBackground(HTML.background) //turn bg to black
@@ -123,7 +163,7 @@ function loadDialogue (dialogue) {
 
   //console.log(dialogue)
 
-  show(HTML.nextbutton, HTML.optionsbutton, HTML.menu)
+  show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel)
 
   if (dialogueValid(dialogue.conditions)) {
     loadDialogueBackground(dialogue.background)
@@ -170,7 +210,7 @@ function loadDialogueCharacters (characters, speaking) {
     let character = document.createElement('div')
     character.classList.add('dddsim-sprite')
     if (cName === speaking) character.classList.add('talking')
-    
+
     changeBackground(character, sprite)
 
     HTML.characters.appendChild(character)
@@ -178,7 +218,6 @@ function loadDialogueCharacters (characters, speaking) {
 }
 
 function loadDialogueBackground (background) {
-
   if (background) {
     changeBackground(HTML.background, background)
   } else {
@@ -190,7 +229,7 @@ function loadDialogueBackground (background) {
 }
 
 function loadDialogueText (text) {
-  show(HTML.menu)
+  show(HTML.menu.panel)
   show(HTML.textbox)
   show(HTML.nametag)
 
@@ -410,7 +449,7 @@ function endChapter () {
     init()
   } else {
     show(HTML.textbox)
-    show(HTML.menu)
+    show(HTML.menu.panel)
     setTextbox('The End <3')
     //console.log("no more chapters")
   }
@@ -596,7 +635,7 @@ function hideAll () {
     HTML.nametag,
     HTML.characters,
     HTML.choices,
-    HTML.menu,
+    HTML.menu.panel,
     HTML.textbox,
     HTML.nextbutton,
     HTML.optionsbutton,
@@ -669,7 +708,9 @@ function setNametag (name) {
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever
 
 function disableMenu () {
-  const menuitems = HTML.menu.querySelectorAll('.dddsim-talkbox-menu-item')
+  const menuitems = HTML.menu.panel.querySelectorAll(
+    '.dddsim-talkbox-menu-item'
+  )
 
   menuitems.forEach(button => {
     disableButton(button)
@@ -677,7 +718,9 @@ function disableMenu () {
 }
 
 function enableMenu () {
-  const menuitems = HTML.menu.querySelectorAll('.dddsim-talkbox-menu-item')
+  const menuitems = HTML.menu.panel.querySelectorAll(
+    '.dddsim-talkbox-menu-item'
+  )
 
   menuitems.forEach(button => {
     enableButton(button)
