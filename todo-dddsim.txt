@@ -1,7 +1,7 @@
 features for demo: 1.0: co można pokazać ludziom;
 
 - *good looking* placeholer graphics
-- barebones script parser
+            - barebones script parser
 - go back and rules surrouning that (renpy style?)
 - emotional sprites
 - save/load game screen

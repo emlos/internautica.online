@@ -19,7 +19,7 @@ Chapter first_chapter is
 
     #start required
     Scene start is # needs to be unique
-        background is Ruins #relative to src, case insensitive
+        background is intro-broken-carriage.png #relative to src, case insensitive
 
         #N and P is built in
         N: Ruin has come to our family.
@@ -41,7 +41,7 @@ Chapter first_chapter is
         # all shown characters automatically hidden here
 
     Scene ambush_hid is
-        background is introcarriage
+        background is intro-broken-carriage.png
 
         N: You hear shouts as you crawl into your stagecoach
         N: Looking out, you see your guards draw their weapons.
@@ -98,7 +98,7 @@ Chapter first_chapter is
             N: You can't be sure but he sounds like he's smiling under all that armor.
 
             r: We need to make haste. 'Tis a few hour's walk til we reach the estate, we must march swiftly.
-        
+        background is intro-view-town.png
         N: In the end, blades glinting, guns blazing, your two companions managed to fend off the bringand's ambuscade.
         N: As dawn broke, you took the trek to the estate, protected by light and darkness alike.
 

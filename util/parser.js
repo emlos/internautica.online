@@ -125,7 +125,7 @@ function parse (text) {
   parseCharacters(lines)
   parseChapters(lines)
 
-  console.log(JSON.stringify(outData))
+   console.log(JSON.stringify(outData))
 
   //console.log(JSON.stringify(references))
 
@@ -177,6 +177,21 @@ function parse (text) {
       //assign blocks to be parsed into json
       .map(line => {
         let character = makeCharacter(line)
+
+        let sprites = {}
+
+        character.attr.sprites
+          .map(s => s.toLowerCase())
+          .forEach(sprite => {
+            //  console.log(`${characterssrc}${character.attr.name.toLowerCase()}/${sprite}.png`)
+            sprites[
+              sprite
+            ] = `${characterssrc}${character.attr.name.toLowerCase()}/${sprite}.png`
+          })
+
+        character.attr.sprites = sprites
+        // console.log(character.attr.sprites)
+
         setReference('characters', character.id, character.attr)
         return character
       }) //extract info in json
@@ -191,15 +206,8 @@ function parse (text) {
 
       //explicitly set to null if sprites not present
       if (sprites) {
-        character['sprites'] = {}
-        sprites
-          .map(s => s.toLowerCase())
-          .forEach(sprite => {
-            character.sprites[
-              sprite
-            ] = `${characterssrc}${name.toLowerCase()}/${sprite}.png`
-          })
-        let defaultsprite = raw.attr.defaultemotion
+        character['sprites'] = raw.attr.sprites
+        let defaultsprite = `${characterssrc}${name}/${raw.attr.defaultemotion}.png`
 
         //defaultemotion specified
         if (defaultsprite) {
@@ -282,9 +290,8 @@ function parse (text) {
           currentChapter[at] = value
         })
 
-        if(!currentChapter["start"]) {
-          currentChapter["start"] = scenes[0].id
-          
+        if (!currentChapter['start']) {
+          currentChapter['start'] = scenes[0].id
         }
         //console.log(currentChapter)
         // setReference('chapters', currentChapter.id, currentChapter.attr)
@@ -324,7 +331,11 @@ function parse (text) {
       if (attrs && isAttribute(line)) {
         const kv = parseAttribute(line)
         const key = kv[0]
-        const value = kv[1]
+        let value = kv[1]
+
+        if (key.toLowerCase() == 'background') {
+          value = backgroundsrc + value
+        }
 
         scene[key] = value
       } else {
@@ -341,7 +352,6 @@ function parse (text) {
     if (!scene['order']) {
       //TODO: ordering algorithm
     }
-    
 
     //dialogue of scene -----------=====================================
 
@@ -410,9 +420,10 @@ function parse (text) {
             dialogues.push(dialogue)
           }
           dialogue = structuredClone(dialogueTemplate)
-
+          dialogue.characters = []
           //2. set previously queued data
           //shown characters from previous line (cheezy)
+
           status.showing.forEach(ref => {
             let character = getReference('characters', ref)
             dialogue.characters.push(character)
@@ -518,7 +529,10 @@ function parse (text) {
 
         case 'choice':
           //means previous choice is done
-          if (status.inChoice) dialogue.choices.push(status.currentChoice)
+          if (status.inChoice) {
+            if (!dialogue.choices) dialogue.choices = []
+            dialogue.choices.push(status.currentChoice)
+          }
 
           status.inChoice = true
 
@@ -537,12 +551,18 @@ function parse (text) {
 
         case 'if':
           //unavalable inchoice
-          if (!status.inChoice) {
-            status.inIf = true
-
-            let flag = parseDialogue(line)[0]
-            status.conditions = [flag]
+          //finish up choices, and set up for following to be in if
+          if (status.inChoice) {
+            if (!dialogue.choices) dialogue.choices = []
+            dialogue.choices.push(status.currentChoice)
+            status.inChoice = false
           }
+
+          status.inIf = true
+
+          let flag = parseDialogue(line)[0]
+          status.conditions = [flag]
+
           status.currentLine++
           break
 
@@ -565,6 +585,7 @@ function parse (text) {
         })
 
         if (status.currentChoice && status.inChoice) {
+          if (!dialogue.choices) dialogue.choices = []
           dialogue.choices.push(status.currentChoice)
         }
 
@@ -580,16 +601,15 @@ function parse (text) {
     }
 
     dialogues.forEach(d => {
-      //	console.log(d.text);
-      //	console.log(d.choices);
+      //console.log(d.text)
+     // console.log(d.conditions)
     })
 
-    //  console.log(dialogues)
+    // console.log(dialogues)
     //  console.log(lines)
 
     return dialogues
   }
-
 
   //done
   function parseBlockId (line, regex) {

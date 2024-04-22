@@ -10,6 +10,7 @@
 
 const CURRENT = {
   chapter: Story.chapters[0], //while generating each chapter page fill this into the template via script
+  currentChapter: 0,
   scene: 'some scene id',
   dialogue: 0, //which dialogues[n] index scene is at
   saveSlot: -1
@@ -129,7 +130,7 @@ function loadDialogue (dialogue) {
 
     loadDialogueCharacters(dialogue.characters, dialogue.speaking)
 
-    loadDialogueText(dialogue.text[0])
+    loadDialogueText(dialogue.text)
 
     loadDialogueChoices(dialogue.choices)
 
@@ -169,6 +170,7 @@ function loadDialogueCharacters (characters, speaking) {
     let character = document.createElement('div')
     character.classList.add('dddsim-sprite')
     if (cName === speaking) character.classList.add('talking')
+    
     changeBackground(character, sprite)
 
     HTML.characters.appendChild(character)
@@ -176,8 +178,9 @@ function loadDialogueCharacters (characters, speaking) {
 }
 
 function loadDialogueBackground (background) {
+
   if (background) {
-    changeBackground(HTML.background, dialogue.background)
+    changeBackground(HTML.background, background)
   } else {
     console.log('LOG: dialogue has no background!')
 
@@ -227,16 +230,17 @@ function loadDialogueChoices (choices) {
 function loadInput (dialogueInput) {
   // TODO: name based easter eggs?
   const names = [
-    'Milo',
+    '[Milo]',
     'AM',
     'Zoosmell',
     'Dick Mullen',
     'Jadwiga',
-    'Towarzysz',
+    'Fellow Traveler',
     'Heir',
     'Ebony Way',
     '24601',
-    'Paul Allen', 'Beetlejuice',
+    'Paul Allen',
+    'Beetlejuice'
   ]
 
   //user is supposed to input
@@ -310,7 +314,7 @@ function validateInput () {
   } else if (restrictednames.includes(input)) {
     setTooltip(
       HTML.confirminputbutton,
-      'Hey, ' + input + ' is *my* name! -' + input
+      'Hey, ' + input + ' is *my* name!  -' + input.toUpperCase()[0]
     )
     disableButton(HTML.confirminputbutton)
     return false
@@ -397,7 +401,19 @@ function nextDialogue () {
 }
 
 function endChapter () {
-  console.log('TODO: ending CHapter!')
+  hideAll()
+  if (Story.chapters[CURRENT.currentChapter + 1]) {
+    CURRENT.currentChapter++
+    CURRENT.chapter = Story.chapters[CURRENT.currentChapter]
+    CURRENT.dialogue = 0
+
+    init()
+  } else {
+    show(HTML.textbox)
+    show(HTML.menu)
+    setTextbox('The End <3')
+    //console.log("no more chapters")
+  }
 }
 
 //INTERACTION AND BUTTONS ------------------------------------------
@@ -573,6 +589,19 @@ function hide (...elements) {
   elements.forEach(element => {
     element.style.visibility = 'hidden'
   })
+}
+
+function hideAll () {
+  hide(
+    HTML.nametag,
+    HTML.characters,
+    HTML.choices,
+    HTML.menu,
+    HTML.textbox,
+    HTML.nextbutton,
+    HTML.optionsbutton,
+    HTML.overlay
+  )
 }
 
 function show (...elements) {
