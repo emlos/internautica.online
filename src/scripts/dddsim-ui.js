@@ -15,7 +15,8 @@ const CURRENT = {
   dialogue: 0, //which dialogues[n] index scene is at
   saveSlot: -1,
 
-  openModal: null //which modal is open
+  openModal: null, //which modal is open
+  callbacks: new Map()
 }
 
 //html targets -------------
@@ -45,6 +46,12 @@ const HTML = {
   saves: {
     modal: document.createElement('div'), //saves panel for loading/saving
     slots: document.createElement('div') //container holding the divs for slots directly
+  },
+  popup: {
+    modal:document.createElement('div'),
+    text: document.createElement('p'),
+    okbutton: document.createElement('button'),
+    cancelbutton: document.createElement('button'),
   }
 }
 
@@ -76,6 +83,10 @@ function init () {
   HTML.overlay = document.getElementById('overlay')
   HTML.saves.modal = document.getElementById('saves-panel')
 
+  HTML.popup.modal = document.getElementById('popup')
+  HTML.popup.text = HTML.popup.modal.getElementsByTagName('p')[0]
+  HTML.popup.okbutton =  document.getElementById('popup-ok')
+  HTML.popup.cancelbutton =  document.getElementById('popup-cancel')
   //console.log(html);
 
   loadMainMenu()
@@ -104,7 +115,7 @@ function loadMainMenu () {
 function loadSideMenu () {
   enableMenu()
   disableButton(HTML.menu.back)
-  disableButton(HTML.menu.save) //cant save in main menu
+  // disableButton(HTML.menu.save) //cant save in main menu
 
   //when start clicked
   registerButtonClick(() => {
@@ -201,7 +212,7 @@ function loadDialogue (dialogue) {
 
   //console.log(dialogue)
 
-  show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel)
+  show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel, HTML.textbox)
 
   if (dialogueValid(dialogue.conditions)) {
     loadDialogueBackground(dialogue.background)
@@ -210,13 +221,31 @@ function loadDialogue (dialogue) {
 
     loadDialogueText(dialogue.text)
 
-    loadDialogueChoices(dialogue.choices)
+    loadDialogueChoices(dialogue.choices) //blocking
 
-    loadInput(dialogue.input)
+    loadInput(dialogue.input) //blocking
 
-    handleDialogueGoto()
+    handleDialogueGoto(dialogue.goto) //not blocking but defining
+
+    handleSpaceBehavior(dialogue)
   } else {
     nextDialogue() //load next dialogue next
+  }
+}
+
+function handleSpaceBehavior (dialogue) {
+  console.log('LOG: Setting Space behavior for current dialogue')
+
+  if (dialogue.input || dialogue.choices) {
+    spaceUnbindAll()
+  } else {
+    if (dialogue.goto) {
+      spaceAdvances(0, () => {
+        nextScene(dialogue.goto)
+      }) //space advances to next scene this time
+    } else {
+      spaceAdvances(1, nextDialogue) //default state -> space goes to next dialogue
+    }
   }
 }
 
@@ -324,6 +353,8 @@ function loadInput (dialogueInput) {
   if (dialogueInput) {
     hide(HTML.nextbutton) //can only go next after inputting
     display(HTML.inputpanel, 'flex')
+
+    spaceUnbindAll() //no spacing around when typing
 
     validateInput() //cached textboxes
 
@@ -450,7 +481,8 @@ function choiceRedirects (choice, button) {
 // STORY FLOW-------------- -----------------
 
 function nextScene (scene_id = null) {
-  console.log(scene_id)
+  spaceUnbindAll() //unbind all - will be rebound if necessary
+
   if (scene_id) {
     if (scene_id == 'end') {
       endChapter()
@@ -505,6 +537,7 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
 
   removeClicks(button)
 
+  //function present => new function for nextbutton
   if (callback) {
     registerClicks(button, callback)
   } else {
@@ -546,6 +579,49 @@ function registerInputs (element, ...callbacks) {
       element.id +
       ' on input!'
   )
+}
+
+//space advances dialogue
+
+function spaceAdvances (key, callback) {
+  // Define a wrapper that checks for the 'space' key and executes the callback
+  const wrappedCallback = event => {
+    console.log('LOG: space advancing from function: ' + key)
+    //compat, 229 special code for "IMO" processing
+    //i kinda really wanna get into webdev... who knew
+    if (event.isComposing || event.keyCode === 229 || event.defaultPrevented) {
+      return
+    }
+    // Check if the key is 'space' (key code 32)
+    if (event.keyCode === 32) {
+      callback()
+    }
+  }
+  CURRENT.callbacks.set(key, wrappedCallback)
+
+  // Register the wrapped callback as an event listener for 'keydown'
+  document.addEventListener('keydown', wrappedCallback)
+}
+
+function spaceUnbind (key) {
+  // Retrieve the wrapped callback using the key
+  const callback = CURRENT.callbacks.get(key)
+  if (callback) {
+    // Remove the event listener
+    document.removeEventListener('keydown', callback)
+    // Remove the entry from the map
+    CURRENT.callbacks.delete(key)
+  }
+}
+
+function spaceUnbindAll () {
+  // Iterate through all callbacks in the map
+  CURRENT.callbacks.forEach((callback, key) => {
+    // Remove the event listener for each callback
+    document.removeEventListener('keydown', callback)
+  })
+  // Clear the map after removing all listeners
+  CURRENT.callbacks.clear()
 }
 
 //removes all click listeenrs

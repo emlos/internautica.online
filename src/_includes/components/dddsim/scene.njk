@@ -2,6 +2,11 @@
 <section id="scene-container" class="dddsim-scene">
     <div id="background-panel" class="dddsim-characters">
         <div id="options-button" class="dddsim-options-button disabled"></div>
+		<div id="popup">
+			<p>Popup Text</p>
+			<button id='popup-ok'class='panel enabled'>Ok</button>
+			<button id='popup-cancel'class='panel enabled'>cancel</button>
+		<div>
         <div id="saves-panel" class="dddsim-saves-area">
             <h3 class="title"></h3>
             <button class="close-modal-button close-saves-button"></button>
@@ -16,6 +21,7 @@
                                 maxlength='38'
                                 type='text'
                                 class="save-name-input"
+								autocomplete="off"
                                 placeholder='Click the letter to begin...'
                                 id='save-name-0{{ i }}' value='{{'filename of save' if i%2==0 else ''}}'>
                                 <div class='dddsim-save-info-container'>
@@ -24,7 +30,6 @@
                                     <p>Tue Apr 2{{i}} 2024 14:01:59</p>
                                 </div>
                             </div>
-                            <button class="save-save-button dddsim-save-button"></button>
                             <button class="delete-save-button dddsim-save-button"></button>
                         </div>
                     {% endfor %}

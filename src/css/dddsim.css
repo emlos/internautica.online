@@ -55,7 +55,7 @@
 
 .dddsim-scene {
 	position: relative;
-	height: 80vh;
+	height: 89vh;
 }
 
 .dddsim-options-button {
@@ -189,7 +189,7 @@
 	margin-bottom: 1%;
 }
 
-.dddsim-save-wrapper:hover :not(.dddsim-save-preview) {
+.dddsim-save-wrapper:hover .dddsim-save-background {
 	filter: brightness(1.5);
 }
 
@@ -237,9 +237,12 @@
 	height: calc(6.5vw / 0.934);
 }
 
-.dddsim-saves-area[data-mode="load"] .save-save-button {
-	display: none;
+.dddsim-saves-area[data-mode="save"] .dddsim-save-preview + :has(.save-name-input[value]:not([value=''])) {
+
 }
+
+
+
 
 .dddsim-saves-area[data-mode="save"] .load-save-button {
 	display: none;
@@ -254,15 +257,14 @@
 
 	color: var(--color-save-yellow) !important;
 
-	top: 0%;
-	left: 0%;
-
-	width: 56%;
-	height: calc(47% * 0.75);
+	top: 27%;
+	left: 5%;
+	width: 66%;
+	height: calc(48% * 0.75);
 	transform: scaleY(1.25);
 
 	padding: 1%;
-	padding-left: 5%;
+	padding-left: 3.4%;
 }
 
 .dddsim-saves-area[data-mode="load"] .save-name-input {
@@ -323,9 +325,12 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	height: 30%;
+
+	width: 4%;
 }
 
 .delete-save-button {
+	
 	background-image: url(/images/projects/dddsim/ui/close_button.png);
 }
 
@@ -467,14 +472,7 @@
 	border: none;
 	padding: 0;
 	width: 22.5ch;
-	background: repeating-linear-gradient(
-			90deg,
-			var(--color-gold) 0,
-			var(--color-gold) 1ch,
-			transparent 0,
-			transparent 1.5ch
-		)
-		0 100%/22ch 2px no-repeat;
+	background: repeating-linear-gradient(90deg, var(--color-gold) 0, var(--color-gold) 1ch, transparent 0, transparent 1.5ch) 0 100%/22ch 2px no-repeat;
 	font: 2.5rem "ubuntu-mono-regular", monospace !important;
 	letter-spacing: 0.5ch;
 }
