@@ -13,7 +13,9 @@ const CURRENT = {
   currentChapter: 0,
   scene: 'some scene id',
   dialogue: 0, //which dialogues[n] index scene is at
-  saveSlot: -1
+  saveSlot: -1,
+
+  openModal: null //which modal is open
 }
 
 //html targets -------------
@@ -38,7 +40,12 @@ const HTML = {
   characters: document.createElement('div'),
 
   background: document.createElement('div'), // background IMAGE in div
-  overlay: document.createElement('div')
+  overlay: document.createElement('div'),
+
+  saves: {
+    modal: document.createElement('div'), //saves panel for loading/saving
+    slots: document.createElement('div') //container holding the divs for slots directly
+  }
 }
 
 // INIT----------------------------------
@@ -67,6 +74,7 @@ function init () {
   HTML.background = document.getElementById('background-panel')
 
   HTML.overlay = document.getElementById('overlay')
+  HTML.saves.modal = document.getElementById('saves-panel')
 
   //console.log(html);
 
@@ -74,9 +82,91 @@ function init () {
 
   loadSideMenu()
 
+  loadModals()
+
   loadSaves()
 }
 
+function loadMainMenu () {
+  hideAll()
+  display(HTML.inputpanel, 'none')
+  changeBackground(HTML.background, Story.background)
+  setTextbox('')
+
+  const title = document.createElement('h2')
+  title.classList.add('dddsim-main-title')
+  title.innerHTML = Story.gameName
+
+  HTML.choices.appendChild(title)
+  show(HTML.choices, HTML.textbox, HTML.menu.panel)
+}
+
+function loadSideMenu () {
+  enableMenu()
+  disableButton(HTML.menu.back)
+  disableButton(HTML.menu.save) //cant save in main menu
+
+  //when start clicked
+  registerButtonClick(() => {
+    showTitle(CURRENT.chapter.title)
+    //next starts chapter
+    registerButtonClick(function () {
+      start(CURRENT.chapter.start)
+    })
+
+    //start restarts journey
+    registerButtonClick(() => {
+      if (!isDisabled(HTML.menu.start)) {
+        console.log('confirm restart?')
+        //confirmRestart()
+      }
+    }, HTML.menu.start)
+  }, HTML.menu.start)
+
+  registerButtonClick(() => {
+    if (!isDisabled(HTML.menu.load)) {
+      openModal(HTML.saves.modal)
+      HTML.saves.modal.setAttribute('data-mode', 'load')
+    }
+  }, HTML.menu.load)
+
+  registerButtonClick(() => {
+    if (!isDisabled(HTML.menu.save)) {
+      openModal(HTML.saves.modal)
+      HTML.saves.modal.setAttribute('data-mode', 'save')
+    }
+  }, HTML.menu.save)
+}
+
+function loadModals () {
+  document.querySelectorAll('.close-modal-button').forEach(button => {
+    registerButtonClick(() => {
+      close(CURRENT.openModal)
+    }, button)
+  })
+}
+
+//shows a "title" card
+function showTitle (title) {
+  hide(
+    HTML.characters,
+    HTML.choices,
+    HTML.nametag,
+    HTML.overlay,
+    HTML.optionsbutton
+  )
+
+  show(HTML.textbox, HTML.nextbutton, HTML.background, HTML.menu.panel)
+  display(HTML.inputpanel, 'none')
+
+  changeBackground(HTML.background) //turn bg to black
+
+  disableMenu()
+
+  setTextbox(title)
+}
+
+//starts a scene
 function start (scene_id) {
   console.log('LOG: starting scene: ' + scene_id)
 
@@ -99,58 +189,6 @@ function start (scene_id) {
   loadDialogue(first)
 
   //continue here
-}
-
-function loadMainMenu () {
-  hideAll()
-  display(HTML.inputpanel, 'none')
-  changeBackground(HTML.background, Story.background)
-  setTextbox('')
-
-  const title = document.createElement('h2')
-  title.classList.add('dddsim-main-title')
-  title.innerHTML = Story.gameName
-
-  HTML.choices.appendChild(title)
-  show(HTML.choices, HTML.textbox, HTML.menu.panel)
-}
-
-function loadSideMenu () {
-  enableMenu()
-  disableButton(HTML.menu.back)
-
-  //when start clicked
-  registerButtonClick(() => {
-    showTitle(CURRENT.chapter.title)
-    //start chapter
-    registerButtonClick(function () {
-      start(CURRENT.chapter.start)
-    })
-
-    registerButtonClick(() => {
-      console.log("confirm restart?")
-      //confirmRestart()
-    }, HTML.menu.start)
-  }, HTML.menu.start)
-}
-
-function showTitle (title) {
-  hide(
-    HTML.characters,
-    HTML.choices,
-    HTML.nametag,
-    HTML.overlay,
-    HTML.optionsbutton
-  )
-
-  show(HTML.textbox, HTML.nextbutton, HTML.background, HTML.menu.panel)
-  display(HTML.inputpanel, 'none')
-
-  changeBackground(HTML.background) //turn bg to black
-
-  disableMenu()
-
-  setTextbox(title)
 }
 
 function loadDialogue (dialogue) {
@@ -636,6 +674,7 @@ function hideAll () {
     HTML.characters,
     HTML.choices,
     HTML.menu.panel,
+    HTML.saves.modal,
     HTML.textbox,
     HTML.nextbutton,
     HTML.optionsbutton,
@@ -666,6 +705,28 @@ function disableButton (button) {
 function enableButton (button) {
   button.classList.remove('disabled')
   button.classList.add('enabled')
+}
+
+function isDisabled (button) {
+  return button.classList.contains('disabled')
+}
+//modals like settings,
+function openModal (modal) {
+  CURRENT.openModal = modal
+
+  show(modal)
+  show(HTML.overlay)
+}
+
+function close (modal) {
+  CURRENT.openModal = null
+  hide(modal)
+  hide(HTML.overlay)
+}
+
+function toggle (to_close, to_open) {
+  close(to_close)
+  openModal(to_open)
 }
 
 function changeBackground (element, bg = 'black') {

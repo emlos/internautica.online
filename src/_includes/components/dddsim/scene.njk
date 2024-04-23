@@ -9,10 +9,31 @@
 			id="options-button"
 			class="dddsim-options-button disabled"></div>
 
+		<div
+			id="saves-panel"
+			class="dddsim-saves-area">
+			<h3 class="title"></h3>
+			<button class="close-modal-button close-saves-button"></button>
+
+			<div class="dddsim-saves-container">
+				{% for i in range(0, 8) %}
+
+
+				<div class="dddsim-save-wrapper" data-save='empty'> <!--epty or filled-->
+					<div class='dddsim-save-preview empty-save'></div>
+					<input  type='text' class="save-name-input" placeholder='Click the letter to begin...'></input>
+					<button class="save-save-button"></button>
+					<button class="delete-save-button"></button>
+				
+				</div>
+			
+			{% endfor %}</div>
+		</div>
+
 		<!-- choices via  script -->
 		<div
 			id="choice-panel"
-			class="dddsim-choice-area"></div>
+			class="dddsim-choice-area dddsim-panel"></div>
 
 		<div
 			id="overlay"
@@ -36,14 +57,20 @@
 			<div class="dddsim-talkbox-area">
 				<p id="line">TEXT SPOKEN BY CHARACTER</p>
 				<!-- textinput-->
-				<div id="input-textbox-panel" class="dddsim-talkbox-input dddsim-talkbox-textinput">
-					<button id="random-textinput-button" class="dddsim-input-textrandom enabled"></button>
-					<input 
-						maxlength='15'
+				<div
+					id="input-textbox-panel"
+					class="dddsim-talkbox-input dddsim-talkbox-textinput">
+					<button
+						id="random-textinput-button"
+						class="dddsim-input-textrandom enabled"></button>
+					<input
+						maxlength="15"
 						placeholder="Name..."
 						id="talkbox-text-input"
 						type="text" />
-					<button id="confirm-textinput-button" class="dddsim-input-confirm enabled"></button>
+					<button
+						id="confirm-textinput-button"
+						class="dddsim-input-confirm enabled"></button>
 				</div>
 			</div>
 			<button
