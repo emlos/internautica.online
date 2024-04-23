@@ -6,6 +6,7 @@
 	--color-yellow: #dbb74f;
 	--color-save-yellow: #c8b46e;
 	--color-placeholder-input: #494744;
+	--color-save-grey: rgb(177, 174, 167);
 }
 
 @font-face {
@@ -23,10 +24,6 @@
 	src: url("/fonts/dwarvenaxe.woff") format("woff");
 }
 
-.title {
-	font-family: "Dwarvenaxe", sans-serif !important;
-}
-
 /*styling scenes----------------------------------------------*/
 
 #dddsim-container {
@@ -42,7 +39,18 @@
 .dddsim-main-title {
 	font-family: "Dwarvenaxe", sans-serif !important;
 	font-size: 6rem;
+	font-weight: normal;
 	-webkit-text-stroke: 2px black;
+
+	position: absolute;
+	top: 30%; /* position the top  edge of the element at the middle of the parent */
+	left: 50%; /* position the left edge of the element at the middle of the parent */
+
+	transform: translate(-50%, -50%);
+	text-wrap: nowrap;
+	overflow: visible;
+
+	z-index: 50;
 }
 
 .dddsim-scene {
@@ -63,7 +71,7 @@
 	height: 50px;
 	width: 50px;
 
-	z-index: 55;
+	z-index: 60;
 }
 
 .dddsim-panel {
@@ -107,8 +115,8 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 60vw; /* Adjust as needed */
-	height: calc(60vw / 1.4); /* Maintain 1.4 aspect ratio */
+	width: 70vw; /* Adjust as needed */
+	height: calc(70vw / 1.4); /* Maintain 1.4 aspect ratio */
 
 	z-index: 60;
 }
@@ -126,6 +134,8 @@
 }
 
 .dddsim-saves-area > h3 {
+	font-family: "Dwarvenaxe", sans-serif;
+	font-weight: normal;
 	font-size: 175%;
 	position: absolute;
 
@@ -134,34 +144,73 @@
 }
 
 .dddsim-saves-container {
-	display: flex;
-	flex-direction: column;
-
 	position: absolute;
 
 	width: 66.5%;
 	height: 49%;
 
 	left: 15%;
-	top: 31%;
+	top: 31.5%;
 
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.dddsim-saves-container::-webkit-scrollbar:hover {
+	cursor: var(--cursor-pointer), auto;
+}
+
+.dddsim-saves-container::-webkit-scrollbar {
+	width: 14px; /* Width of the scrollbar */
+}
+.dddsim-saves-container::-webkit-scrollbar-track {
+	background-image: url(/images/projects/dddsim/ui/scroll_gutter.png);
+	background-size: cover;
+	width: 14px; /* Width of the scrollbar */
+}
+
+.dddsim-saves-container::-webkit-scrollbar-thumb {
+	background-image: url(/images/projects/dddsim/ui/scroll_thumb.png);
+	background-size: cover;
+	height: 20px;
+	width: 20px;
 }
 
 .dddsim-save-wrapper {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
 
-	background-image: url(/images/projects/dddsim/ui/saveslot.png);
-	background-size: 100% 100%;
-	background-position-y:center;
-	background-position-x: 0%;
+	position: relative;
 
 	width: 100%;
-	height: 10vh;
+	height: 15vh;
+	margin-bottom: 1%;
 }
 
-.dddsim-save-wrapper:hover {
+.dddsim-save-wrapper:hover :not(.dddsim-save-preview) {
+	filter: brightness(1.5);
+}
+
+.dddsim-save-wrapper:last-child() {
+	margin-bottom: 0;
+}
+
+.dddsim-saves-area[data-mode="load"] .dddsim-save-wrapper[data-save="empty"] {
+	display: none;
+}
+
+.dddsim-save-background {
+	background-image: url(/images/projects/dddsim/ui/saveslot.png);
+	background-size: 100% 100%;
+	width: 75%;
+	height: 100%;
+
+	position: relative;
+}
+
+.dddsim-save-background:hover {
 	background-image: url(/images/projects/dddsim/ui/saveslot_hovered.png);
 }
 
@@ -169,19 +218,23 @@
 	background-size: 100% 100%;
 	background-position: center;
 
-	width: 5vw;
+	width: 6.5vw;
 }
 
-.dddsim-save-wrapper[data-save='empty'] .dddsim-save-preview{
+.dddsim-save-wrapper[data-save="empty"] .dddsim-save-preview {
 	background-image: url(/images/projects/dddsim/ui/empty_save.png);
 
-	
-    height: calc(5vw / 1.31);
+	height: calc(6.5vw / 1.31);
 }
 
-.dddsim-save-wrapper[data-save='filled'] .dddsim-save-preview{
+.dddsim-save-wrapper[data-save="empty"] .dddsim-save-preview:hover {
 	background-image: url(/images/projects/dddsim/ui/filled_save.png);
-	height: calc(5vw / 0.934);
+	height: calc(6.5vw / 0.934);
+}
+
+.dddsim-save-wrapper[data-save="filled"] .dddsim-save-preview {
+	background-image: url(/images/projects/dddsim/ui/filled_save.png);
+	height: calc(6.5vw / 0.934);
 }
 
 .dddsim-saves-area[data-mode="load"] .save-save-button {
@@ -193,13 +246,44 @@
 }
 
 .save-name-input {
-	position: absolute;
 	all: unset;
+	position: absolute;
+
 	font-family: "Dwarvenaxe", sans-serif;
+	font-size: 175%;
+
 	color: var(--color-save-yellow) !important;
 
-	top: 10%;
-	left: 20%
+	top: 0%;
+	left: 0%;
+
+	width: 56%;
+	height: calc(47% * 0.75);
+	transform: scaleY(1.25);
+
+	padding: 1%;
+	padding-left: 5%;
+}
+
+.dddsim-saves-area[data-mode="load"] .save-name-input {
+	pointer-events: none;
+}
+
+.dddsim-save-info-container {
+	position: absolute;
+	top: 0;
+	left: 76%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	height: 100%;
+}
+
+.dddsim-save-info-container > p {
+	margin: 0;
+	padding: 0;
+	color: var(--color-save-grey) !important;
 }
 
 .save-name-input::-webkit-input-placeholder {
@@ -225,7 +309,8 @@
 
 .save-name-input::placeholder {
 	/* Most modern browsers support this now. */
-	color: var(--color-placeholder-input) !important;}
+	color: var(--color-placeholder-input) !important;
+}
 
 .save-name-input:focus,
 .save-name-input:focus-within {
@@ -233,14 +318,15 @@
 	color: var(--color-save-yellow) !important;
 }
 
-.delete-save-button {
-	background-image: url(/images/projects/dddsim/ui/close_button.png);
-
+.dddsim-save-button {
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	height: 5%;
-	width: 5%;
+	height: 30%;
+}
+
+.delete-save-button {
+	background-image: url(/images/projects/dddsim/ui/close_button.png);
 }
 
 .dddsim-choice-area {
@@ -249,7 +335,7 @@
 	justify-content: space-evenly;
 	align-items: center;
 
-	z-index: 55;
+	z-index: 60;
 }
 
 .dddsim-choice-button {
@@ -317,7 +403,7 @@
 	margin-left: auto;
 	margin-right: auto;
 
-	height: 200px;
+	height: calc(100% / 3.56);
 	width: 100%;
 
 	display: flex;
@@ -381,7 +467,14 @@
 	border: none;
 	padding: 0;
 	width: 22.5ch;
-	background: repeating-linear-gradient(90deg, var(--color-gold) 0, var(--color-gold) 1ch, transparent 0, transparent 1.5ch) 0 100%/22ch 2px no-repeat;
+	background: repeating-linear-gradient(
+			90deg,
+			var(--color-gold) 0,
+			var(--color-gold) 1ch,
+			transparent 0,
+			transparent 1.5ch
+		)
+		0 100%/22ch 2px no-repeat;
 	font: 2.5rem "ubuntu-mono-regular", monospace !important;
 	letter-spacing: 0.5ch;
 }
@@ -520,6 +613,8 @@ input#talkbox-text-input:focus-within {
 button {
 	background-color: none;
 	border: none;
+
+	cursor: var(--cursor-normal), auto;
 }
 
 button:active {
@@ -530,8 +625,9 @@ button:active {
 
 /*UTIL=====================================================*/
 
-.disabled {
-	cursor: not-allowed;
+button.disabled,
+button.disabled * {
+	cursor: not-allowed !important;
 	filter: grayscale(1) brightness(0.5) !important ;
 }
 
@@ -551,7 +647,7 @@ button:active {
 	height: 100%;
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 51;
+	z-index: 56;
 
 	pointer-events: none;
 }
@@ -567,8 +663,10 @@ body {
 
 	color: white;
 	background-color: black;
+}
 
-	cursor: var(--cursor-normal), auto;
+body * {
+	cursor: var(--cursor-normal), auto !important;
 }
 
 hr {
@@ -612,7 +710,7 @@ hr {
 
 .nav-links > li:hover {
 	cursor: var(--cursor-pointer), auto;
-	filter: brightness(1.25);
+	filter: brightness(1.5);
 }
 
 .nav-link {

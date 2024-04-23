@@ -1,112 +1,74 @@
 <!-- image backdrop -->
-<section
-	id="scene-container"
-	class="dddsim-scene">
-	<div
-		id="background-panel"
-		class="dddsim-characters">
-		<div
-			id="options-button"
-			class="dddsim-options-button disabled"></div>
-
-		<div
-			id="saves-panel"
-			class="dddsim-saves-area">
-			<h3 class="title"></h3>
-			<button class="close-modal-button close-saves-button"></button>
-
-			<div class="dddsim-saves-container">
-				{% for i in range(0, 8) %}
-
-
-				<div class="dddsim-save-wrapper" data-save='empty'> <!--epty or filled-->
-					<div class='dddsim-save-preview empty-save'></div>
-					<input  type='text' class="save-name-input" placeholder='Click the letter to begin...'></input>
-					<button class="save-save-button"></button>
-					<button class="delete-save-button"></button>
-				
-				</div>
-			
-			{% endfor %}</div>
-		</div>
-
-		<!-- choices via  script -->
-		<div
-			id="choice-panel"
-			class="dddsim-choice-area dddsim-panel"></div>
-
-		<div
-			id="overlay"
-			class="overlay state-choice"></div>
-
-		<!-- sprites via  script -->
-		<div
-			id="sprite-panel"
-			class="dddsim-characters-sprites"></div>
-	</div>
-
-	<div
-		id="talk-panel"
-		class="dddsim-talk-area">
-		<div class="dddsim-talkbox">
-			<div
-				id="nametag"
-				class="dddsim-talkbox-nametag panel">
-				SPEAKER
-			</div>
-			<div class="dddsim-talkbox-area">
-				<p id="line">TEXT SPOKEN BY CHARACTER</p>
-				<!-- textinput-->
-				<div
-					id="input-textbox-panel"
-					class="dddsim-talkbox-input dddsim-talkbox-textinput">
-					<button
-						id="random-textinput-button"
-						class="dddsim-input-textrandom enabled"></button>
-					<input
-						maxlength="15"
-						placeholder="Name..."
-						id="talkbox-text-input"
-						type="text" />
-					<button
-						id="confirm-textinput-button"
-						class="dddsim-input-confirm enabled"></button>
-				</div>
-			</div>
-			<button
-				id="next-line-button"
-				class="dddsim-talkbox-nextbutton enabled"></button>
-		</div>
-
-		<div
-			class="dddsim-talkbox-side-menu"
-			id="game-menu">
-			<div class="dddsim-talkbox-menu-list">
-				<button
-					class="dddsim-talkbox-menu-item enabled panel"
-					id="dddsim-start-menu-item">
-					<p>Start</p>
-				</button>
-				<button
-					class="dddsim-talkbox-menu-item enabled panel"
-					id="dddsim-save-menu-item">
-					<p>Save</p>
-				</button>
-				<button
-					class="dddsim-talkbox-menu-item enabled panel"
-					id="dddsim-load-menu-item">
-					<p>Load</p>
-				</button>
-				<button
-					class="dddsim-talkbox-menu-item disabled panel"
-					id="dddsim-back-menu-item">
-					<p>&lt;&lt;</p>
-				</button>
-			</div>
-		</div>
-	</div>
-</section>
-
-<script>
-	init();
-</script>
+<section id="scene-container" class="dddsim-scene">
+    <div id="background-panel" class="dddsim-characters">
+        <div id="options-button" class="dddsim-options-button disabled"></div>
+        <div id="saves-panel" class="dddsim-saves-area">
+            <h3 class="title"></h3>
+            <button class="close-modal-button close-saves-button"></button>
+            <div class="dddsim-saves-container">
+                {% for i in range(0, 8) %}
+                    <div
+                        class="dddsim-save-wrapper" data-save='{{'filled' if i%2==0 else 'empty'}}'>
+                        <!--epty or filled-->
+                        <div class='dddsim-save-preview empty-save'></div>
+                        <div class='dddsim-save-background'>
+                            <input
+                                maxlength='38'
+                                type='text'
+                                class="save-name-input"
+                                placeholder='Click the letter to begin...'
+                                id='save-name-0{{ i }}' value='{{'filename of save' if i%2==0 else ''}}'>
+                                <div class='dddsim-save-info-container'>
+                                    <p>Milo</p>
+                                    <p>Chapter 1</p>
+                                    <p>Tue Apr 2{{i}} 2024 14:01:59</p>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- choices via  script -->
+            <div id="choice-panel" class="dddsim-choice-area dddsim-panel"></div>
+            <div id="overlay" class="overlay state-choice"></div>
+            <!-- sprites via  script -->
+            <div id="sprite-panel" class="dddsim-characters-sprites"></div>
+        </div>
+        <div id="talk-panel" class="dddsim-talk-area">
+            <div class="dddsim-talkbox">
+                <div id="nametag" class="dddsim-talkbox-nametag panel">
+                    SPEAKER
+                </div>
+                <div class="dddsim-talkbox-area">
+                    <p id="line">TEXT SPOKEN BY CHARACTER</p>
+                    <!-- textinput-->
+                    <div id="input-textbox-panel" class="dddsim-talkbox-input dddsim-talkbox-textinput">
+                        <button id="random-textinput-button" class="dddsim-input-textrandom enabled"></button>
+                        <input maxlength="15" placeholder="Name..." id="talkbox-text-input" type="text"/>
+                        <button id="confirm-textinput-button" class="dddsim-input-confirm enabled"></button>
+                    </div>
+                </div>
+                <button id="next-line-button" class="dddsim-talkbox-nextbutton enabled"></button>
+            </div>
+            <div class="dddsim-talkbox-side-menu" id="game-menu">
+                <div class="dddsim-talkbox-menu-list">
+                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-start-menu-item">
+                        <p>Start</p>
+                    </button>
+                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
+                        <p>Save</p>
+                    </button>
+                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-load-menu-item">
+                        <p>Load</p>
+                    </button>
+                    <button class="dddsim-talkbox-menu-item disabled panel" id="dddsim-back-menu-item">
+                        <p>&lt;&lt;</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        init();
+    </script>

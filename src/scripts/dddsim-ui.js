@@ -97,8 +97,8 @@ function loadMainMenu () {
   title.classList.add('dddsim-main-title')
   title.innerHTML = Story.gameName
 
-  HTML.choices.appendChild(title)
-  show(HTML.choices, HTML.textbox, HTML.menu.panel)
+  HTML.characters.appendChild(title)
+  show(HTML.characters, HTML.textbox, HTML.menu.panel)
 }
 
 function loadSideMenu () {
