@@ -87,7 +87,7 @@
 }
 
 .close-modal-button {
-	background-image: url(/images/projects/dddsim/ui/close_button.png);
+	background-image: url(/images/projects/dddsim/ui/close_button_round.png);
 
 	background-size: contain;
 	background-position: center;
@@ -97,8 +97,8 @@
 
 	position: absolute;
 
-	right: 20%;
-	top: 23%;
+	right: calc(8% + (8% / 100));
+    top: calc(11% + (11% / 19));
 }
 
 .dddsim-saves-area {
@@ -116,7 +116,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 70vw; /* Adjust as needed */
-	height: calc(70vw / 1.4); /* Maintain 1.4 aspect ratio */
+	height: calc(70vw / 1.6); /* Maintain 1.4 aspect ratio */
 
 	z-index: 60;
 }
@@ -136,21 +136,19 @@
 .dddsim-saves-area > h3 {
 	font-family: "Dwarvenaxe", sans-serif;
 	font-weight: normal;
-	font-size: 175%;
-	position: absolute;
-
-	left: 17%;
-	top: 23%;
+	font-size: 230%;
+    position: absolute;
+    left: 13%;
+    top: 16%;
 }
 
 .dddsim-saves-container {
 	position: absolute;
 
-	width: 66.5%;
-	height: 49%;
-
-	left: 15%;
-	top: 31.5%;
+	width: 78%;
+    height: 70%;
+    left: 10%;
+    top: 25.5%;
 
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -404,7 +402,7 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	bottom: 15px;
 	margin-left: auto;
 	margin-right: auto;
 
