@@ -576,7 +576,7 @@ function parse (text) {
       //if last dialogue
       if (status.currentLine == lines.length) {
         //missing gotos
-        if (!dialogue.goto) dialogue.goto = 'end'
+        if (!dialogue.goto && !status.inChoice) dialogue.goto = 'end'
 
         //final visible/invisible characters
         status.showing.forEach(ref => {
