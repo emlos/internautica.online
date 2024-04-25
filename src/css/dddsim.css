@@ -261,8 +261,6 @@
 	height: calc(6.5vw / 0.934);
 }
 
-.dddsim-saves-area[data-mode="save"] .dddsim-save-preview + :has(.save-name-input[value]:not([value=""])) {
-}
 
 .dddsim-saves-area[data-mode="save"] .load-save-button {
 	display: none;

@@ -22,11 +22,9 @@ const CURRENT = {
   },
 
   saveHandles: {
-    saves:[],
-    saveSlot: null,
-  },
-
- 
+    saves: [],
+    saveSlot: null
+  }
 }
 
 //html targets -------------
@@ -107,6 +105,26 @@ function init () {
   loadModals()
 
   loadSaves()
+
+}
+
+function initChapter(chapter){
+  if(!chapter) chapter = CURRENT.chapter
+
+  showTitle(chapter.title)
+
+
+  //next button starts chapter
+  registerButtonClick(function () {
+    if (isHidden(HTML.overlay)) {
+    }
+  })
+
+  //space advances chapter also
+  spaceAdvances('[initial space press]', () => {
+    start(CURRENT.chapter.start)
+  })
+
 }
 
 function loadMainMenu () {
@@ -130,13 +148,15 @@ function loadSideMenu () {
 
   //when start clicked
   registerButtonClick(() => {
-    showTitle(CURRENT.chapter.title)
+    initChapter(CURRENT.chapter)
 
-    //start restarts journey
+    //start restarts journey from now on
     registerButtonClick(() => {
       if (!isDisabled(HTML.menu.start) && isHidden(HTML.overlay)) {
         console.log('confirm restart?')
+        HTML.menu.start.children.item(0).innerHTML = 'Restart'
         //confirmRestart()
+        //initChapter(Story.chapters[0])
       }
     }, HTML.menu.start)
   }, HTML.menu.start)
@@ -164,6 +184,11 @@ function loadModals () {
   })
 }
 
+function loadSaves () {
+  //1. find all current Saves from IndexDB
+  //2. set them in the modal
+}
+
 //shows a "title" card
 function showTitle (title) {
   hide(
@@ -183,15 +208,6 @@ function showTitle (title) {
 
   setTextbox(title)
 
-  //next button starts chapter
-  registerButtonClick(function () {
-    if (isHidden(HTML.overlay)) {
-    }
-  })
-
-  spaceAdvances('[initial space press]', () => {
-    start(CURRENT.chapter.start)
-  })
 }
 
 //starts a scene
@@ -507,7 +523,7 @@ function nextScene (scene_id = null) {
 }
 
 function nextDialogue () {
-  spaceUnbindAll()
+  spaceUnbindAll() //will be rebound if next dialogue needs it
   const scene = currentScene()
 
   if (scene.dialogues.length > CURRENT.dialogue + 1) {
@@ -524,12 +540,14 @@ function nextDialogue () {
 
 function endChapter () {
   hideAll()
+  //next chapter available
   if (Story.chapters[CURRENT.currentChapter + 1]) {
     CURRENT.currentChapter++
     CURRENT.chapter = Story.chapters[CURRENT.currentChapter]
+    CURRENT.scene = Story.chapters[CURRENT.currentChapter].scenes[0].id
     CURRENT.dialogue = 0
 
-    init()
+    initChapter()
   } else {
     show(HTML.textbox)
     show(HTML.menu.panel)
@@ -600,11 +618,6 @@ function spaceAdvances (key, callback) {
   log('defining space bahavior with code: ' + key)
   // Define a wrapper that checks for the 'space' key and executes the callback
   const wrappedCallback = event => {
-    console.log(
-      `now: ${Date.now()} last space: ${CURRENT.spaceHandler.last_space} sub: ${
-        Date.now() - CURRENT.spaceHandler.last_space
-      }`
-    )
     if (
       //if last space happened after a time LONGER than cooldown
       Date.now() - CURRENT.spaceHandler.last_space >
@@ -697,8 +710,6 @@ function setUserAttribute (attr, value) {
 
 //true if user has all the param flags
 function userHasFlags (...flags) {
-  console.log(flags)
-  console.log(PlayerState.flags)
   let hasFlags = true
 
   flags.forEach(flag => {
@@ -712,13 +723,13 @@ function userHasFlags (...flags) {
 
 //SAVING LOADING -----------------------------
 
-function saveState (
+function saveNewState (
   chapter = CURRENT.chapter.id,
   scene = CURRENT.scene,
   dialogue = CURRENT.dialogue,
-  saveSlot = 0
+  saveSlot = -1
 ) {
-  console.log('saving!')
+  log(`Saving game to slot: ${saveSlot}`)
   //showSaveIcon()
 
   const gameState = {
@@ -735,8 +746,41 @@ function saveState (
   //console.log(gameState);
 
   SaveManager.saveGameState(gameState)
-    .then(() => console.log('Game state saved successfully'))
+    .then(() => log('Game state saved successfully'))
     .catch(error => console.error('Failed to save game state', error))
+}
+
+function updateState (id) {
+  SaveManager.loadGameState(id).then(gameState => {
+    if (!gameState) {
+      console.error('Game state not found!')
+      return
+    }
+
+    // Modify the game state as needed
+    gameState.playerState = {
+      /* new player state data */
+    }
+    gameState.timestamp = new Date() // Update the timestamp or any other property
+
+    // Save (update) the game state
+    SaveManager.saveGameState(gameState)
+      .then(() => log('Game state updated successfully'))
+      .catch(error => console.error('Failed to update game state', error))
+  })
+}
+
+function loadState (id) {
+  SaveManager.loadGameState(id)
+    .then(state => {
+      CURRENT.dialogue = state.coordinates.dialogue_index
+      CURRENT.scene = state.coordinates.scene_id
+      CURRENT.currentChapter = state.coordinates.chapter_id
+      CURRENT.chapter = Story.chapters[state.coordinates.dialogue_index]
+
+      initChapter()
+    })
+    .catch(error => console.error('Failed to load game state', error))
 }
 
 //UTIL=======================
