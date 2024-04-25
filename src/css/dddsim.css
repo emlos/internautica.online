@@ -98,7 +98,7 @@
 	position: absolute;
 
 	right: calc(8% + (8% / 100));
-    top: calc(11% + (11% / 19));
+	top: calc(11% + (11% / 19));
 }
 
 .dddsim-saves-area {
@@ -137,41 +137,67 @@
 	font-family: "Dwarvenaxe", sans-serif;
 	font-weight: normal;
 	font-size: 230%;
-    position: absolute;
-    left: 13%;
-    top: 16%;
+	position: absolute;
+	left: 13%;
+	top: 16%;
 }
 
 .dddsim-saves-container {
 	position: absolute;
 
 	width: 78%;
-    height: 70%;
-    left: 10%;
-    top: 25.5%;
+	height: 70%;
+	left: 10%;
+	top: 25.5%;
 
 	overflow-y: scroll;
 	overflow-x: hidden;
+	/* This sets the size of the scrollbar to 16px wide */
+	scrollbar-width: 16px; /* Standard for Firefox and others */
+	}
+
+@supports (-moz-appearance:none) {
+	.dddsim-saves-container {
+		scrollbar-color: #cf2400 #171717; /* thumb and track colors for browsers that support it */
+
+	}
 }
 
 .dddsim-saves-container::-webkit-scrollbar:hover {
 	cursor: var(--cursor-pointer), auto;
 }
 
+/* Chrome, Edge, Safari and other WebKit/Blink browsers */
 .dddsim-saves-container::-webkit-scrollbar {
-	width: 14px; /* Width of the scrollbar */
+	width: 0.6vw; /* width of the scrollbar */
 }
+
 .dddsim-saves-container::-webkit-scrollbar-track {
-	background-image: url(/images/projects/dddsim/ui/scroll_gutter.png);
-	background-size: cover;
-	width: 14px; /* Width of the scrollbar */
+	background: url("/images/projects/dddsim/ui/scroll_gutter.png") repeat-y; /* Tiled image on the y axis */
+	background-color: #171717; /* fallback color if the image is not loaded */
+	background-size: contain;
+	border: 1px solid #090909; /* border around the track */
+	
 }
 
 .dddsim-saves-container::-webkit-scrollbar-thumb {
-	background-image: url(/images/projects/dddsim/ui/scroll_thumb.png);
-	background-size: cover;
-	height: 20px;
-	width: 20px;
+	background-color: #464646; /* color of the thumb */
+	border-radius: 25px;
+	width: 15px;
+	
+}
+
+.dddsim-saves-container::-webkit-scrollbar-button {
+	height: 5px; /* height of the arrow image */
+	background-size: contain;
+}
+
+.dddsim-saves-container::-webkit-scrollbar-button:vertical:decrement {
+	background-image: url("/images/projects/dddsim/ui/scroll_arrow_top.png"); /* turned arrow for the top */
+}
+
+.dddsim-saves-container::-webkit-scrollbar-button:vertical:increment {
+	background-image: url("/images/projects/dddsim/ui/scroll_arrow_down.png"); /* normal arrow for the bottom */
 }
 
 .dddsim-save-wrapper {
@@ -235,12 +261,8 @@
 	height: calc(6.5vw / 0.934);
 }
 
-.dddsim-saves-area[data-mode="save"] .dddsim-save-preview + :has(.save-name-input[value]:not([value=''])) {
-
+.dddsim-saves-area[data-mode="save"] .dddsim-save-preview + :has(.save-name-input[value]:not([value=""])) {
 }
-
-
-
 
 .dddsim-saves-area[data-mode="save"] .load-save-button {
 	display: none;
@@ -328,7 +350,6 @@
 }
 
 .delete-save-button {
-	
 	background-image: url(/images/projects/dddsim/ui/close_button.png);
 }
 
@@ -385,13 +406,13 @@
 	background-position: center;
 	background-repeat: no-repeat;
 
-	height: 85%;
-	width: 38%;
+	height: 100%;
+	width: 35%;
 }
 
 .dddsim-sprite:not(.talking) {
-	height: 80%;
-	filter: brightness(0.7);
+	height: 90%;
+	filter: brightness(0.8);
 }
 
 .dismas-neutral {

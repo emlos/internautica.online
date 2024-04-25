@@ -13,7 +13,7 @@
             <div class="dddsim-saves-container">
                 {% for i in range(0, 8) %}
                     <div
-                        class="dddsim-save-wrapper" data-save='{{'filled' if i%2==0 else 'empty'}}'>
+                        class="dddsim-save-wrapper" data-save='empty'>
                         <!--epty or filled-->
                         <div class='dddsim-save-preview empty-save'></div>
                         <div class='dddsim-save-background'>
@@ -23,7 +23,7 @@
                                 class="save-name-input"
 								autocomplete="off"
                                 placeholder='Click the letter to begin...'
-                                id='save-name-0{{ i }}' value='{{'filename of save' if i%2==0 else ''}}'>
+                                id='save-name-0{{ i }}' >
                                 <div class='dddsim-save-info-container'>
                                     <p>Milo</p>
                                     <p>Chapter 1</p>

@@ -398,7 +398,7 @@ const game = {
               background: null,
               conditions: null,
               flags: null,
-              goto: 'end'
+              goto: null,
             }
           ],
           parentChapter: 'first_chapter',
