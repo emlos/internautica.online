@@ -10,11 +10,11 @@
         <div id="saves-panel" class="dddsim-saves-area">
             <h3 class="title"></h3>
             <button class="close-modal-button close-saves-button"></button>
-            <div class="dddsim-saves-container">
-                {% for i in range(0, 8) %}
+            <div class="dddsim-saves-container" id='saves-container'>
+        <!--<template id='templatesave'>
                     <div
                         class="dddsim-save-wrapper" data-save='empty'>
-                        <!--epty or filled-->
+                      
                         <div class='dddsim-save-preview empty-save'></div>
                         <div class='dddsim-save-background'>
                             <input
@@ -23,16 +23,17 @@
                                 class="save-name-input"
 								autocomplete="off"
                                 placeholder='Click the letter to begin...'
-                                id='save-name-0{{ i }}' >
+                                id='save-name-0' >
                                 <div class='dddsim-save-info-container'>
                                     <p>Milo</p>
                                     <p>Chapter 1</p>
-                                    <p>Tue Apr 2{{i}} 2024 14:01:59</p>
+                                    <p>Tue Apr 20 2024 14:01:59</p>
                                 </div>
                             </div>
                             <button class="delete-save-button dddsim-save-button"></button>
                         </div>
-                    {% endfor %}
+</template>-->
+                 
                 </div>
             </div>
             <!-- choices via  script -->
@@ -55,14 +56,14 @@
                         <button id="confirm-textinput-button" class="dddsim-input-confirm enabled"></button>
                     </div>
                 </div>
-                <button id="next-line-button" class="dddsim-talkbox-nextbutton enabled"></button>
+                <button tabindex="-1" id="next-line-button" class="dddsim-talkbox-nextbutton enabled"></button>
             </div>
             <div class="dddsim-talkbox-side-menu" id="game-menu">
                 <div class="dddsim-talkbox-menu-list">
-                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-start-menu-item">
+                    <button tabindex="-1" class="dddsim-talkbox-menu-item enabled panel" id="dddsim-start-menu-item">
                         <p>Start</p>
                     </button>
-                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
+                    <button  class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
                         <p>Save</p>
                     </button>
                     <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-load-menu-item">
@@ -75,6 +76,34 @@
             </div>
         </div>
     </section>
+
+    <template id='templatesave'>
+                    <div
+                        class="dddsim-save-wrapper" data-save='empty'>
+                        <!--epty or filled-->
+                        <div class='dddsim-save-preview'></div>
+                        <div class='dddsim-save-background'>
+                            <input
+                                maxlength='38'
+                                type='text'
+                                class="save-name-input"
+								autocomplete="off"
+                                placeholder='Click the letter to begin...'
+                                id='save-name-0' >
+                                <div class='dddsim-save-info-container'>
+                                    <p>Milo</p>
+                                    <p>Chapter 1</p>
+                                    <p>Tue Apr 20 2024 14:01:59</p>
+                                </div>
+                            </div>
+                            <button class="delete-save-button dddsim-save-button"></button>
+                        </div>
+</template>
+
     <script>
         init();
     </script>
+
+
+
+    

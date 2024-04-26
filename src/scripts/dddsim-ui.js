@@ -8,6 +8,12 @@
  *
  */
 
+//presistent settigns for the game
+const CONFIG = {
+  debug: false,
+  amount_save_slots: 8
+}
+
 const CURRENT = {
   chapter: Story.chapters[0], //while generating each chapter page fill this into the template via script
   currentChapter: 0,
@@ -91,6 +97,7 @@ function init () {
 
   HTML.overlay = document.getElementById('overlay')
   HTML.saves.modal = document.getElementById('saves-panel')
+  HTML.saves.slots = document.getElementById('saves-container')
 
   HTML.popup.modal = document.getElementById('popup')
   HTML.popup.text = HTML.popup.modal.getElementsByTagName('p')[0]
@@ -105,26 +112,25 @@ function init () {
   loadModals()
 
   loadSaves()
-
 }
 
-function initChapter(chapter){
-  if(!chapter) chapter = CURRENT.chapter
+function initChapter (chapter) {
+  if (!chapter) chapter = CURRENT.chapter
 
   showTitle(chapter.title)
-
 
   //next button starts chapter
   registerButtonClick(function () {
     if (isHidden(HTML.overlay)) {
+      start(CURRENT.chapter.start)
     }
   })
 
   //space advances chapter also
-  spaceAdvances('[initial space press]', () => {
+  spaceAdvances('init', function () {
     start(CURRENT.chapter.start)
+    spaceUnbind('init')
   })
-
 }
 
 function loadMainMenu () {
@@ -177,16 +183,76 @@ function loadSideMenu () {
 }
 
 function loadModals () {
+  //all buttons can close from the start
   document.querySelectorAll('.close-modal-button').forEach(button => {
     registerButtonClick(() => {
-      close(CURRENT.openModal)
+      closeModal(CURRENT.openModal)
     }, button)
   })
 }
 
 function loadSaves () {
-  //1. find all current Saves from IndexDB
-  //2. set them in the modal
+  log('Loading Game Saves!')
+  //1. clear displayed saves
+  clear(HTML.saves.slots)
+
+  //2. find all current Saves from IndexDB
+  const template = document.querySelector('#templatesave')
+
+  SaveManager.loadAllStates()
+    .then(allGameStates => {
+      if (allGameStates) {
+        allGameStates
+          .slice(0, CONFIG.amount_save_slots) //get first eight saves ONLY
+          .forEach(save => {
+            //3. display all filled saves
+            const clone = template.content.cloneNode(true)
+
+            const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
+            save_wrapper.setAttribute('data-save', 'filled')
+
+            const input = save_wrapper.querySelector('input')
+            input.id = 'input-' + save.id
+            input.value = save.name
+
+            const info = save_wrapper.querySelector(
+              '.dddsim-save-info-container'
+            )
+            const infos = info.querySelectorAll('p')
+            infos[0].innerText = save.playerState.name
+            infos[1].innerText = 'Chapter ' + (save.coordinates.chapter_id + 1)
+            infos[2].innerText = save.lastSaved.toLocaleString()
+
+            HTML.saves.slots.appendChild(save_wrapper)
+          })
+      }
+    })
+    .catch(error => {
+      console.error('Failed to load all game states', error)
+    })
+
+  //always 8 slots => generate new ones
+  if (HTML.saves.slots.length < CONFIG.amount_save_slots) {
+  }
+
+  //allow for loading/saving... depending on which mode youre in
+  $('.dddsim-save-wrapper').on('click', event => {
+    console.log(event)
+  })
+
+  /*
+    const gameState = {
+    name: 'some name',
+    id: 'save-' + saveSlot,
+    playerState: PlayerState,
+    coordinates: {
+      chapter_id: chapter,
+      scene_id: scene,
+      dialogue_index: dialogue
+    },
+    lastSaved: new Date()
+  }
+ */
 }
 
 //shows a "title" card
@@ -207,7 +273,6 @@ function showTitle (title) {
   disableMenu()
 
   setTextbox(title)
-
 }
 
 //starts a scene
@@ -270,11 +335,11 @@ function handleSpaceBehavior (dialogue) {
     spaceUnbindAll()
   } else {
     if (dialogue.goto) {
-      spaceAdvances(0, () => {
+      spaceAdvances('next_diag', function () {
         nextScene(dialogue.goto)
       }) //space advances to next scene this time
     } else {
-      spaceAdvances(1, nextDialogue) //default state -> space goes to next dialogue
+      spaceAdvances('next_scene', nextDialogue) //default state -> space goes to next dialogue
     }
   }
 }
@@ -614,36 +679,44 @@ function registerInputs (element, ...callbacks) {
 
 //space advances dialogue
 
-function spaceAdvances (key, callback) {
-  log('defining space bahavior with code: ' + key)
-  // Define a wrapper that checks for the 'space' key and executes the callback
+function spaceAdvances (callback_id, callback, keycode = 32) {
+  log('defining space bahavior with code: ' + callback_id)
+
+  console.log('expected: ' + keycode)
+
   const wrappedCallback = event => {
-    if (
-      //if last space happened after a time LONGER than cooldown
-      Date.now() - CURRENT.spaceHandler.last_space >
-      CURRENT.spaceHandler.cooldown
-    ) {
-      log('space advancing from function: ' + key)
+    //compat, 229 special code for "IMO" processing
+    if (event.isComposing || event.keyCode === 229 || event.defaultPrevented) {
+      return
+    }
 
-      CURRENT.spaceHandler.last_space = Date.now() //space clicked
+    console.log('got: ' + event.keyCode)
 
-      //compat, 229 special code for "IMO" processing
-      //i kinda really wanna get into webdev... who knew
+    //clicked correct key
+    if (event.keyCode === keycode) {
+      //if space
       if (
-        event.isComposing ||
-        event.keyCode === 229 ||
-        event.defaultPrevented
+        Date.now() - CURRENT.spaceHandler.last_space >
+          CURRENT.spaceHandler.cooldown &&
+        keycode == 32
       ) {
+        log('space advancing from function: ' + callback_id)
+
+        CURRENT.spaceHandler.last_space = Date.now() //space clicked
+
+        callback()
         return
       }
-      // Check if the key is 'space' (key code 32)
-      if (event.keyCode === 32) {
+
+      //escape
+      if (event.keyCode == 27) {
         callback()
+        return
       }
     }
   }
 
-  CURRENT.spaceHandler.callbacks.set(key, wrappedCallback)
+  CURRENT.spaceHandler.callbacks.set(callback_id, wrappedCallback)
 
   // Register the wrapped callback as an event listener for 'keydown'
   document.addEventListener('keydown', wrappedCallback)
@@ -723,22 +796,18 @@ function userHasFlags (...flags) {
 
 //SAVING LOADING -----------------------------
 
-function saveNewState (
-  chapter = CURRENT.chapter.id,
-  scene = CURRENT.scene,
-  dialogue = CURRENT.dialogue,
-  saveSlot = -1
-) {
+function saveNewState (filename = '', saveSlot = -1) {
   log(`Saving game to slot: ${saveSlot}`)
   //showSaveIcon()
 
   const gameState = {
-    save_id: 'save-' + saveSlot,
+    name: filename,
+    id: 'save-' + saveSlot,
     playerState: PlayerState,
     coordinates: {
-      chapter_id: chapter,
-      scene_id: scene,
-      dialogue_index: dialogue
+      chapter_id: CURRENT.currentChapter,
+      scene_id: CURRENT.scene,
+      dialogue_index: CURRENT.dialogue
     },
     lastSaved: new Date()
   }
@@ -748,6 +817,8 @@ function saveNewState (
   SaveManager.saveGameState(gameState)
     .then(() => log('Game state saved successfully'))
     .catch(error => console.error('Failed to save game state', error))
+
+  loadSaves()
 }
 
 function updateState (id) {
@@ -758,16 +829,21 @@ function updateState (id) {
     }
 
     // Modify the game state as needed
-    gameState.playerState = {
-      /* new player state data */
+    gameState.coordinates = {
+      chapter_id: CURRENT.currentChapter,
+      scene_id: CURRENT.scene,
+      dialogue_index: CURRENT.dialogue
     }
-    gameState.timestamp = new Date() // Update the timestamp or any other property
+    gameState.playerState = PlayerState
+    gameState.lastSaved = new Date() // Update the timestamp or any other property
 
     // Save (update) the game state
     SaveManager.saveGameState(gameState)
       .then(() => log('Game state updated successfully'))
       .catch(error => console.error('Failed to update game state', error))
   })
+
+  loadSaves()
 }
 
 function loadState (id) {
@@ -781,6 +857,21 @@ function loadState (id) {
       initChapter()
     })
     .catch(error => console.error('Failed to load game state', error))
+}
+
+function _dontusethis_deleteDatabase () {
+  SaveManager.close().then(() => {
+    SaveManager.deleteDatabase()
+      .then(() => {})
+      .catch(error => {})
+  })
+
+  setTimeout(() => {
+    SaveManager.deleteDatabase()
+      .then(() => {})
+      .catch(error => {})
+    SaveManager = new GameDB('DDDSIM-DEV', 'saves')
+  }, 500)
 }
 
 //UTIL=======================
@@ -866,20 +957,38 @@ function isDisabled (button) {
 }
 //modals like settings,
 function openModal (modal) {
+  //when modal is open closing it with esc is possible
+  spaceAdvances(
+    'esc',
+    function () {
+      closeModal(modal)
+    },
+    27
+  )
+
+  console.log('esc closes modal')
+
   CURRENT.openModal = modal
 
   show(modal)
   show(HTML.overlay)
 }
 
-function close (modal) {
+function closeModal (modal) {
+  spaceUnbind('esc')
+
+  console.log('esc does nothing')
+
   CURRENT.openModal = null
-  hide(modal)
-  hide(HTML.overlay)
+
+  if (modal) {
+    hide(modal)
+    hide(HTML.overlay)
+  }
 }
 
 function toggle (to_close, to_open) {
-  close(to_close)
+  closeModal(to_close)
   openModal(to_open)
 }
 
@@ -962,13 +1071,5 @@ function removeTalkingSprites () {
 }
 
 function log (text) {
-  console.log('LOG:' + text)
-}
-
-const DEBUG = {
-  currentDialogue: () => {
-    let scene = currentScene()
-
-    return scene.dialogue[CURRENT.dialogue]
-  }
+  if (CONFIG.debug) console.log('LOG: ' + text)
 }
