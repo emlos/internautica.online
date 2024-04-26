@@ -10,7 +10,7 @@
 
 //presistent settigns for the game
 const CONFIG = {
-  debug: false,
+  debug: true,
   amount_save_slots: 8
 }
 
@@ -103,7 +103,6 @@ function init () {
   HTML.popup.text = HTML.popup.modal.getElementsByTagName('p')[0]
   HTML.popup.okbutton = document.getElementById('popup-ok')
   HTML.popup.cancelbutton = document.getElementById('popup-cancel')
-  //console.log(html);
 
   loadMainMenu()
 
@@ -159,7 +158,6 @@ function loadSideMenu () {
     //start restarts journey from now on
     registerButtonClick(() => {
       if (!isDisabled(HTML.menu.start) && isHidden(HTML.overlay)) {
-        console.log('confirm restart?')
         HTML.menu.start.children.item(0).innerHTML = 'Restart'
         //confirmRestart()
         //initChapter(Story.chapters[0])
@@ -288,8 +286,6 @@ function start (scene_id) {
   const scn = currentScene()
   const first = scn.dialogues[CURRENT.dialogue]
 
-  //console.log(scn);
-
   enableMenu()
 
   changeBackground(HTML.background, scn.background)
@@ -305,8 +301,6 @@ function loadDialogue (dialogue) {
   log(
     'Loading dialogues[' + CURRENT.dialogue + '] in scene id: ' + CURRENT.scene
   )
-
-  //console.log(dialogue)
 
   show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel, HTML.textbox)
 
@@ -598,7 +592,6 @@ function nextDialogue () {
   } else if (scene.dialogues[CURRENT.dialogue].goto) {
     nextScene(scene.dialogues[CURRENT.dialogue].goto)
   } else {
-    console.log(scene)
     throw new Error('cant go to next!')
   }
 }
@@ -617,7 +610,6 @@ function endChapter () {
     show(HTML.textbox)
     show(HTML.menu.panel)
     setTextbox('The End <3')
-    //console.log("no more chapters")
   }
 }
 
@@ -635,6 +627,12 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
 
   //function present => new function for nextbutton
   if (callback) {
+    //nextbutton doesnt get focus
+    if(button.id == 'next-line-button') {
+      button.addEventListener('mousedown', function(event) {
+        event.preventDefault();  // Prevents the button from gaining focus
+    });
+    }
     registerClicks(button, callback)
   } else {
     log('<' + button.id + '> does nothing!')
@@ -682,19 +680,15 @@ function registerInputs (element, ...callbacks) {
 function spaceAdvances (callback_id, callback, keycode = 32) {
   log('defining space bahavior with code: ' + callback_id)
 
-  console.log('expected: ' + keycode)
-
   const wrappedCallback = event => {
     //compat, 229 special code for "IMO" processing
     if (event.isComposing || event.keyCode === 229 || event.defaultPrevented) {
       return
     }
 
-    console.log('got: ' + event.keyCode)
-
     //clicked correct key
     if (event.keyCode === keycode) {
-      //if space
+      //if space stagger
       if (
         Date.now() - CURRENT.spaceHandler.last_space >
           CURRENT.spaceHandler.cooldown &&
@@ -812,8 +806,6 @@ function saveNewState (filename = '', saveSlot = -1) {
     lastSaved: new Date()
   }
 
-  //console.log(gameState);
-
   SaveManager.saveGameState(gameState)
     .then(() => log('Game state saved successfully'))
     .catch(error => console.error('Failed to save game state', error))
@@ -881,14 +873,12 @@ function findScene (chapter, scene_id) {
 
   for (let i = 0; i < chapter.scenes.length; i++) {
     let scene = chapter.scenes[i]
-
-    //console.log(scene.id);
     if (scene.id == scene_id) {
       return scene
     }
   }
 
-  console.log('NO SCENE WITH ID ' + scene_id + ' EXISTS')
+  log('NO SCENE WITH ID ' + scene_id + ' EXISTS')
 
   return undefined
 }
@@ -966,8 +956,6 @@ function openModal (modal) {
     27
   )
 
-  console.log('esc closes modal')
-
   CURRENT.openModal = modal
 
   show(modal)
@@ -976,8 +964,6 @@ function openModal (modal) {
 
 function closeModal (modal) {
   spaceUnbind('esc')
-
-  console.log('esc does nothing')
 
   CURRENT.openModal = null
 
@@ -1001,12 +987,12 @@ function changeBackground (element, bg = 'black') {
       element.style.backgroundImage = `url(${bg})`
     }
   } else {
-    console.log('ERROR: problem(s) with drawing background:')
+    log('ERROR: problem(s) with drawing background:')
     if (!element) {
-      console.log('invalid element')
+      log('invalid element')
     }
     if (!bg) {
-      console.log('invalid background')
+      log('invalid background')
     }
   }
 }

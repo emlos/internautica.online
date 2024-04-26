@@ -754,7 +754,3 @@ a:active {
 	display: none !important;
 }
 
-
-button:focus {
-	border: solid var(--color-yellow) 1px;
-}
