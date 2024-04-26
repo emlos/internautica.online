@@ -437,8 +437,7 @@ function parse (text) {
               let choiceStaggerDialogue = structuredClone(dialogue)
               choiceStaggerDialogue.choices = null
               choiceStaggerDialogue.goto = null
-              console.log(choiceStaggerDialogue)
-              console.log(dialogue)
+            
               dialogues.push(choiceStaggerDialogue)
             }
             
@@ -623,9 +622,7 @@ function parse (text) {
           choiceStaggerDialogue.goto = null
           dialogues.push(choiceStaggerDialogue)
 
-          console.log(choiceStaggerDialogue)
-          console.log(dialogue)
-
+          
         }
 
         //background

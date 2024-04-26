@@ -65,7 +65,8 @@ const HTML = {
     modal: document.createElement('div'),
     text: document.createElement('p'),
     okbutton: document.createElement('button'),
-    cancelbutton: document.createElement('button')
+    cancelbutton: document.createElement('button'),
+    success: ()=>{},
   }
 }
 
@@ -116,6 +117,8 @@ function init () {
 function initChapter (chapter) {
   if (!chapter) chapter = CURRENT.chapter
 
+  HTML.menu.start.children.item(0).innerHTML = 'Restart'
+
   showTitle(chapter.title)
 
   //next button starts chapter
@@ -158,7 +161,6 @@ function loadSideMenu () {
     //start restarts journey from now on
     registerButtonClick(() => {
       if (!isDisabled(HTML.menu.start) && isHidden(HTML.overlay)) {
-        HTML.menu.start.children.item(0).innerHTML = 'Restart'
         //confirmRestart()
         //initChapter(Story.chapters[0])
       }
@@ -190,7 +192,7 @@ function loadModals () {
 }
 
 function loadSaves () {
-  log('Loading Game Saves!')
+  log('Start Loading Game Saves!')
   //1. clear displayed saves
   clear(HTML.saves.slots)
 
@@ -202,15 +204,16 @@ function loadSaves () {
       if (allGameStates) {
         allGameStates
           .slice(0, CONFIG.amount_save_slots) //get first eight saves ONLY
-          .forEach(save => {
+          .forEach((save, i) => {
             //3. display all filled saves
             const clone = template.content.cloneNode(true)
 
             const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
             save_wrapper.setAttribute('data-save', 'filled')
+            save_wrapper.setAttribute('data-slot', i)
 
             const input = save_wrapper.querySelector('input')
-            input.id = 'input-' + save.id
+            input.id = 'input-' + i
             input.value = save.name
 
             const info = save_wrapper.querySelector(
@@ -223,20 +226,39 @@ function loadSaves () {
 
             HTML.saves.slots.appendChild(save_wrapper)
           })
+
+        //8 slots - fill up with empty ones
+        let free = CONFIG.amount_save_slots - HTML.saves.slots.children.length
+        for (let i = free; i > 0; i--) {
+          const clone = template.content.cloneNode(true)
+          const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
+          save_wrapper.setAttribute('data-slot', i)
+
+          HTML.saves.slots.appendChild(clone)
+        }
+
+        //allow for loading/saving... depending on which mode youre in
+        $('.dddsim-save-wrapper').on('click', event => {
+          const cause = event.currentTarget
+
+          switch (HTML.saves.modal.getAttribute('data-mode')) {
+            case 'save':
+              handleSave(cause)
+              break
+            case 'load':
+              handleLoad(cause)
+              break
+
+            default:
+              console.log('not known mode')
+              break
+          }
+        })
       }
     })
     .catch(error => {
       console.error('Failed to load all game states', error)
     })
-
-  //always 8 slots => generate new ones
-  if (HTML.saves.slots.length < CONFIG.amount_save_slots) {
-  }
-
-  //allow for loading/saving... depending on which mode youre in
-  $('.dddsim-save-wrapper').on('click', event => {
-    console.log(event)
-  })
 
   /*
     const gameState = {
@@ -251,6 +273,92 @@ function loadSaves () {
     lastSaved: new Date()
   }
  */
+  //user clicked on save in save mode
+  function handleSave (cause) {
+    const input = cause.querySelector('input')
+    const deletebtn = cause.querySelector('.delete-save-button')
+    const confirmbtn = cause.querySelector('.confirm-save-button')
+
+    //1. make save selected
+    selectSave(cause)
+
+    //2. when input typed in clicked, validate
+    registerInputs(input, () => {
+      validateInput(input.value.trim(), confirmbtn)
+    })
+
+    //3. clicking on a filled save has less steps
+    if (cause.getAttribute('data-save') == 'empty') {
+      //put user in typing, only allow valid filenames
+      input.focus()
+      validateInput(input.value.trim(), confirmbtn)
+
+      //saving when confirm clicked
+      registerButtonClick(() => {
+        if (!isDisabled(confirmbtn)) {
+          saveNewState(input.value, cause.getAttribute('data-slot'))
+        }
+      }, confirmbtn)
+
+      //when close clicked -> make inactive
+      registerButtonClick(event => {
+        unselectSave(cause)
+
+        //click stays in button\
+        event.stopPropagation()
+      }, deletebtn)
+
+      //data-save='filled'
+    } else {
+      //4.? confirm button shows popup before overriding save
+      //saving when confirm clicked
+      registerButtonClick(() => {
+        if (!isDisabled(confirmbtn)) {
+         // openModal(HTML.popup.modal)
+          //saveNewState(input.value, cause.getAttribute('data-slot'))
+        }
+      }, confirmbtn)
+
+      //5. delete save when prompted
+      registerButtonClick(event => {
+       openModal(HTML.popup.modal)
+        HTML.popup.text = "Delete Save? [CANNOT be undone!]"
+//setPopup(()=>{
+          //1. delete Save
+          //2. 
+          unselectSave(cause)
+     //   })
+       // 
+
+        event.stopPropagation()
+      }, deletebtn)
+    }
+  }
+
+  function handleLoad (target) {}
+
+  //-----util
+  function selectSave (cause) {
+    $('.dddsim-save-wrapper').addClass('inactive')
+    cause.classList.remove('inactive')
+    cause.classList.add('active')
+  }
+  function unselectSave (cause) {
+    $('.dddsim-save-wrapper').removeClass('inactive')
+    cause.classList.remove('active')
+
+    cause.querySelector('input').value = ''
+  }
+
+  function validateInput (value, confirmbtn) {
+    if (!value) {
+      confirmbtn.classList.add('disabled')
+      confirmbtn.title = 'Savename must be at least one character long!'
+    } else {
+      confirmbtn.classList.remove('disabled')
+      confirmbtn.title = ''
+    }
+  }
 }
 
 //shows a "title" card
@@ -329,11 +437,11 @@ function handleSpaceBehavior (dialogue) {
     spaceUnbindAll()
   } else {
     if (dialogue.goto) {
-      spaceAdvances('next_diag', function () {
+      spaceAdvances('space_next_diag', function () {
         nextScene(dialogue.goto)
       }) //space advances to next scene this time
     } else {
-      spaceAdvances('next_scene', nextDialogue) //default state -> space goes to next dialogue
+      spaceAdvances('space_next_scene', nextDialogue) //default state -> space goes to next dialogue
     }
   }
 }
@@ -627,11 +735,12 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
 
   //function present => new function for nextbutton
   if (callback) {
-    //nextbutton doesnt get focus
-    if(button.id == 'next-line-button') {
-      button.addEventListener('mousedown', function(event) {
-        event.preventDefault();  // Prevents the button from gaining focus
-    });
+    //button doesnt get focus
+
+    if (button.tabIndex == '-1') {
+      button.addEventListener('mousedown', function (event) {
+        event.preventDefault() // Prevents the button from gaining focus
+      })
     }
     registerClicks(button, callback)
   } else {
@@ -678,7 +787,10 @@ function registerInputs (element, ...callbacks) {
 //space advances dialogue
 
 function spaceAdvances (callback_id, callback, keycode = 32) {
-  log('defining space bahavior with code: ' + callback_id)
+  log('defining keypress bahavior for code: ' + callback_id)
+
+  if (keycode == 32) log('setting space behavior')
+  if (keycode == 27) log('setting escape behavior')
 
   const wrappedCallback = event => {
     //compat, 229 special code for "IMO" processing
@@ -710,6 +822,14 @@ function spaceAdvances (callback_id, callback, keycode = 32) {
     }
   }
 
+  if (CURRENT.spaceHandler.callbacks.get(callback_id)) {
+    log(
+      'Overwriting ' +
+        callback_id +
+        ' with new but not necessarily different function'
+    )
+  }
+
   CURRENT.spaceHandler.callbacks.set(callback_id, wrappedCallback)
 
   // Register the wrapped callback as an event listener for 'keydown'
@@ -730,11 +850,12 @@ function spaceUnbind (key) {
 function spaceUnbindAll () {
   // Iterate through all callbacks in the map
   CURRENT.spaceHandler.callbacks.forEach((callback, key) => {
-    // Remove the event listener for each callback
     document.removeEventListener('keydown', callback)
+    if (key.includes('space')) log('unbinding Space behavior: ' + key)
+    CURRENT.spaceHandler.callbacks.set(key, null)
   })
   // Clear the map after removing all listeners
-  CURRENT.spaceHandler.callbacks.clear()
+  // CURRENT.spaceHandler.callbacks.clear()
 }
 
 //removes all click listeenrs
@@ -816,7 +937,7 @@ function saveNewState (filename = '', saveSlot = -1) {
 function updateState (id) {
   SaveManager.loadGameState(id).then(gameState => {
     if (!gameState) {
-      console.error('Game state not found!')
+      log('Game state not found!')
       return
     }
 
@@ -947,6 +1068,8 @@ function isDisabled (button) {
 }
 //modals like settings,
 function openModal (modal) {
+  spaceUnbindAll()
+
   //when modal is open closing it with esc is possible
   spaceAdvances(
     'esc',
@@ -964,18 +1087,42 @@ function openModal (modal) {
 
 function closeModal (modal) {
   spaceUnbind('esc')
-
   CURRENT.openModal = null
-
   if (modal) {
+    if (modal.id == HTML.saves.modal.id) closeSaves()
     hide(modal)
     hide(HTML.overlay)
+  }
+
+  const scene = currentScene()
+
+  if (scene) {
+    //rebind space
+    handleSpaceBehavior(scene.dialogues[CURRENT.dialogue])
   }
 }
 
 function toggle (to_close, to_open) {
   closeModal(to_close)
   openModal(to_open)
+}
+
+//called when savegame modal closes
+function closeSaves () {
+  $('.dddsim-save-wrapper.active input').val('')
+  $('.dddsim-save-wrapper').removeClass('inactive')
+  $('.dddsim-save-wrapper').removeClass('active')
+
+  $('.dddsim-save-wrapper.active .dddsim-save-button').removeClass('disabled')
+
+  document.querySelectorAll('.dddsim-save-wrapper input').forEach(i => {
+    removeInputEvents(i)
+  })
+  document
+    .querySelectorAll('.dddsim-save-wrapper .dddsim-save-button')
+    .forEach(b => {
+      registerButtonClick(false, b)
+    })
 }
 
 function changeBackground (element, bg = 'black') {

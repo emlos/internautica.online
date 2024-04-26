@@ -100,7 +100,15 @@
 	right: calc(8% + (8% / 100));
 	top: calc(11% + (11% / 19));
 }
-
+#popup {
+	background-image: url(/images/projects/dddsim/ui/popup_panel.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	height: calc(50vw / 1.4);
+	width: 50vw;
+}
 .dddsim-saves-area {
 	position: absolute;
 	margin-left: auto;
@@ -154,12 +162,11 @@
 	overflow-x: hidden;
 	/* This sets the size of the scrollbar to 16px wide */
 	scrollbar-width: 16px; /* Standard for Firefox and others */
-	}
+}
 
-@supports (-moz-appearance:none) {
+@supports (-moz-appearance: none) {
 	.dddsim-saves-container {
 		scrollbar-color: #cf2400 #171717; /* thumb and track colors for browsers that support it */
-
 	}
 }
 
@@ -177,14 +184,12 @@
 	background-color: #171717; /* fallback color if the image is not loaded */
 	background-size: contain;
 	border: 1px solid #090909; /* border around the track */
-	
 }
 
 .dddsim-saves-container::-webkit-scrollbar-thumb {
 	background-color: #464646; /* color of the thumb */
 	border-radius: 25px;
 	width: 15px;
-	
 }
 
 .dddsim-saves-container::-webkit-scrollbar-button {
@@ -209,12 +214,12 @@
 	position: relative;
 
 	width: 100%;
-	height: 15vh;
+	height: 25%;
 	margin-bottom: 1%;
 }
 
-.dddsim-save-wrapper:hover .dddsim-save-background {
-	filter: brightness(1.5);
+.dddsim-save-wrapper.inactive {
+	pointer-events: none;
 }
 
 .dddsim-save-wrapper:last-child() {
@@ -234,7 +239,9 @@
 	position: relative;
 }
 
-.dddsim-save-background:hover {
+.dddsim-save-wrapper:hover .dddsim-save-background,
+.dddsim-save-background:hover,
+.dddsim-save-wrapper.active .dddsim-save-background {
 	background-image: url(/images/projects/dddsim/ui/saveslot_hovered.png);
 }
 
@@ -251,16 +258,12 @@
 	height: calc(6.5vw / 1.31);
 }
 
-.dddsim-save-wrapper[data-save="empty"] .dddsim-save-preview:hover {
+.dddsim-save-wrapper[data-save="empty"]:hover .dddsim-save-preview,
+.dddsim-save-wrapper[data-save="filled"] .dddsim-save-preview,
+.dddsim-save-wrapper[data-save="empty"].active .dddsim-save-preview {
 	background-image: url(/images/projects/dddsim/ui/filled_save.png);
 	height: calc(6.5vw / 0.934);
 }
-
-.dddsim-save-wrapper[data-save="filled"] .dddsim-save-preview {
-	background-image: url(/images/projects/dddsim/ui/filled_save.png);
-	height: calc(6.5vw / 0.934);
-}
-
 
 .dddsim-saves-area[data-mode="save"] .load-save-button {
 	display: none;
@@ -287,6 +290,10 @@
 
 .dddsim-saves-area[data-mode="load"] .save-name-input {
 	pointer-events: none;
+}
+
+.dddsim-save-wrapper[data-save="empty"] .dddsim-save-info-container {
+	visibility: hidden;
 }
 
 .dddsim-save-info-container {
@@ -347,8 +354,24 @@
 	width: 4%;
 }
 
+.dddsim-save-wrapper[data-save="empty"] .delete-save-button {
+	visibility: hidden;
+}
+
+.dddsim-save-wrapper.active .delete-save-button {
+	visibility: visible;
+}
+
 .delete-save-button {
 	background-image: url(/images/projects/dddsim/ui/close_button.png);
+}
+
+.dddsim-save-wrapper:not(.active) .confirm-save-button {
+	visibility: hidden;
+}
+
+.confirm-save-button {
+	background-image: url(/images/projects/dddsim/ui/ok_button.png);
 }
 
 .dddsim-choice-area {
@@ -753,4 +776,3 @@ a:active {
 .toggle {
 	display: none !important;
 }
-

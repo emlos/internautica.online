@@ -7,7 +7,7 @@
 			<button id='popup-ok'class='panel enabled'>Ok</button>
 			<button id='popup-cancel'class='panel enabled'>cancel</button>
 		</div>
-        <div id="saves-panel" class="dddsim-saves-area">
+        <div id="saves-panel" class="dddsim-saves-area" data-mode=''>
             <h3 class="title"></h3>
             <button class="close-modal-button close-saves-button"></button>
             <div class="dddsim-saves-container" id='saves-container'>
@@ -63,13 +63,13 @@
                     <button tabindex="-1" class="dddsim-talkbox-menu-item enabled panel" id="dddsim-start-menu-item">
                         <p>Start</p>
                     </button>
-                    <button  class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
+                    <button  tabindex="-1" class="dddsim-talkbox-menu-item enabled panel" id="dddsim-save-menu-item">
                         <p>Save</p>
                     </button>
-                    <button class="dddsim-talkbox-menu-item enabled panel" id="dddsim-load-menu-item">
+                    <button tabindex="-1" class="dddsim-talkbox-menu-item enabled panel" id="dddsim-load-menu-item">
                         <p>Load</p>
                     </button>
-                    <button class="dddsim-talkbox-menu-item disabled panel" id="dddsim-back-menu-item">
+                    <button tabindex="-1" class="dddsim-talkbox-menu-item disabled panel" id="dddsim-back-menu-item">
                         <p>&lt;&lt;</p>
                     </button>
                 </div>
@@ -96,6 +96,8 @@
                                     <p>Tue Apr 20 2024 14:01:59</p>
                                 </div>
                             </div>
+                                                        <button class="confirm-save-button dddsim-save-button"></button>
+
                             <button class="delete-save-button dddsim-save-button"></button>
                         </div>
 </template>
