@@ -17,30 +17,40 @@ const outputFolder = join() //chapters.js gamedata.js
 
 const scriptsPath = join('', '../projects/dddsim/scripts/')
 
-const scripts = fs
-  .readdirSync(scriptsPath)
-  .filter(script => script.endsWith('.script'))
-
-//read scripts
-scripts.forEach(script => {
-  const scriptContent = fs
-    .readFileSync(path.join(scriptsPath, script))
-    .toString()
-
-  parse(scriptContent)
-})
-
-//TODO
-function save (parser, script, outputDir) {
-  fs.writeFileSync('myParser.js', parser.parse)
-}
 //done
 function join (filepath = '', data = '../src/_data/projects/dddsim/') {
   return path.join(__dirname, data, filepath)
 }
 
 //-------------------------------------------------------------------------------
+function parseScript (filename, folder = scriptsPath) {
+  const scriptContent = fs.readFileSync(path.join(folder, filename)).toString()
 
+  return parse(scriptContent)
+}
+
+function parseScripts (folder = scriptsPath) {
+  const scripts = fs
+    .readdirSync(folder)
+    .filter(script => script.endsWith('.script'))
+
+  //read scripts
+
+  var text = ''
+
+  scripts.forEach(script => {
+    const scriptContent = fs
+      .readFileSync(path.join(scriptsPath, script))
+      .toString()
+
+    text += '\n' + scriptContent
+  })
+
+
+  return parse(text)
+}
+
+//parse block of text of a file
 function parse (text) {
   const patterns = {
     blocks: {
@@ -122,10 +132,10 @@ function parse (text) {
   //all lines sanitized
   const lines = init(text)
 
-  parseCharacters(lines)
-  parseChapters(lines)
+  const chars = parseCharacters(lines)
+  const chapters = parseChapters(lines)
 
-   console.log(JSON.stringify(outData))
+  return {characters: chars, chapters: chapters}
 
   //console.log(JSON.stringify(references))
 
@@ -226,7 +236,7 @@ function parse (text) {
 
     //narrator and player always availabale in out code
 
-    setOutput('characters', characterDataOut)
+    return characterDataOut
 
     //const characterBlocks = getBlocks(lines, ...characterLines);
   }
@@ -301,7 +311,7 @@ function parse (text) {
 
     // console.log(chaptersData)
 
-    setOutput('chapters', chaptersData)
+    return chaptersData
   }
 
   //returns array of scenes {id, attr, dialogues}
@@ -393,6 +403,7 @@ function parse (text) {
     const dialogues = [] //dinal array
 
     var dialogue = null
+
     const status = {
       currentLine: 0,
       baseIndent: -1,
@@ -415,9 +426,25 @@ function parse (text) {
         case 'dialogue':
           //1. start fresh
           if (dialogue) {
+            
             //finish prev choice to be with rpevious dialogue
-            if (status.inChoice) dialogue.choices.push(status.currentChoice)
+            if (status.inChoice) {
+              dialogue.choices.push(status.currentChoice)
+            }
+
+            //if choices add stagger of one dialogue
+            if (dialogue.choices && dialogue.choices.length != 0) {
+              let choiceStaggerDialogue = structuredClone(dialogue)
+              choiceStaggerDialogue.choices = null
+              choiceStaggerDialogue.goto = null
+              console.log(choiceStaggerDialogue)
+              console.log(dialogue)
+              dialogues.push(choiceStaggerDialogue)
+            }
+            
+            //console.log(dialogue)
             dialogues.push(dialogue)
+            
           }
           dialogue = structuredClone(dialogueTemplate)
           dialogue.characters = []
@@ -528,13 +555,11 @@ function parse (text) {
           break
 
         case 'choice':
-          //means previous choice is done
+          //means previous choice is done if applicable
           if (status.inChoice) {
             if (!dialogue.choices) dialogue.choices = []
             dialogue.choices.push(status.currentChoice)
           }
-
-          status.inChoice = true
 
           let choice = {
             text: '',
@@ -547,6 +572,8 @@ function parse (text) {
 
           status.currentChoice = choice
           status.currentLine++
+
+          status.inChoice = true
           break
 
         case 'if':
@@ -589,6 +616,18 @@ function parse (text) {
           dialogue.choices.push(status.currentChoice)
         }
 
+        //backstagger text if choice available
+        if (dialogue.choices) {
+          let choiceStaggerDialogue = structuredClone(dialogue)
+          choiceStaggerDialogue.choices = null
+          choiceStaggerDialogue.goto = null
+          dialogues.push(choiceStaggerDialogue)
+
+          console.log(choiceStaggerDialogue)
+          console.log(dialogue)
+
+        }
+
         //background
         dialogue.background = status.background
 
@@ -602,7 +641,7 @@ function parse (text) {
 
     dialogues.forEach(d => {
       //console.log(d.text)
-     // console.log(d.conditions)
+      // console.log(d.conditions)
     })
 
     // console.log(dialogues)
@@ -899,9 +938,6 @@ function parse (text) {
     //console.log(outData)
   }
 
-  function getOutput (filename) {
-    return outData[filename]
-  }
 
   //type: char, id: char, infor: {}
   function setReference (type, id, value) {
@@ -1047,80 +1083,11 @@ function parse (text) {
     return matches
   }
 }
-// Function to parse the custom text format
-function parseTextToJSON (text) {
-  const lines = text.split('\n')
-
-  const main = {}
-
-  getBlocks(lines).forEach(block => {})
-
-  const Characters = {}
-  let currentCharacter = null
-  let currentProperty = null
-
-  lines.forEach(line => {
-    line = line.split('#')[0].trim() // Remove comments and trim whitespace
-
-    if (line.startsWith('Character')) {
-      const characterName = line.match(/\[([^\]]+)\]/)[1]
-      currentCharacter = characterName
-      Characters[currentCharacter] = {}
-    } else if (line.includes('is')) {
-      const [property, value] = line
-        .split('is')
-        .map(s => s.trim().replace(/\[|\]/g, ''))
-      if (property === 'sprites') {
-        currentProperty = 'sprites'
-        Characters[currentCharacter][currentProperty] = {}
-      } else if (currentProperty === 'sprites') {
-        const spriteNames = value.split(',').map(s => s.trim())
-        spriteNames.forEach(sprite => {
-          Characters[currentCharacter][currentProperty][
-            sprite
-          ] = `${Characters[currentCharacter].name}/${sprite}.png`
-        })
-        currentProperty = null // Reset after parsing sprites
-      } else {
-        Characters[currentCharacter][property] = isNaN(Number(value))
-          ? value
-          : Number(value)
-      }
-    }
-  })
-
-  return Characters
-}
-
 //from string to String
 function capt (string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-//ignore this idgaf anympre
-function getDialogueBlocks (arr) {
-  const result = []
-  let temp = []
-
-  arr.forEach(item => {
-    // Check if the current item is a 'dialogue'
-    if (item.type === 'dialogue') {
-      // If temp is not empty, push it to result (except for the first encounter)
-      if (temp.length > 0) {
-        result.push(temp)
-      }
-      // Start a new temp array including the current 'dialogue' item
-      temp = [item]
-    } else {
-      // For non-'dialogue' items, just add them to the current temp
-      temp.push(item)
-    }
-  })
-
-  // After the loop, push any remaining items to result
-  if (temp.length > 0) {
-    result.push(temp)
-  }
-
-  return result
+module.exports = {
+  parseAll: parseScripts
 }
