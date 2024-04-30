@@ -108,6 +108,8 @@
 	position: absolute;
 	height: calc(50vw / 1.4);
 	width: 50vw;
+
+	z-index: 70;
 }
 .dddsim-saves-area {
 	position: absolute;
@@ -688,6 +690,8 @@ button.disabled * {
 	z-index: 56;
 
 	pointer-events: none;
+	backdrop-filter: blur(2px);
+
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/

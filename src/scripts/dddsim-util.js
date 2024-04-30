@@ -107,7 +107,7 @@ class GameDB {
       const store = transaction.objectStore(this.storeName)
       const request = store.delete(save_id)
 
-      request.onsuccess = () => resolve()
+      request.onsuccess = () => {console.log("Deleting save successful, id: " + save_id);resolve()}
       request.onerror = event => reject(event.target.errorCode)
     })
   }

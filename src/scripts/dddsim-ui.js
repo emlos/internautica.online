@@ -21,6 +21,7 @@ const CURRENT = {
   dialogue: 0, //which dialogues[n] index scene is at
 
   openModal: null, //which modal is open
+  popup: false,
   spaceHandler: {
     callbacks: new Map(),
     cooldown: 0.15 * 1000, //in ms
@@ -66,7 +67,6 @@ const HTML = {
     text: document.createElement('p'),
     okbutton: document.createElement('button'),
     cancelbutton: document.createElement('button'),
-    success: ()=>{},
   }
 }
 
@@ -101,7 +101,7 @@ function init () {
   HTML.saves.slots = document.getElementById('saves-container')
 
   HTML.popup.modal = document.getElementById('popup')
-  HTML.popup.text = HTML.popup.modal.getElementsByTagName('p')[0]
+  HTML.popup.text = HTML.popup.modal.querySelector('p')
   HTML.popup.okbutton = document.getElementById('popup-ok')
   HTML.popup.cancelbutton = document.getElementById('popup-cancel')
 
@@ -210,10 +210,10 @@ function loadSaves () {
 
             const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
             save_wrapper.setAttribute('data-save', 'filled')
-            save_wrapper.setAttribute('data-slot', i)
+            save_wrapper.setAttribute('data-slot', i + 1)
 
             const input = save_wrapper.querySelector('input')
-            input.id = 'input-' + i
+            input.id = 'input-' + (i + 1)
             input.value = save.name
 
             const info = save_wrapper.querySelector(
@@ -227,9 +227,11 @@ function loadSaves () {
             HTML.saves.slots.appendChild(save_wrapper)
           })
 
+
+
         //8 slots - fill up with empty ones
-        let free = CONFIG.amount_save_slots - HTML.saves.slots.children.length
-        for (let i = free; i > 0; i--) {
+        let occupied = HTML.saves.slots.children.length
+        for (let i = occupied; i < CONFIG.amount_save_slots; i++) {
           const clone = template.content.cloneNode(true)
           const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
           save_wrapper.setAttribute('data-slot', i)
@@ -308,28 +310,30 @@ function loadSaves () {
         event.stopPropagation()
       }, deletebtn)
 
-      //data-save='filled'
+      //data-save='filled'===========
     } else {
+      //3.5. ish, remove the lock
+      $('.dddsim-save-wrapper').removeClass('inactive')
       //4.? confirm button shows popup before overriding save
       //saving when confirm clicked
       registerButtonClick(() => {
         if (!isDisabled(confirmbtn)) {
-         // openModal(HTML.popup.modal)
-          //saveNewState(input.value, cause.getAttribute('data-slot'))
+         openPopup("Overwrite previous Save? [Cannot be Undone]", () => {
+          unselectSave(cause)
+          console.log(input)
+          console.log("slot " + cause.getAttribute('data-slot')) 
+          saveNewState(input.value, cause.getAttribute('data-slot'))
+        })
         }
       }, confirmbtn)
 
       //5. delete save when prompted
       registerButtonClick(event => {
-       openModal(HTML.popup.modal)
-        HTML.popup.text = "Delete Save? [CANNOT be undone!]"
-//setPopup(()=>{
-          //1. delete Save
-          //2. 
-          unselectSave(cause)
-     //   })
-       // 
-
+      openPopup("Delete Save? [CANNOT be undone!]", () => {
+        unselectSave(cause)
+        deleteState(cause.getAttribute("data-slot"))
+      })
+      
         event.stopPropagation()
       }, deletebtn)
     }
@@ -340,6 +344,7 @@ function loadSaves () {
   //-----util
   function selectSave (cause) {
     $('.dddsim-save-wrapper').addClass('inactive')
+    $('.dddsim-save-wrapper').removeClass('active')
     cause.classList.remove('inactive')
     cause.classList.add('active')
   }
@@ -361,7 +366,7 @@ function loadSaves () {
   }
 }
 
-//shows a "title" card
+//shows a "title" card for a given title
 function showTitle (title) {
   hide(
     HTML.characters,
@@ -404,6 +409,8 @@ function start (scene_id) {
 
   //continue here
 }
+
+//--------------------------- RENDERING DIALOGUE
 
 function loadDialogue (dialogue) {
   log(
@@ -673,7 +680,7 @@ function choiceRedirects (choice, button) {
   }
 }
 
-// STORY FLOW-------------- -----------------
+// STORY FLOW-------------- -----------------=======================
 
 function nextScene (scene_id = null) {
   spaceUnbindAll() //unbind all - will be rebound if necessary
@@ -917,7 +924,7 @@ function saveNewState (filename = '', saveSlot = -1) {
 
   const gameState = {
     name: filename,
-    id: 'save-' + saveSlot,
+    id: saveSlot,
     playerState: PlayerState,
     coordinates: {
       chapter_id: CURRENT.currentChapter,
@@ -970,6 +977,10 @@ function loadState (id) {
       initChapter()
     })
     .catch(error => console.error('Failed to load game state', error))
+}
+
+function deleteState(id){
+  SaveManager.deleteGameState(id).catch(error => console.error('Failed to delete game state', error))
 }
 
 function _dontusethis_deleteDatabase () {
@@ -1067,6 +1078,40 @@ function isDisabled (button) {
   return button.classList.contains('disabled')
 }
 //modals like settings,
+function openPopup(text, callback) {
+
+  spaceUnbindAll()
+  document.body.focus()
+
+  show(HTML.popup.modal)
+
+  HTML.popup.text.innerText = text
+  HTML.overlay.style.zIndex = 69
+
+  registerButtonClick(() => {
+    callback()
+    closePopup()
+
+  }, HTML.popup.okbutton)
+
+  registerButtonClick(() => {
+    closePopup()
+  }, HTML.popup.cancelbutton)
+
+}
+
+function closePopup() {
+  hide(HTML.popup.modal)
+  HTML.overlay.style.zIndex = 53
+  spaceAdvances(
+    'esc',
+    function () {
+      closeModal(CURRENT.openModal)
+    },
+    27
+  )
+
+}
 function openModal (modal) {
   spaceUnbindAll()
 
@@ -1083,6 +1128,8 @@ function openModal (modal) {
 
   show(modal)
   show(HTML.overlay)
+
+  if (modal.id == HTML.saves.modal.id) loadSaves()
 }
 
 function closeModal (modal) {
