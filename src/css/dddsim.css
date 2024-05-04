@@ -107,9 +107,26 @@
 	background-repeat: no-repeat;
 	position: absolute;
 	height: calc(50vw / 1.4);
-	width: 50vw;
-
+	width: 36vw;
 	z-index: 70;
+	left: 0;
+	right: 0;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+}
+
+.dddsim-popup-container {
+	position: absolute;
+	top: 36%;
+	left: 15%;
+	width: 67%;
+	height: 35%;
+	padding: 0;
+	margin: 0;
+
+	display: flex;
+	flex-direction: column;
 }
 .dddsim-saves-area {
 	position: absolute;
@@ -691,7 +708,6 @@ button.disabled * {
 
 	pointer-events: none;
 	backdrop-filter: blur(2px);
-
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/

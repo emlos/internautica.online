@@ -66,7 +66,7 @@ const HTML = {
     modal: document.createElement('div'),
     text: document.createElement('p'),
     okbutton: document.createElement('button'),
-    cancelbutton: document.createElement('button'),
+    cancelbutton: document.createElement('button')
   }
 }
 
@@ -196,24 +196,25 @@ function loadSaves () {
   //1. clear displayed saves
   clear(HTML.saves.slots)
 
-  //2. find all current Saves from IndexDB
-  const template = document.querySelector('#templatesave')
-
   SaveManager.loadAllStates()
     .then(allGameStates => {
       if (allGameStates) {
-        allGameStates
-          .slice(0, CONFIG.amount_save_slots) //get first eight saves ONLY
-          .forEach((save, i) => {
-            //3. display all filled saves
-            const clone = template.content.cloneNode(true)
+        //2. find all current Saves from IndexDB
+        const template = document.querySelector('#templatesave')
 
-            const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
+        //for all 8 slots
+        for (let i = 0; i < CONFIG.amount_save_slots; i++) {
+          let save = allGameStates.find(save => save.id == i + '')
+          const clone = template.content.cloneNode(true)
+
+          if (save) {
+            //3. display all filled saves
+            let save_wrapper = clone.querySelector('.dddsim-save-wrapper')
             save_wrapper.setAttribute('data-save', 'filled')
-            save_wrapper.setAttribute('data-slot', i + 1)
+            save_wrapper.setAttribute('data-slot', i)
 
             const input = save_wrapper.querySelector('input')
-            input.id = 'input-' + (i + 1)
+            input.id = 'input-' + i
             input.value = save.name
 
             const info = save_wrapper.querySelector(
@@ -224,21 +225,27 @@ function loadSaves () {
             infos[1].innerText = 'Chapter ' + (save.coordinates.chapter_id + 1)
             infos[2].innerText = save.lastSaved.toLocaleString()
 
+            const deletebtn = save_wrapper.querySelector('.delete-save-button')
+
+            registerButtonClick(event => {
+              openPopup('Delete Save? [CANNOT be undone!]', () => {
+                unselectSave(save_wrapper)
+                deleteState(i + '') //string
+              })
+
+              event.stopPropagation() //dont bubble up
+            }, deletebtn)
+
             HTML.saves.slots.appendChild(save_wrapper)
-          })
+          }
+          //if save does not exist
+          else {
+            let save_wrapper = clone.querySelector('.dddsim-save-wrapper')
+            save_wrapper.setAttribute('data-slot', i)
 
-
-
-        //8 slots - fill up with empty ones
-        let occupied = HTML.saves.slots.children.length
-        for (let i = occupied; i < CONFIG.amount_save_slots; i++) {
-          const clone = template.content.cloneNode(true)
-          const save_wrapper = clone.querySelector('.dddsim-save-wrapper')
-          save_wrapper.setAttribute('data-slot', i)
-
-          HTML.saves.slots.appendChild(clone)
+            HTML.saves.slots.appendChild(clone)
+          }
         }
-
         //allow for loading/saving... depending on which mode youre in
         $('.dddsim-save-wrapper').on('click', event => {
           const cause = event.currentTarget
@@ -252,7 +259,7 @@ function loadSaves () {
               break
 
             default:
-              console.log('not known mode')
+              log('not known mode')
               break
           }
         })
@@ -289,7 +296,7 @@ function loadSaves () {
       validateInput(input.value.trim(), confirmbtn)
     })
 
-    //3. clicking on a filled save has less steps
+    //3. clicking on a filled save has less steps //???? bro what does this mean
     if (cause.getAttribute('data-save') == 'empty') {
       //put user in typing, only allow valid filenames
       input.focus()
@@ -318,24 +325,15 @@ function loadSaves () {
       //saving when confirm clicked
       registerButtonClick(() => {
         if (!isDisabled(confirmbtn)) {
-         openPopup("Overwrite previous Save? [Cannot be Undone]", () => {
-          unselectSave(cause)
-          console.log(input)
-          console.log("slot " + cause.getAttribute('data-slot')) 
-          saveNewState(input.value, cause.getAttribute('data-slot'))
-        })
+          openPopup('Overwrite previous Save? [Cannot be Undone]', () => {
+           
+            saveNewState(input.value, cause.getAttribute('data-slot'))
+            unselectSave(cause) //order matters, empty the input AFTER extracting the text
+          })
         }
       }, confirmbtn)
 
-      //5. delete save when prompted
-      registerButtonClick(event => {
-      openPopup("Delete Save? [CANNOT be undone!]", () => {
-        unselectSave(cause)
-        deleteState(cause.getAttribute("data-slot"))
-      })
-      
-        event.stopPropagation()
-      }, deletebtn)
+      //5. save deletion to filled slots assigned in the loadSaves() method
     }
   }
 
@@ -349,8 +347,8 @@ function loadSaves () {
     cause.classList.add('active')
   }
   function unselectSave (cause) {
-    $('.dddsim-save-wrapper').removeClass('inactive')
-    cause.classList.remove('active')
+    $('.dddsim-save-wrapper').removeClass('inactive') //remove inactive from all
+    cause.classList.remove('active') //remove active from current
 
     cause.querySelector('input').value = ''
   }
@@ -979,8 +977,13 @@ function loadState (id) {
     .catch(error => console.error('Failed to load game state', error))
 }
 
-function deleteState(id){
-  SaveManager.deleteGameState(id).catch(error => console.error('Failed to delete game state', error))
+function deleteState (id) {
+  SaveManager.deleteGameState(id)
+    .then(value => {
+      console.log('reloading states')
+      loadSaves()
+    })
+    .catch(error => console.error('Failed to delete game state', error))
 }
 
 function _dontusethis_deleteDatabase () {
@@ -1078,8 +1081,7 @@ function isDisabled (button) {
   return button.classList.contains('disabled')
 }
 //modals like settings,
-function openPopup(text, callback) {
-
+function openPopup (text, callback) {
   spaceUnbindAll()
   document.body.focus()
 
@@ -1091,18 +1093,16 @@ function openPopup(text, callback) {
   registerButtonClick(() => {
     callback()
     closePopup()
-
   }, HTML.popup.okbutton)
 
   registerButtonClick(() => {
     closePopup()
   }, HTML.popup.cancelbutton)
-
 }
 
-function closePopup() {
+function closePopup () {
   hide(HTML.popup.modal)
-  HTML.overlay.style.zIndex = 53
+  HTML.overlay.style.zIndex = 56
   spaceAdvances(
     'esc',
     function () {
@@ -1110,7 +1110,6 @@ function closePopup() {
     },
     27
   )
-
 }
 function openModal (modal) {
   spaceUnbindAll()
