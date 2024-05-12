@@ -20,6 +20,8 @@ features for demo: 1.0: co można pokazać ludziom;
 ----
 features for demo 2.0: full engine (fake)
 
+separate parser display logic and data pipes more!!!
+
 polish:
     - visual confirmation when flag set, hearts or somrthing
     - add text effects (emphasis, omnious + keep parser up to date)

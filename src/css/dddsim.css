@@ -620,7 +620,7 @@ input#talkbox-text-input:focus-within {
 }
 
 .dddsim-talkbox-side-menu {
-	height: calc(200px - 3%);
+	height: calc(200px - 1.8%);
 	width: fit-content;
 }
 

@@ -11,6 +11,10 @@
 //presistent settigns for the game
 const CONFIG = {
   debug: true,
+  disableDebug: () => {
+    CONFIG.debug = false
+    console.clear()
+  },
   amount_save_slots: 8
 }
 
@@ -22,12 +26,14 @@ const CURRENT = {
 
   openModal: null, //which modal is open
   popup: false,
+  //space advances
   spaceHandler: {
     callbacks: new Map(),
     cooldown: 0.15 * 1000, //in ms
     last_space: Date.now() //when last space was clicked
   },
 
+  //saveslot names
   saveHandles: {
     saves: [],
     saveSlot: null
@@ -114,9 +120,7 @@ function init () {
   loadSaves()
 }
 
-function initChapter (chapter) {
-  if (!chapter) chapter = CURRENT.chapter
-
+function initChapter (chapter = CURRENT.chapter) {
   HTML.menu.start.children.item(0).innerHTML = 'Restart'
 
   showTitle(chapter.title)
@@ -124,13 +128,13 @@ function initChapter (chapter) {
   //next button starts chapter
   registerButtonClick(function () {
     if (isHidden(HTML.overlay)) {
-      start(CURRENT.chapter.start)
+      start(chapter)
     }
   })
 
   //space advances chapter also
   spaceAdvances('init', function () {
-    start(CURRENT.chapter.start)
+    start(chapter.start)
     spaceUnbind('init')
   })
 }
@@ -152,6 +156,7 @@ function loadMainMenu () {
 function loadSideMenu () {
   enableMenu()
   disableButton(HTML.menu.back)
+  disableButton(HTML.menu.save)
   // disableButton(HTML.menu.save) //cant save in main menu
 
   //when start clicked
@@ -326,7 +331,6 @@ function loadSaves () {
       registerButtonClick(() => {
         if (!isDisabled(confirmbtn)) {
           openPopup('Overwrite previous Save? [Cannot be Undone]', () => {
-           
             saveNewState(input.value, cause.getAttribute('data-slot'))
             unselectSave(cause) //order matters, empty the input AFTER extracting the text
           })
@@ -337,7 +341,13 @@ function loadSaves () {
     }
   }
 
-  function handleLoad (target) {}
+  function handleLoad (target) {
+    openPopup("Load this Save? You're gonna lose unsaved progress!", () => {
+      let id = target.getAttribute('data-slot')
+      loadState(id)
+      closeModal(HTML.saves.modal)
+    })
+  }
 
   //-----util
   function selectSave (cause) {
@@ -385,25 +395,23 @@ function showTitle (title) {
 }
 
 //starts a scene
-function start (scene_id) {
+function start (scene_id, dialogue = null) {
   log('starting scene: ' + scene_id)
 
   registerButtonClick(false)
   spaceUnbindAll()
 
   CURRENT.scene = scene_id
-  CURRENT.dialogue = 0
+  CURRENT.dialogue = dialogue ? dialogue : 0
 
   const scn = currentScene()
-  const first = scn.dialogues[CURRENT.dialogue]
 
   enableMenu()
 
   changeBackground(HTML.background, scn.background)
 
-  //todo: other SCENE setup
-
-  loadDialogue(first)
+  const current = scn.dialogues[CURRENT.dialogue]
+  loadDialogue(current)
 
   //continue here
 }
@@ -411,9 +419,7 @@ function start (scene_id) {
 //--------------------------- RENDERING DIALOGUE
 
 function loadDialogue (dialogue) {
-  log(
-    'Loading dialogues[' + CURRENT.dialogue + '] in scene id: ' + CURRENT.scene
-  )
+  log('Loading dialogues[' + dialogue + '] in scene id: ' + CURRENT.scene)
 
   show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel, HTML.textbox)
 
@@ -682,7 +688,6 @@ function choiceRedirects (choice, button) {
 
 function nextScene (scene_id = null) {
   spaceUnbindAll() //unbind all - will be rebound if necessary
-
   if (scene_id) {
     if (scene_id == 'end') {
       endChapter()
@@ -737,6 +742,11 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
   log('setting what <' + button.id + '> does')
 
   removeClicks(button)
+
+  if (isDisabled(button) || isHidden(button)) {
+    log('<' + button.id + '> is disabled!')
+    return
+  }
 
   //function present => new function for nextbutton
   if (callback) {
@@ -970,9 +980,15 @@ function loadState (id) {
       CURRENT.dialogue = state.coordinates.dialogue_index
       CURRENT.scene = state.coordinates.scene_id
       CURRENT.currentChapter = state.coordinates.chapter_id
-      CURRENT.chapter = Story.chapters[state.coordinates.dialogue_index]
+      CURRENT.chapter = Story.chapters[state.coordinates.chapter_id]
 
-      initChapter()
+      console.log(state)
+      registerButtonClick(false, HTML.nextbutton)
+      registerButtonClick(false, HTML.randominputbutton)
+      registerButtonClick(false, HTML.confirminputbutton)
+      spaceUnbindAll()
+
+      start(CURRENT.scene, CURRENT.dialogue)
     })
     .catch(error => console.error('Failed to load game state', error))
 }
@@ -1127,6 +1143,7 @@ function openModal (modal) {
 
   show(modal)
   show(HTML.overlay)
+   disableButton(HTML.nextbutton)
 
   if (modal.id == HTML.saves.modal.id) loadSaves()
 }
@@ -1134,13 +1151,14 @@ function openModal (modal) {
 function closeModal (modal) {
   spaceUnbind('esc')
   CURRENT.openModal = null
+  // show(HTML.nextbutton) not necessary?
   if (modal) {
     if (modal.id == HTML.saves.modal.id) closeSaves()
     hide(modal)
     hide(HTML.overlay)
   }
-
-  const scene = currentScene()
+enableButton(HTML.nextbutton)
+  const scene = currentScene() //TODO: performance pot
 
   if (scene) {
     //rebind space

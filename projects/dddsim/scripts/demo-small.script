@@ -22,6 +22,7 @@ Chapter first_chapter is
         background is intro-broken-carriage.png #relative to src, case insensitive
 
         #N and P is built in
+        N: Test
         N: Ruin has come to our family.
         N: In my darkest hour - hope turned her derisive gaze upon this wretched estate.
         N: Before my untimely demise I contacted one of my kin.
