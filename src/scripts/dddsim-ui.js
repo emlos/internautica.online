@@ -215,6 +215,7 @@ function loadSaves () {
           const clone = template.content.cloneNode(true)
 
           if (save) {
+            console.log(save.version + ' < save version  | game version > '+ GAME_VERSION)
             //3. display all filled saves
             let save_wrapper = clone.querySelector('.dddsim-save-wrapper')
             save_wrapper.setAttribute('data-save', 'filled')
@@ -952,7 +953,8 @@ function saveNewState (filename = '', saveSlot = -1) {
       scene_id: CURRENT.scene,
       dialogue_index: CURRENT.dialogue
     },
-    lastSaved: new Date()
+    lastSaved: new Date(),
+    version: GAME_VERSION
   }
 
   SaveManager.saveGameState(gameState)
@@ -977,6 +979,7 @@ function updateState (id) {
     }
     gameState.playerState = PlayerState
     gameState.lastSaved = new Date() // Update the timestamp or any other property
+    gameState.version = GAME_VERSION
 
     // Save (update) the game state
     SaveManager.saveGameState(gameState)

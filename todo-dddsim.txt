@@ -4,11 +4,11 @@ features for demo: 1.0: co można pokazać ludziom;
             - barebones script parser
 - go back and rules surrouning that (renpy style?)
 - emotional sprites
-- save/load game screen
+            - save/load game screen
 - text animation
 - main menu
 - end game screen
-- spacebar/enter clicing forward
+            - spacebar/enter clicing forward
             - namebox user input
 - restarting
 - options menu
