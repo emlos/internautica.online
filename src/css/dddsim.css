@@ -599,7 +599,7 @@ input#talkbox-text-input:focus-within {
 
 	overflow: hidden;
 
-	font-size: 2rem;
+	
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -617,6 +617,9 @@ input#talkbox-text-input:focus-within {
 
 #input-textbox-panel + #line {
 	padding-bottom: 0;
+}
+#line {
+	font-size: 200%;
 }
 
 .dddsim-talkbox-side-menu {
@@ -701,8 +704,8 @@ button.disabled * {
 	top: 0;
 	left: 0;
 
-	height: 100%;
-	width: 100%;
+	height: 100vh;
+    width: 99vw;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 56;
 

@@ -121,14 +121,14 @@ function init () {
 }
 
 function initChapter (chapter = CURRENT.chapter) {
-  HTML.menu.start.children.item(0).innerHTML = 'Restart'
+
 
   showTitle(chapter.title)
 
   //next button starts chapter
   registerButtonClick(function () {
     if (isHidden(HTML.overlay)) {
-      start(chapter)
+      start(chapter.start)
     }
   })
 
@@ -153,6 +153,8 @@ function loadMainMenu () {
   show(HTML.characters, HTML.textbox, HTML.menu.panel)
 }
 
+
+//INITIAL LOAD of start/save/load
 function loadSideMenu () {
   enableMenu()
   disableButton(HTML.menu.back)
@@ -237,7 +239,7 @@ function loadSaves () {
                 unselectSave(save_wrapper)
                 deleteState(i + '') //string
               })
-
+              console.log(event)
               event.stopPropagation() //dont bubble up
             }, deletebtn)
 
@@ -394,11 +396,15 @@ function showTitle (title) {
   setTextbox(title)
 }
 
-//starts a scene
+//starts a scene with a given id at an optional dialogue point
 function start (scene_id, dialogue = null) {
   log('starting scene: ' + scene_id)
 
-  registerButtonClick(false)
+
+    HTML.menu.start.children.item(0).innerHTML = 'Restart'
+    allowCloseWindow(false) //cant close window without saving
+
+    registerButtonClick(false)
   spaceUnbindAll()
 
   CURRENT.scene = scene_id
@@ -407,6 +413,7 @@ function start (scene_id, dialogue = null) {
   const scn = currentScene()
 
   enableMenu()
+  disableButton(HTML.menu.start)
 
   changeBackground(HTML.background, scn.background)
 
@@ -565,10 +572,12 @@ function loadInput (dialogueInput) {
     spaceUnbindAll() //no spacing around when typing
 
     validateInput() //cached textboxes
-
+   
     //register clicking on ok done writing
     registerButtonClick(() => {
+      console.log('hbsgdjhsfd')
       if (validateInput()) {
+        
         setUserAttribute(dialogueInput, HTML.inputbox.value)
         display(HTML.inputpanel, 'none')
 
@@ -743,11 +752,7 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
 
   removeClicks(button)
 
-  if (isDisabled(button) || isHidden(button)) {
-    log('<' + button.id + '> is disabled!')
-    return
-  }
-
+ 
   //function present => new function for nextbutton
   if (callback) {
     //button doesnt get focus
@@ -769,7 +774,15 @@ function registerClicks (element, ...callbacks) {
 
   let functions = 0
   callbacks.forEach(callback => {
-    e.on('click', callback)
+    let new_callback = (event) => {
+      if (isDisabled(element) || isHidden(element)) {
+        log('<' + element.id + '> is disabled!')
+        return
+      }
+      callback(event)
+    
+    }
+    e.on('click', new_callback)
     functions++
   })
 
@@ -982,7 +995,7 @@ function loadState (id) {
       CURRENT.currentChapter = state.coordinates.chapter_id
       CURRENT.chapter = Story.chapters[state.coordinates.chapter_id]
 
-      console.log(state)
+      //log(state)
       registerButtonClick(false, HTML.nextbutton)
       registerButtonClick(false, HTML.randominputbutton)
       registerButtonClick(false, HTML.confirminputbutton)
@@ -996,7 +1009,7 @@ function loadState (id) {
 function deleteState (id) {
   SaveManager.deleteGameState(id)
     .then(value => {
-      console.log('reloading states')
+      log('reloading states')
       loadSaves()
     })
     .catch(error => console.error('Failed to delete game state', error))
@@ -1265,6 +1278,16 @@ function removeTalkingSprites () {
   let characters = $(HTML.characters)
 
   characters.children().removeClass('talking')
+}
+
+//----------------------------------------browser stuff
+
+function allowCloseWindow(on) {
+  window.onbeforeunload = (!on) ? unloadMessage : null;
+}
+
+function unloadMessage() {
+  return "This game does NOT autosave - all progress will be lost!";
 }
 
 function log (text) {

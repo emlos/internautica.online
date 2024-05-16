@@ -148,8 +148,7 @@ function parse (text) {
     const lines = text
       .split('\n')
       .map((line, index) => {
-        let linetext = line.replace(/#.*$/g, '').trim()
-
+        let linetext = line.trim().replace(/#.*$/g, '').trim()
         //map out every line to FILE line nr !important
         return {
           fileLine: index + 1,
