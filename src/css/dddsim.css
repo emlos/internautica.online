@@ -118,15 +118,31 @@
 
 .dddsim-popup-container {
 	position: absolute;
-	top: 36%;
-	left: 15%;
-	width: 67%;
-	height: 35%;
-	padding: 0;
-	margin: 0;
+    top: 36%;
+    left: 19%; 
+    width: 58%;
+    height: 35%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dddsim-popup-container > p {
+	font-size: 180%;
+}
 
+.dddsim-popup-buttons-container {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: center;
+	column-gap: 6% ;
+	width: 100%;
+}
+
+.popup-button {
+	font-size: 150%;
+	padding: 2.5% 5%;
 }
 .dddsim-saves-area {
 	position: absolute;
@@ -615,11 +631,23 @@ input#talkbox-text-input:focus-within {
 	padding: 0;
 }
 
-#input-textbox-panel + #line {
-	padding-bottom: 0;
-}
 #line {
 	font-size: 200%;
+}
+
+.text-emphasis {
+	color: var(--color-yellow);
+}
+
+ .text-warning {
+	color: red;
+}
+
+
+
+
+#input-textbox-panel + #line {
+	padding-bottom: 0;
 }
 
 .dddsim-talkbox-side-menu {

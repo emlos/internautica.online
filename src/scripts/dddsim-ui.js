@@ -1116,7 +1116,7 @@ function openPopup (text, callback) {
 
   show(HTML.popup.modal)
 
-  HTML.popup.text.innerText = text
+  HTML.popup.text.innerHTML = highlight(text)
   HTML.overlay.style.zIndex = 69
 
   registerButtonClick(() => {
@@ -1223,9 +1223,11 @@ function changeBackground (element, bg = 'black') {
 
 function setTextbox (text) {
   show(HTML.textbox)
-  const textbox = HTML.text
-  //animatetext
-  textbox.textContent = text
+
+ 
+
+  
+  HTML.text.innerHTML = highlight(text)
 }
 
 function setNametag (name) {
@@ -1240,6 +1242,17 @@ function setNametag (name) {
 }
 
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever
+
+function highlight(text) {
+  
+  const yellow_regex = /\[(.*?)\]/g;
+  text = text.replace(yellow_regex, '<span class="text-emphasis">$1</span>');
+ 
+  const red_regex = /\{(.*?)\}/g;
+  text = text.replace(red_regex, '<span class="text-warning">$1</span>');
+
+  return text
+}
 
 function disableMenu () {
   const menuitems = HTML.menu.panel.querySelectorAll(
