@@ -1230,6 +1230,7 @@ function setTextbox (text, delay) {
   if (delay != 0) {
     window.typewriter.showText(text, delay) //class handles that
   } else {
+    clearTimeout(window.typewriter.currentTimeout) //stop generating
     HTML.text.innerHTML = highlight(text)
   }
 }
