@@ -111,6 +111,8 @@ function init () {
   HTML.popup.okbutton = document.getElementById('popup-ok')
   HTML.popup.cancelbutton = document.getElementById('popup-cancel')
 
+  window.typewriter = new Typewriter('line')
+
   loadMainMenu()
 
   loadSideMenu()
@@ -121,8 +123,6 @@ function init () {
 }
 
 function initChapter (chapter = CURRENT.chapter) {
-
-
   showTitle(chapter.title)
 
   //next button starts chapter
@@ -152,7 +152,6 @@ function loadMainMenu () {
   HTML.characters.appendChild(title)
   show(HTML.characters, HTML.textbox, HTML.menu.panel)
 }
-
 
 //INITIAL LOAD of start/save/load
 function loadSideMenu () {
@@ -215,7 +214,9 @@ function loadSaves () {
           const clone = template.content.cloneNode(true)
 
           if (save) {
-            console.log(save.version + ' < save version  | game version > '+ GAME_VERSION)
+            console.log(
+              save.version + ' < save version  | game version > ' + GAME_VERSION
+            )
             //3. display all filled saves
             let save_wrapper = clone.querySelector('.dddsim-save-wrapper')
             save_wrapper.setAttribute('data-save', 'filled')
@@ -401,11 +402,10 @@ function showTitle (title) {
 function start (scene_id, dialogue = null) {
   log('starting scene: ' + scene_id)
 
+  HTML.menu.start.children.item(0).innerHTML = 'Restart'
+  allowCloseWindow(false) //cant close window without saving
 
-    HTML.menu.start.children.item(0).innerHTML = 'Restart'
-    allowCloseWindow(false) //cant close window without saving
-
-    registerButtonClick(false)
+  registerButtonClick(false)
   spaceUnbindAll()
 
   CURRENT.scene = scene_id
@@ -436,7 +436,7 @@ function loadDialogue (dialogue) {
 
     loadDialogueCharacters(dialogue.characters, dialogue.speaking)
 
-    loadDialogueText(dialogue.text)
+    loadDialogueText(dialogue)
 
     loadDialogueChoices(dialogue.choices) //blocking
 
@@ -511,12 +511,15 @@ function loadDialogueBackground (background) {
   }
 }
 
-function loadDialogueText (text) {
+function loadDialogueText (dialogue) {
+  let text = dialogue.text
   show(HTML.menu.panel)
   show(HTML.textbox)
   show(HTML.nametag)
 
-  setTextbox(text)
+  let delay = dialogue.choices ? 0 : undefined
+
+  setTextbox(text, delay)
 }
 
 function loadDialogueChoices (choices) {
@@ -573,12 +576,11 @@ function loadInput (dialogueInput) {
     spaceUnbindAll() //no spacing around when typing
 
     validateInput() //cached textboxes
-   
+
     //register clicking on ok done writing
     registerButtonClick(() => {
       console.log('hbsgdjhsfd')
       if (validateInput()) {
-        
         setUserAttribute(dialogueInput, HTML.inputbox.value)
         display(HTML.inputpanel, 'none')
 
@@ -753,7 +755,6 @@ function registerButtonClick (callback, button = HTML.nextbutton) {
 
   removeClicks(button)
 
- 
   //function present => new function for nextbutton
   if (callback) {
     //button doesnt get focus
@@ -775,13 +776,12 @@ function registerClicks (element, ...callbacks) {
 
   let functions = 0
   callbacks.forEach(callback => {
-    let new_callback = (event) => {
+    let new_callback = event => {
       if (isDisabled(element) || isHidden(element)) {
         log('<' + element.id + '> is disabled!')
         return
       }
       callback(event)
-    
     }
     e.on('click', new_callback)
     functions++
@@ -1159,7 +1159,7 @@ function openModal (modal) {
 
   show(modal)
   show(HTML.overlay)
-   disableButton(HTML.nextbutton)
+  disableButton(HTML.nextbutton)
 
   if (modal.id == HTML.saves.modal.id) loadSaves()
 }
@@ -1173,7 +1173,7 @@ function closeModal (modal) {
     hide(modal)
     hide(HTML.overlay)
   }
-enableButton(HTML.nextbutton)
+  enableButton(HTML.nextbutton)
   const scene = currentScene() //TODO: performance pot
 
   if (scene) {
@@ -1224,13 +1224,14 @@ function changeBackground (element, bg = 'black') {
   }
 }
 
-function setTextbox (text) {
+function setTextbox (text, delay) {
   show(HTML.textbox)
-
- 
-
-  
-  HTML.text.innerHTML = highlight(text)
+  console.log(delay)
+  if (delay != 0) {
+    window.typewriter.showText(text, delay) //class handles that
+  } else {
+    HTML.text.innerHTML = highlight(text)
+  }
 }
 
 function setNametag (name) {
@@ -1246,13 +1247,12 @@ function setNametag (name) {
 
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever
 
-function highlight(text) {
-  
-  const yellow_regex = /\[(.*?)\]/g;
-  text = text.replace(yellow_regex, '<span class="text-emphasis">$1</span>');
- 
-  const red_regex = /\{(.*?)\}/g;
-  text = text.replace(red_regex, '<span class="text-warning">$1</span>');
+function highlight (text) {
+  const yellow_regex = /\[(.*?)\]/g
+  text = text.replace(yellow_regex, '<span class="text-emphasis">$1</span>')
+
+  const red_regex = /\{(.*?)\}/g
+  text = text.replace(red_regex, '<span class="text-warning">$1</span>')
 
   return text
 }
@@ -1298,12 +1298,12 @@ function removeTalkingSprites () {
 
 //----------------------------------------browser stuff
 
-function allowCloseWindow(on) {
-  window.onbeforeunload = (!on) ? unloadMessage : null;
+function allowCloseWindow (on) {
+  window.onbeforeunload = !on ? unloadMessage : null
 }
 
-function unloadMessage() {
-  return "This game does NOT autosave - all progress will be lost!";
+function unloadMessage () {
+  return 'This game does NOT autosave - all progress will be lost!'
 }
 
 function log (text) {

@@ -129,7 +129,8 @@
     align-items: center;
 }
 .dddsim-popup-container > p {
-	font-size: 180%;
+	font-size: 150%;
+	margin-bottom: 5%;
 }
 
 .dddsim-popup-buttons-container {
@@ -462,8 +463,8 @@
 	background-position: center;
 	background-repeat: no-repeat;
 
-	height: 100%;
-	width: 35%;
+	height: 96%;
+  width: 32%;
 }
 
 .dddsim-sprite:not(.talking) {
@@ -633,17 +634,20 @@ input#talkbox-text-input:focus-within {
 
 #line {
 	font-size: 200%;
+	align-self: flex-start;
 }
 
-.text-emphasis {
+.text-yellow {
 	color: var(--color-yellow);
 }
 
- .text-warning {
+ .text-red {
 	color: red;
 }
 
-
+.text-pink {
+	color: pink;
+}
 
 
 #input-textbox-panel + #line {
