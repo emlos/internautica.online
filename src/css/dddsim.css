@@ -127,6 +127,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+	justify-content: space-evenly;
 }
 .dddsim-popup-container > p {
 	font-size: 150%;
@@ -633,8 +634,10 @@ input#talkbox-text-input:focus-within {
 }
 
 #line {
-	font-size: 200%;
+	font-size: 210%;
 	align-self: flex-start;
+
+	line-height: 1.3;
 }
 
 .text-yellow {
@@ -742,7 +745,7 @@ button.disabled * {
 	z-index: 56;
 
 	pointer-events: none;
-	backdrop-filter: blur(2px);
+	backdrop-filter: blur(1.5px);
 }
 
 /*STYLING DEFAULT SITE---------------------------------------------------------*/

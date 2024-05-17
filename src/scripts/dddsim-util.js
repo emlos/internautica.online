@@ -141,8 +141,8 @@ class Typewriter {
     this.delay = delay
     this.defaultDelay = delay
     this.currentTimeout = null
-    this.elements = []
-    this.elementIndex = 0
+    this.elements = [] //differently colored strings with class name
+    this.elementIndex = 0 //current colored string
     this.charIndex = 0
   }
 
@@ -181,7 +181,7 @@ class Typewriter {
   }
 
   typeWriter () {
-    if (this.elementIndex < this.elements.length) {
+    if (this.elementIndex < this.elements.length) { 
       const { text, class: className } = this.elements[this.elementIndex]
 
       if (this.charIndex < text.length) {
@@ -205,6 +205,15 @@ class Typewriter {
         this.typeWriter()
       }
     }
+  }
+
+  stop() {
+    clearTimeout(this.currentTimeout)
+    this.elementIndex = 0
+    this.charIndex = 0
+    this.element.innerHTML = ''
+    
+    this.currentTimeout = null
   }
 
   showText (newText, customDelay) {
