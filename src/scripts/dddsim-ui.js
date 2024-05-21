@@ -19,7 +19,7 @@ const CONFIG = {
 };
 
 const CURRENT = {
-	chapter: Story.chapters[0], //while generating each chapter page fill this into the template via script
+	chapter: Story.chapters[0], //positioning live
 	currentChapter: 0,
 	scene: "some scene id",
 	dialogue: 0, //which dialogues[n] index scene is at
@@ -1011,6 +1011,8 @@ function loadState(id) {
 			CURRENT.currentChapter = state.coordinates.chapter_id;
 			CURRENT.chapter = Story.chapters[state.coordinates.chapter_id];
 
+			PlayerState = state.playerState
+
 			//log(state)
 			registerButtonClick(false, HTML.nextbutton);
 			registerButtonClick(false, HTML.randominputbutton);
@@ -1324,5 +1326,5 @@ function unloadMessage() {
 }
 
 function log(text) {
-	if (!CONFIG.debug) console.log("LOG: " + text);
+	if (CONFIG.debug) console.log("LOG: " + text);
 }

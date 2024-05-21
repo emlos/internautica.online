@@ -1,7 +1,7 @@
 ---
 permalink: /scripts/dddsim-gamedata.js
 ---
-const PlayerState = {{projects.dddsim.gamedata.playerstate | dump | safe}};
+var PlayerState = {{projects.dddsim.gamedata.playerstate | dump | safe}};
 const Characters = {{projects.dddsim.gamedata.characters | dump | safe}}
 const Bgs = {{projects.dddsim.gamedata.backgrounds | dump | safe}}
 

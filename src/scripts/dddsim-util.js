@@ -205,13 +205,16 @@ class Typewriter {
         this.typeWriter()
       }
     }
+    else {
+      this.stop()
+    }
   }
 
   stop() {
     clearTimeout(this.currentTimeout)
     this.elementIndex = 0
     this.charIndex = 0
-    this.element.innerHTML = ''
+    //this.element.innerHTML = ''
     
     this.currentTimeout = null
   }
@@ -229,4 +232,4 @@ class Typewriter {
   }
 }
 
-const SaveManager = new GameDB('DDDSIM-DEV', 'saves')
+var SaveManager = new GameDB('DDDSIM-DEV', 'saves')
