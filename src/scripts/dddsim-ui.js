@@ -10,7 +10,7 @@
 
 //presistent settigns for the game
 const CONFIG = {
-	debug: true,
+	debug: false,
 	disableDebug: () => {
 		CONFIG.debug = false;
 		console.clear();
@@ -20,8 +20,8 @@ const CONFIG = {
 
 const CURRENT = {
 	chapter: Story.chapters[0], //positioning live
-	currentChapter: 0,
-	scene: "some scene id",
+	currentChapter: null,
+	scene: null,
 	dialogue: 0, //which dialogues[n] index scene is at
 
 	openModal: null, //which modal is open
@@ -155,9 +155,8 @@ function loadMainMenu() {
 
 //INITIAL LOAD of start/save/load
 function loadSideMenu() {
-	enableMenu();
-	disableButton(HTML.menu.back);
-	disableButton(HTML.menu.save);
+	enableMenu(true);
+
 	// disableButton(HTML.menu.save) //cant save in main menu
 
 	//when start clicked
@@ -241,7 +240,7 @@ function loadSaves() {
 								unselectSave(save_wrapper);
 								deleteState(i + ""); //string
 							});
-						
+
 							event.stopPropagation(); //dont bubble up
 						}, deletebtn);
 
@@ -388,6 +387,10 @@ function showTitle(title) {
 		HTML.optionsbutton
 	);
 
+	CURRENT.scene = null;
+	CURRENT.dialogue = null;
+	//chapter can be initialized
+
 	show(HTML.textbox, HTML.nextbutton, HTML.background, HTML.menu.panel);
 	display(HTML.inputpanel, "none");
 
@@ -413,8 +416,7 @@ function start(scene_id, dialogue = null) {
 
 	const scn = currentScene();
 
-	enableMenu();
-	disableButton(HTML.menu.start);
+	
 
 	changeBackground(HTML.background, scn.background);
 
@@ -430,6 +432,7 @@ function loadDialogue(dialogue) {
 	log("Loading dialogues[" + dialogue + "] in scene id: " + CURRENT.scene);
 
 	show(HTML.nextbutton, HTML.optionsbutton, HTML.menu.panel, HTML.textbox);
+	enableMenu(true); //enable menu based on what the player can cant do
 
 	if (dialogueValid(dialogue.conditions)) {
 		loadDialogueBackground(dialogue.background);
@@ -456,12 +459,12 @@ function handleSpaceBehavior(dialogue) {
 		spaceUnbindAll();
 	} else {
 		//1. if space pressed and text is being typewritten
-  
+
 		spaceAdvances("next_diag", function () {
 			//if text is displaying
-   
+
 			if (window.typewriter.currentTimeout) {
-				window.typewriter.stop() //1. stop drawing the box
+				window.typewriter.stop(); //1. stop drawing the box
 
 				setTextbox(dialogue.text, 0); //2. set textbox immediately to whats requested
 			} else {
@@ -472,7 +475,7 @@ function handleSpaceBehavior(dialogue) {
 					nextDialogue(); //default state -> space goes to next dialogue
 				}
 
-        //spaceUnbindAll();
+				//spaceUnbindAll();
 			}
 		});
 	}
@@ -592,7 +595,6 @@ function loadInput(dialogueInput) {
 
 		//register clicking on ok done writing
 		registerButtonClick(() => {
-			
 			if (validateInput()) {
 				setUserAttribute(dialogueInput, HTML.inputbox.value);
 				display(HTML.inputpanel, "none");
@@ -962,13 +964,14 @@ function saveNewState(filename = "", saveSlot = -1) {
 		id: saveSlot,
 		playerState: PlayerState,
 		coordinates: {
-			chapter_id: CURRENT.currentChapter,
+			chapter_id: CURRENT.chapter.id,
 			scene_id: CURRENT.scene,
 			dialogue_index: CURRENT.dialogue,
 		},
 		lastSaved: new Date(),
 		version: GAME_VERSION,
 	};
+
 
 	SaveManager.saveGameState(gameState)
 		.then(() => log("Game state saved successfully"))
@@ -986,7 +989,7 @@ function updateState(id) {
 
 		// Modify the game state as needed
 		gameState.coordinates = {
-			chapter_id: CURRENT.currentChapter,
+			chapter_id: CURRENT.chapter.id,
 			scene_id: CURRENT.scene,
 			dialogue_index: CURRENT.dialogue,
 		};
@@ -1006,18 +1009,22 @@ function updateState(id) {
 function loadState(id) {
 	SaveManager.loadGameState(id)
 		.then((state) => {
+			console.log(state)
 			CURRENT.dialogue = state.coordinates.dialogue_index;
 			CURRENT.scene = state.coordinates.scene_id;
-			CURRENT.currentChapter = state.coordinates.chapter_id;
-			CURRENT.chapter = Story.chapters[state.coordinates.chapter_id];
+			
+			CURRENT.chapter = Story.chapters.find(c=> c.id == state.coordinates.chapter_id);
+			CURRENT.currentChapter = Story.chapters.findIndex (c => c.id ==  state.coordinates.chapter_id);
 
-			PlayerState = state.playerState
+			PlayerState = state.playerState;
 
 			//log(state)
 			registerButtonClick(false, HTML.nextbutton);
 			registerButtonClick(false, HTML.randominputbutton);
 			registerButtonClick(false, HTML.confirminputbutton);
 			spaceUnbindAll();
+
+			console.log(CURRENT)
 
 			start(CURRENT.scene, CURRENT.dialogue);
 		})
@@ -1286,14 +1293,55 @@ function disableMenu() {
 	});
 }
 
-function enableMenu() {
-	const menuitems = HTML.menu.panel.querySelectorAll(
-		".dddsim-talkbox-menu-item"
-	);
+function enableMenu(restrictive = false) {
+	if (restrictive) {
+		disableMenu();
+	
+		if (canSave()) {
+			console.log("can save");
+			enableButton(HTML.menu.save);
+		}
+		if (canLoad()) {
+			enableButton(HTML.menu.load);
+		}
+		if (canBack()) {
+			enableButton(HTML.menu.back);
+		}
+		if (canRestart()) {
+			enableButton(HTML.menu.start);
+		}
+	} else {
+		const menuitems = HTML.menu.panel.querySelectorAll(
+			".dddsim-talkbox-menu-item"
+		);
 
-	menuitems.forEach((button) => {
-		enableButton(button);
-	});
+		menuitems.forEach((button) => {
+			enableButton(button);
+		});
+	}
+
+	function canSave() {
+		console.log(PlayerState);
+		//can save when player is named and in scene
+		if (PlayerState.name && CURRENT.scene) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function canLoad() {
+		return true; //can load everywhere
+	}
+
+	function canBack() {
+		return false;
+	}
+
+	function canRestart() {
+		if (!CURRENT.scene) return true;
+		return false;
+	}
 }
 
 function disableNextButton() {
