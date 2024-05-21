@@ -24,6 +24,17 @@
 	src: url("/fonts/dwarvenaxe.woff") format("woff");
 }
 
+
+
+@font-face {
+    font-family: 'Ubuntu-Light';
+    src: url('/fonts/ubuntu-light.woff2') format('woff2'),
+         url('/fonts/ubuntu-light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 /*styling scenes----------------------------------------------*/
 
 #dddsim-container {
@@ -118,15 +129,15 @@
 
 .dddsim-popup-container {
 	position: absolute;
-    top: 36%;
-    left: 19%; 
-    width: 58%;
-    height: 35%;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	top: 36%;
+	left: 19%;
+	width: 58%;
+	height: 35%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	justify-content: space-evenly;
 }
 .dddsim-popup-container > p {
@@ -138,7 +149,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	column-gap: 6% ;
+	column-gap: 6%;
 	width: 100%;
 }
 
@@ -146,24 +157,131 @@
 	font-size: 150%;
 	padding: 2.5% 5%;
 }
-.dddsim-saves-area {
+.dddsim-modal {
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
-	display: flex;
-	flex-direction: column;
 
-	background-image: url(/images/projects/dddsim/ui/saves_panel.png);
 	background-size: 100% 100%;
 	background-position: center;
 
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	z-index: 60;
+}
+
+.dddsim-settings-area {
+	background-image: url(/images/projects/dddsim/ui/menu_panel.png);
+	width: 60vw;
+	height: calc(60vw / 1.2);
+}
+
+.dddsim-settings-area > .close-modal-button {
+	right: 11.55%;
+	top:12%
+}
+
+.settings-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+
+
+	font-family: "Ubuntu-Light", sans-serif !important;
+	color: var(--color-save-grey);
+	font-weight: 300;
+	font-size: 1.15rem;
+
+
+	position: absolute;
+	left: 25%;
+	top: 28%;
+	width: 50%;
+    height: 50%;
+}
+
+.settings-row {
+	display: flex;
+	flex-direction: row;
+
+	justify-content: space-between;
+	align-items: center;
+	max-height: 52px;
+}
+
+.settings-row-info {
+	cursor: not-allowed;
+	filter: saturate(0);
+}
+
+.settings-content{
+	width: 35%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+  align-items: center;
+}
+
+.settings-icon {
+	display: inline-block;
+	width: 52px;
+	height: 52px;
+}
+
+.settings-button-increase {
+	background-image: url(/images/projects/dddsim/ui/menu_right_arrow.png);
+}
+
+.settings-button-increase:hover{
+	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_hover.png);
+}
+
+.settings-button-increase.disabled {
+	filter: none;
+	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_disabled.png);
+}
+
+.settings-button-increase.disabled:hover {
+	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_disabled_hover.png);
+}
+
+
+.settings-button-decrease {
+	background-image: url(/images/projects/dddsim/ui/menu_left_arrow.png);
+}
+
+.settings-button-decrease:hover {
+	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_hover.png);
+}
+.settings-button-decrease.disabled {
+	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_disabled.png);
+}
+.settings-button-decrease.disabled:hover {
+	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_disabled_hover.png);
+}
+
+.settings-checkbox {
+	background-image: url(/images/projects/dddsim/ui/menu_checkbox_empty.png);
+}
+.settings-checkbox:hover {
+	background-image: url(/images/projects/dddsim/ui/menu_checkbox_empty_hover.png);
+}
+.settings-checkbox.checked {
+	background-image: url(/images/projects/dddsim/ui/menu_checkbox_checked.png);
+}
+.settings-checkbox.checked:hover {
+	background-image: url(/images/projects/dddsim/ui/menu_checkbox_checked_hover.png);
+}
+
+.dddsim-saves-area {
+	display: flex;
+	flex-direction: column;
+
+	background-image: url(/images/projects/dddsim/ui/saves_panel.png);
+
 	width: 70vw; /* Adjust as needed */
 	height: calc(70vw / 1.6); /* Maintain 1.4 aspect ratio */
-
-	z-index: 60;
 }
 
 .dddsim-saves-area * {
@@ -465,7 +583,7 @@
 	background-repeat: no-repeat;
 
 	height: 96%;
-  width: 32%;
+	width: 32%;
 }
 
 .dddsim-sprite:not(.talking) {
@@ -549,7 +667,14 @@
 	border: none;
 	padding: 0;
 	width: 22.5ch;
-	background: repeating-linear-gradient(90deg, var(--color-gold) 0, var(--color-gold) 1ch, transparent 0, transparent 1.5ch) 0 100%/22ch 2px no-repeat;
+	background: repeating-linear-gradient(
+			90deg,
+			var(--color-gold) 0,
+			var(--color-gold) 1ch,
+			transparent 0,
+			transparent 1.5ch
+		)
+		0 100%/22ch 2px no-repeat;
 	font: 2.5rem "ubuntu-mono-regular", monospace !important;
 	letter-spacing: 0.5ch;
 }
@@ -617,7 +742,6 @@ input#talkbox-text-input:focus-within {
 
 	overflow: hidden;
 
-	
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -644,7 +768,7 @@ input#talkbox-text-input:focus-within {
 	color: var(--color-yellow);
 }
 
- .text-red {
+.text-red {
 	color: red;
 }
 
@@ -652,13 +776,12 @@ input#talkbox-text-input:focus-within {
 	color: pink;
 }
 
-
 #input-textbox-panel + #line {
 	padding-bottom: 0;
 }
 
 .dddsim-talkbox-side-menu {
-	height: calc(200px - 1.8%);
+	height: calc(200px - 2.6%);
 	width: fit-content;
 }
 
@@ -740,7 +863,7 @@ button.disabled * {
 	left: 0;
 
 	height: 100vh;
-    width: 99vw;
+	width: 99vw;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 56;
 

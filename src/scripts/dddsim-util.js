@@ -232,4 +232,6 @@ class Typewriter {
   }
 }
 
+
+//window.typewriter set in ui
 var SaveManager = new GameDB('DDDSIM-DEV', 'saves')

@@ -42,6 +42,8 @@ const CURRENT = {
 
 //html targets -------------
 const HTML = {
+	all_modals: [],
+
 	textbox: document.createElement("div"),
 	nametag: document.createElement("div"), //inside the talk-panel
 	text: document.createElement("p"), //inside the talk-panel
@@ -51,11 +53,13 @@ const HTML = {
 		save: document.createElement("button"),
 		load: document.createElement("button"),
 		back: document.createElement("button"),
+		log: document.createElement("button"),
+		settings: document.createElement("button"),
 	}, //inside the talk-panel
 	nextbutton: document.createElement("button"), //inside the talk-panel
 	optionsbutton: document.createElement("button"), //inside the talk-panel
 	inputpanel: document.createElement("div"),
-	inputbox: document.createElement("inout"), // inside inputpanel input element
+	inputbox: document.createElement("input"), // inside inputpanel input element
 	confirminputbutton: document.createElement("button"), // inside inputpanel
 	randominputbutton: document.createElement("button"), // inside inputpanel
 	choices: document.createElement("div"),
@@ -68,6 +72,14 @@ const HTML = {
 		modal: document.createElement("div"), //saves panel for loading/saving
 		slots: document.createElement("div"), //container holding the divs for slots directly
 	},
+	settings: {
+		modal: document.createElement("div"), //settings panel for loading/saving
+		//pure value hol	ding elements
+		value_textspeed: document.createElement("span"),
+		value_animation: document.createElement("span"),
+		value_colorblind: document.createElement("span"),
+	},
+
 	popup: {
 		modal: document.createElement("div"),
 		text: document.createElement("p"),
@@ -80,6 +92,8 @@ const HTML = {
 
 //initializes CHAPTER
 function init() {
+	HTML.all_modals = document.querySelectorAll(".dddsim-modal");
+
 	HTML.nametag = document.getElementById("nametag");
 	HTML.textbox = document.getElementById("talk-panel");
 	HTML.characters = document.getElementById("sprite-panel");
@@ -91,6 +105,8 @@ function init() {
 	HTML.menu.save = document.getElementById("dddsim-save-menu-item");
 	HTML.menu.load = document.getElementById("dddsim-load-menu-item");
 	HTML.menu.back = document.getElementById("dddsim-back-menu-item");
+	HTML.menu.log = document.getElementById("dddsim-log-menu-item");
+	HTML.menu.settings = document.getElementById("dddsim-settings-menu-item");
 
 	HTML.nextbutton = document.getElementById("next-line-button");
 	HTML.optionsbutton = document.getElementById("options-button");
@@ -106,6 +122,13 @@ function init() {
 	HTML.saves.modal = document.getElementById("saves-panel");
 	HTML.saves.slots = document.getElementById("saves-container");
 
+	HTML.settings.modal = document.getElementById("settings-panel");
+	HTML.settings.value_colorblind =
+		document.getElementById("setting-colorblind");
+	HTML.settings.value_animation = document.getElementById("setting-animation");
+	HTML.settings.value_textspeed = document.getElementById("setting-textspeed");
+	HTML.settings.value_debug = document.getElementById("setting-debug");
+
 	HTML.popup.modal = document.getElementById("popup");
 	HTML.popup.text = HTML.popup.modal.querySelector("p");
 	HTML.popup.okbutton = document.getElementById("popup-ok");
@@ -120,6 +143,8 @@ function init() {
 	loadModals();
 
 	loadSaves();
+
+	loadSettings();
 }
 
 function initChapter(chapter = CURRENT.chapter) {
@@ -185,9 +210,17 @@ function loadSideMenu() {
 			HTML.saves.modal.setAttribute("data-mode", "save");
 		}
 	}, HTML.menu.save);
+
+	registerButtonClick(() => {
+		if (!isDisabled(HTML.menu.settings) && isHidden(HTML.overlay)) {
+			openModal(HTML.settings.modal);
+		}
+	}, HTML.menu.settings);
 }
 
 function loadModals() {
+	hide(...HTML.all_modals);
+
 	//all buttons can close from the start
 	document.querySelectorAll(".close-modal-button").forEach((button) => {
 		registerButtonClick(() => {
@@ -377,6 +410,27 @@ function loadSaves() {
 	}
 }
 
+function loadSettings() {
+	let defaults = Object.keys(PlayerState.settings); //all settings that player has
+
+	defaults.forEach((d) => {
+		let setting = HTML.settings["value_" + d];
+
+		if (setting) {
+			let value = PlayerState.settings[d];
+			settings_set(setting, value);
+
+			settings_validate(setting)
+		}
+	});
+
+	//load the buttons functionality:
+
+	$('button.settings-icon').on('click', (event) => {
+		setting_changed(event)
+	})
+}
+
 //shows a "title" card for a given title
 function showTitle(title) {
 	hide(
@@ -415,8 +469,6 @@ function start(scene_id, dialogue = null) {
 	CURRENT.dialogue = dialogue ? dialogue : 0;
 
 	const scn = currentScene();
-
-	
 
 	changeBackground(HTML.background, scn.background);
 
@@ -972,7 +1024,6 @@ function saveNewState(filename = "", saveSlot = -1) {
 		version: GAME_VERSION,
 	};
 
-
 	SaveManager.saveGameState(gameState)
 		.then(() => log("Game state saved successfully"))
 		.catch((error) => console.error("Failed to save game state", error));
@@ -1009,12 +1060,15 @@ function updateState(id) {
 function loadState(id) {
 	SaveManager.loadGameState(id)
 		.then((state) => {
-			console.log(state)
 			CURRENT.dialogue = state.coordinates.dialogue_index;
 			CURRENT.scene = state.coordinates.scene_id;
-			
-			CURRENT.chapter = Story.chapters.find(c=> c.id == state.coordinates.chapter_id);
-			CURRENT.currentChapter = Story.chapters.findIndex (c => c.id ==  state.coordinates.chapter_id);
+
+			CURRENT.chapter = Story.chapters.find(
+				(c) => c.id == state.coordinates.chapter_id
+			);
+			CURRENT.currentChapter = Story.chapters.findIndex(
+				(c) => c.id == state.coordinates.chapter_id
+			);
 
 			PlayerState = state.playerState;
 
@@ -1024,7 +1078,7 @@ function loadState(id) {
 			registerButtonClick(false, HTML.confirminputbutton);
 			spaceUnbindAll();
 
-			console.log(CURRENT)
+			loadSettings()
 
 			start(CURRENT.scene, CURRENT.dialogue);
 		})
@@ -1267,6 +1321,43 @@ function setNametag(name) {
 
 	namebox.textContent = name;
 }
+// -----------------settings
+
+function settings_set(element, value) {
+	let type = typeof value;
+	switch (type) {
+		case "boolean": //checkbox
+			if (value && !element.classList.contains('checked')) {
+				element.classList.add("checked");
+			}
+			else {
+				element.classList.remove("checked");
+			}
+			break;
+		default: 
+		element.innerText = value
+		break;
+	}
+}
+
+function setting_changed(event) {
+	let cause = event.target
+	console.log(cause)
+}
+
+function settings_validate(setting) {
+	let parent = setting.closest('.settings-content')
+	let type = parent.getAttribute('data-type')
+
+	switch(type) {
+		case 'values': break;
+		case 'checkbox': break;
+		case 'info': break;
+		default: new Error('what')
+	}
+	
+}
+
 
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever
 
@@ -1296,9 +1387,8 @@ function disableMenu() {
 function enableMenu(restrictive = false) {
 	if (restrictive) {
 		disableMenu();
-	
+
 		if (canSave()) {
-			console.log("can save");
 			enableButton(HTML.menu.save);
 		}
 		if (canLoad()) {
@@ -1309,6 +1399,12 @@ function enableMenu(restrictive = false) {
 		}
 		if (canRestart()) {
 			enableButton(HTML.menu.start);
+		}
+		if (canLog()) {
+			enableButton(HTML.menu.log);
+		}
+		if (canSettings()) {
+			enableButton(HTML.menu.settings);
 		}
 	} else {
 		const menuitems = HTML.menu.panel.querySelectorAll(
@@ -1321,7 +1417,6 @@ function enableMenu(restrictive = false) {
 	}
 
 	function canSave() {
-		console.log(PlayerState);
 		//can save when player is named and in scene
 		if (PlayerState.name && CURRENT.scene) {
 			return true;
@@ -1331,6 +1426,14 @@ function enableMenu(restrictive = false) {
 	}
 
 	function canLoad() {
+		return true; //can load everywhere
+	}
+
+	function canSettings() {
+		return true; //can load everywhere
+	}
+
+	function canLog() {
 		return true; //can load everywhere
 	}
 

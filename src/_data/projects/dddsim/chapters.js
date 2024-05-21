@@ -286,7 +286,8 @@ const chapter1 = {
 module.exports = {
   gameName: 'Heart of Darkness: A DD1 Dating Sim',
   background: '/images/projects/dddsim/backgrounds/main.png',
-  chapters: game.chapters
+  chapters: game.chapters,
+  version: 0
 }
 
 //console.log(game.chapters[0].scenes[0])

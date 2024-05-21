@@ -7,6 +7,7 @@ const characterssrc = '/images/projects/dddsim/characters/'
 module.exports = {
   playerstate: {
     name: null,
+    /*
     reputation: {
       //the idea here is that the characters are attracted to one of those character flaws, but dont see it as a flaw
       recklessnes: 0, //think first or act first?
@@ -14,12 +15,14 @@ module.exports = {
       piety: 0, //how much like a virgin you are [religiously]
       honesty: 0 //lie (and dont get caught).. or do
     },
-
+*/
     flags: [],
     //load all possible flags from scr  ipt and save them as flag_name: "did-something-flag,
     settings : {
-      testSpeed: 70,
-      colorblindMode: false
+      textspeed: 100,
+      colorblind: false,
+      animation: false,
+      debug: true
     }
   },
 
