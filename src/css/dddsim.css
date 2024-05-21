@@ -227,6 +227,16 @@
 	display: inline-block;
 	width: 52px;
 	height: 52px;
+
+	margin: 0;
+	padding: 0;
+}
+
+.settings-icon:active {
+	margin: 0;
+	padding: 0;
+
+	border-style: outset
 }
 
 .settings-button-increase {
@@ -618,7 +628,7 @@
 	background-image: url(/images/projects/dddsim/ui/talkbox.png);
 	background-size: 100% 100%;
 	background-position: center;
-	height: 200px;
+	height: 230px;
 	width: 50%;
 
 	display: flex;
@@ -745,11 +755,10 @@ input#talkbox-text-input:focus-within {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	justify-content: space-evenly;
-
-	height: 100%;
-	width: 100%;
+	justify-content: center;
+  height: 100%;
+  width: 100%;
+  row-gap: 1rem;
 }
 
 .dddsim-talkbox-area > * {
@@ -758,7 +767,7 @@ input#talkbox-text-input:focus-within {
 }
 
 #line {
-	font-size: 210%;
+	font-size: 1.85vw;
 	align-self: flex-start;
 
 	line-height: 1.3;
@@ -781,7 +790,7 @@ input#talkbox-text-input:focus-within {
 }
 
 .dddsim-talkbox-side-menu {
-	height: calc(200px - 2.6%);
+	height: calc(232px - 2.6%);
 	width: fit-content;
 }
 
@@ -829,13 +838,15 @@ input#talkbox-text-input:focus-within {
 }
 
 button {
+	
 	background-color: none;
 	border: none;
 
 	cursor: var(--cursor-normal), auto;
 }
 
-button:active {
+button:not(.settings-icon):active {
+	
 	border: none;
 	margin: 0;
 	filter: brightness(2);
