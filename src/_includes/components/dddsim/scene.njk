@@ -10,15 +10,15 @@
 			<button id='popup-cancel'class='panel enabled button popup-button'>Cancel</button></div></div>
 		</div>
         <div id="settings-panel" class="dddsim-settings-area dddsim-modal" >
-
+<!--TODO: generate from config so it 10000% matchrs plaerstate-->
              <button class="close-modal-button enabled"></button>
              <div class='settings-container'>
              <div class="settings-row">
                 <span class='settings-label'>Text Speed</span> 
                 <div data-type='values' class='settings-content'  title='100 means instant.' data-max='100'  data-step='5'>
-                    <button class='settings-button-decrease settings-icon'></button>
+                    <button data-switch= 'decrease'class='settings-button-decrease settings-icon'></button>
                     <span class='settings-button-value' id='setting-textspeed'></span>
-                    <button class='settings-button-increase settings-icon'></button>
+                    <button data-switch= 'increase' class='settings-button-increase settings-icon'></button>
                 </div>
                 
              </div>
@@ -33,6 +33,15 @@
                 <div data-type='checkbox' class='settings-content' >
                     <button class='settings-checkbox settings-icon' id='setting-colorblind'></button>
                 </div>
+             </div>
+             <div class="settings-row">
+                <span class='settings-label'>Volume</span> 
+                <div data-type='values' class='settings-content'  title='100 means nothing this is a test.' data-max='100'  data-step='1'>
+                    <button data-switch= 'decrease'class='settings-button-decrease settings-icon'></button>
+                    <span class='settings-button-value' id='setting-volume'></span>
+                    <button data-switch= 'increase' class='settings-button-increase settings-icon'></button>
+                </div>
+                
              </div>
               <div class="settings-row">
                 <span class='settings-label'>Debug</span> 

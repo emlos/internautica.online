@@ -79,7 +79,8 @@ const HTML = {
       animation: document.createElement('span'),
       colorblind: document.createElement('span'),
       debug: document.createElement('span'),
-      autoplay: document.createElement('span')
+      autoplay: document.createElement('span'),
+	  volume: document.createElement('span'),
     }
   },
 
@@ -132,6 +133,7 @@ function init () {
   HTML.settings.values.textspeed = document.getElementById('setting-textspeed')
   HTML.settings.values.debug = document.getElementById('setting-debug')
   HTML.settings.values.autoplay = document.getElementById('setting-autoplay')
+  HTML.settings.values.volume = document.getElementById('setting-volume')
 
   HTML.popup.modal = document.getElementById('popup')
   HTML.popup.text = HTML.popup.modal.querySelector('p')
@@ -417,7 +419,7 @@ function loadSaves () {
 //assuming user and html have same settings, html taler prio ofc
 function loadSettings () {
   let defaults = Object.keys(PlayerState_Defaults.settings) //all settings that i have set as default in my uhhhhhhhhhhh eleventy js file. why? EUGH
-//i dont have to check anything since html = defaults and we never iterate over keys of whatever the player has. its kinda perfect ngl
+  //i dont have to check anything since html = defaults and we never iterate over keys of whatever the player has. its kinda perfect ngl
   defaults.forEach(d_setting => {
     //scen: old save has no setting? remains default
     let playerSetting = PlayerState.settings[d_setting]
@@ -428,7 +430,7 @@ function loadSettings () {
 
     //scen: setting not uiimplememted;
     if (element) {
-		settings_set(element, playerSetting)
+      settingsSetUI(element, playerSetting)
     } else {
       console.log(
         'WARN: Setting mismatch: no hatml slot exists for: ' + d_setting
@@ -436,11 +438,9 @@ function loadSettings () {
     }
   })
 
-
   //load the buttons functionality:
-
   $('button.settings-icon').on('click', event => {
-    setting_changed(event)
+    settingClicked(event)
   })
 }
 
@@ -1336,7 +1336,8 @@ function setNametag (name) {
 }
 // -----------------settings
 
-function settings_set (element, value) {
+//user knows only bools go into checkboxes :P
+function settingsSetUI (element, value) {
   let type = typeof value
   switch (type) {
     case 'boolean': //checkbox
@@ -1352,25 +1353,41 @@ function settings_set (element, value) {
   }
 }
 
-function setting_changed (event) {
+function settingClicked (event) {
   let cause = event.target
-  console.log(cause)
-}
+  let parent = cause?.closest('.settings-content')
 
-function settings_validate (setting) {
-  let parent = setting.closest('.settings-content')
-  let type = parent.getAttribute('data-type')
+  let type = parent?.getAttribute('data-type')
+
+  if (!type) throw Error('BRO.........')
 
   switch (type) {
     case 'values':
+		handleCarousel(cause)
       break
     case 'checkbox':
+		handleCheckbox(cause)
       break
-    case 'info':
-      break
+
     default:
-      new Error('what')
+		console.log("WARN: mysterious and strangle frankly worrying button!")
+		console.log(event)
+      break
+
+  };
+
+
+  function handleCarousel(button) {
+	
+		let type = button.getAttribute("data-switch")
+	
   }
+ function handleCheckbox(button) {
+
+	let type = button.getAttribute("data-switch")
+
+}
+
 }
 
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever

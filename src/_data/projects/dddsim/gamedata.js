@@ -23,7 +23,8 @@ module.exports = {
       colorblind: false,
       animation: false,
       debug: true,
-      autoplay: false
+      autoplay: false,
+      volume: 0,
     }
   },
 
