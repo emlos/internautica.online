@@ -80,7 +80,7 @@ const HTML = {
       colorblind: document.createElement('span'),
       debug: document.createElement('span'),
       autoplay: document.createElement('span'),
-	  volume: document.createElement('span'),
+      volume: document.createElement('span')
     }
   },
 
@@ -552,7 +552,7 @@ function dialogueValid (conditions) {
     return true
   }
 
-  return userHasFlags(...conditions)
+  return validatePlayerDataAll(...conditions)
 }
 
 function loadDialogueCharacters (characters, speaking) {
@@ -661,7 +661,7 @@ function loadInput (dialogueInput) {
     //register clicking on ok done writing
     registerButtonClick(() => {
       if (validateInput()) {
-        setUserAttribute(dialogueInput, HTML.inputbox.value)
+        setPlayerDataAtrribute_raw(dialogueInput, HTML.inputbox.value)
         display(HTML.inputpanel, 'none')
 
         removeInputEvents(HTML.inputbox)
@@ -754,7 +754,7 @@ function choiceSetsFlags (choice, button) {
     log('setting flags on choice ' + choice.id)
 
     registerClicks(button, function () {
-      setUserFlags(...choice.flags)
+      setPlayerdataFlags(...choice.flags)
     })
   } else {
     log('choice ' + choice.id + ' has no Flags!')
@@ -983,9 +983,9 @@ function removeInputEvents (element) {
   log('inputs unregistered from ' + element.id)
 }
 
-// setting user data -----------------
+// ====================================================setting user data -----------------
 
-function setUserFlags (...flags) {
+function setPlayerdataFlags (...flags) {
   log('Setting Flags on user! [' + flags.join(', ') + ']')
   flags.forEach(flag => {
     if (!PlayerState.flags.includes(flag)) {
@@ -994,19 +994,8 @@ function setUserFlags (...flags) {
   })
 }
 
-function setUserAttribute (attr, value) {
-  log('changing user state!')
-  if (PlayerState[attr]) {
-    log('overwriting existing value: ' + PlayerState[attr] + ' to: ' + value)
-  } else {
-    log('new player attribute: ' + PlayerState[attr])
-  }
-
-  PlayerState[attr] = value
-}
-
-//true if user has all the param flags
-function userHasFlags (...flags) {
+//all flags must be true
+function validatePlayerDataAll (...flags) {
   let hasFlags = true
 
   flags.forEach(flag => {
@@ -1017,8 +1006,50 @@ function userHasFlags (...flags) {
 
   return hasFlags
 }
+//only one has to be true
+function validatePlayerDataAny (...flags) {
+  let hasFlags = false
 
-//SAVING LOADING -----------------------------
+  flags.forEach(flag => {
+    if (PlayerState.flags.includes(flag)) {
+      hasFlags = true
+    }
+  })
+
+  return hasFlags
+}
+
+//=== more serious functions
+
+function setPlayerDataSetting (setting, value) {
+	setting = setting.trim()
+  let possibleSetting = PlayerState.settings[setting]
+  console.log(PlayerState.settings)
+  if (typeof possibleSetting != "boolean" && !possibleSetting) throw Error('set what setting?: ' + setting)
+
+  PlayerState.settings[setting] = value
+}
+
+function getPlayerDataSetting (setting) {
+	let possibleSetting = PlayerState.settings[setting]
+	if (!possibleSetting) throw Error('get what setting?: ' + setting)
+  
+	return PlayerState.settings[setting]
+  }
+
+//ONLY to be used with inputbox
+function setPlayerDataAtrribute_raw (attr, value) {
+  log('changing user state!')
+  if (PlayerState[attr]) {
+    log('overwriting existing value: ' + PlayerState[attr] + ' to: ' + value)
+  } else {
+    log('new player attribute: ' + PlayerState[attr])
+  }
+
+  PlayerState[attr] = value
+}
+
+//==========================================SAVING LOADING -----------------------------
 
 function saveNewState (filename = '', saveSlot = -1) {
   log(`Saving game to slot: ${saveSlot}`)
@@ -1142,8 +1173,14 @@ function findScene (chapter, scene_id) {
 function currentScene () {
   return findScene(CURRENT.chapter, CURRENT.scene)
 }
+/*
+ * from now on this will
+ * be a place thats meant only
+ * for ui and looks
+ * --a haiku to my eed gods for not letting me fogrt that
+ */
 
-// UI util-------------------------------
+// UI util-------------------------------------UI UTIL FROM GENERIC TO SPECIFI
 
 function clear (element) {
   element.innerHTML = ''
@@ -1334,7 +1371,7 @@ function setNametag (name) {
 
   namebox.textContent = name
 }
-// -----------------settings
+// ---------------==============SETTINGS==============================================--settings
 
 //user knows only bools go into checkboxes :P
 function settingsSetUI (element, value) {
@@ -1363,31 +1400,47 @@ function settingClicked (event) {
 
   switch (type) {
     case 'values':
-		handleCarousel(cause)
+      handleCarousel(cause)
       break
     case 'checkbox':
-		handleCheckbox(cause)
+      handleCheckbox(cause)
       break
 
     default:
-		console.log("WARN: mysterious and strangle frankly worrying button!")
-		console.log(event)
+      console.log('WARN: mysterious and strangle frankly worrying button!')
+      console.log(event)
       break
-
-  };
-
-
-  function handleCarousel(button) {
-	
-		let type = button.getAttribute("data-switch")
-	
   }
- function handleCheckbox(button) {
 
-	let type = button.getAttribute("data-switch")
+  function handleCarousel (button) {
+    let type = button.getAttribute('data-switch')
+  }
+  function handleCheckbox (button) {
+    //0. get current ui data
+    let currentUIValue = !!button.classList.contains('checked')
+    let settingName = button.id.split('-')[1] //hashtag trust me
+    //see which element was clicked
+    let currentPlayerValue = PlayerState.settings[settingName] //and pray
 
-}
+    console.log('setting: ' + settingName)
+    console.log('player has: ' + currentPlayerValue)
+    console.log('UI shows: ' + currentUIValue)
 
+    //1. set the PlayerState Data (and the window warning on)!
+    const newSettingvalue = !currentUIValue //checkbox yeah love?
+
+	setPlayerDataSetting(settingName, newSettingvalue)
+	settingsSetUI(button, newSettingvalue)
+
+	currentUIValue = !!button.classList.contains('checked')
+	 settingName = button.id.split('-')[1] 
+	 currentPlayerValue = PlayerState.settings[settingName]
+
+	console.log("\n\n====new====")
+	console.log('setting: ' + settingName)
+    console.log('player has: ' + currentPlayerValue)
+    console.log('UI shows: ' + currentUIValue)
+  }
 }
 
 // SPECIFIC UI FUNCTIONS ==================== for a declarative approach or whatever
