@@ -317,18 +317,18 @@ function loadSaves () {
     })
 
   /*
-    const gameState = {
-    name: 'some name',
-    id: 'save-' + saveSlot,
-    playerState: PlayerState,
-    coordinates: {
-      chapter_id: chapter,
-      scene_id: scene,
-      dialogue_index: dialogue
-    },
-    lastSaved: new Date()
-  }
- */
+	  const gameState = {
+	  name: 'some name',
+	  id: 'save-' + saveSlot,
+	  playerState: PlayerState,
+	  coordinates: {
+		chapter_id: chapter,
+		scene_id: scene,
+		dialogue_index: dialogue
+	  },
+	  lastSaved: new Date()
+	}
+   */
   //user clicked on save in save mode
   function handleSave (cause) {
     const input = cause.querySelector('input')
@@ -442,6 +442,10 @@ function loadSettings () {
   $('button.settings-icon').on('click', event => {
     settingClicked(event)
   })
+
+  document
+    .querySelectorAll(".settings-content[data-type='values']")
+    .forEach(settingsValidateCarousel)
 }
 
 //shows a "title" card for a given title
@@ -1022,20 +1026,17 @@ function validatePlayerDataAny (...flags) {
 //=== more serious functions
 
 function setPlayerDataSetting (setting, value) {
-	setting = setting.trim()
-  let possibleSetting = PlayerState.settings[setting]
-  console.log(PlayerState.settings)
-  if (typeof possibleSetting != "boolean" && !possibleSetting) throw Error('set what setting?: ' + setting)
+  setting = setting.trim()
 
   PlayerState.settings[setting] = value
 }
 
 function getPlayerDataSetting (setting) {
-	let possibleSetting = PlayerState.settings[setting]
-	if (!possibleSetting) throw Error('get what setting?: ' + setting)
-  
-	return PlayerState.settings[setting]
-  }
+  let possibleSetting = PlayerState.settings[setting]
+  if (!possibleSetting) throw Error('get what setting?: ' + setting)
+
+  return PlayerState.settings[setting]
+}
 
 //ONLY to be used with inputbox
 function setPlayerDataAtrribute_raw (attr, value) {
@@ -1390,6 +1391,38 @@ function settingsSetUI (element, value) {
   }
 }
 
+function settingsValidateCarousel (settingsContent) {
+  const maxValue = parseInt(settingsContent.getAttribute('data-max')) || 100
+  const minValue = parseInt(settingsContent.getAttribute('data-min')) || 0
+
+  let displayElement = settingsContent.querySelector('.settings-button-value')
+  let decreaseElement = settingsContent.querySelector(
+    '.settings-button-decrease'
+  )
+  let increaseElement = settingsContent.querySelector(
+    '.settings-button-increase'
+  )
+
+  let settingName = displayElement.id.split('-')[1]
+
+  let playerValue = PlayerState.settings[settingName]
+  let displayValue = parseInt(displayElement.innerText)
+
+  //1. check if playerstate matches display - it HSOULD
+
+  if (playerValue != displayValue) {
+    log(
+      'mismatch detected > player: ' + playerValue + '  \nui: ' + displayValue,
+      true
+    )
+  }
+
+  if (playerValue == maxValue) disableButton(increaseElement)
+  else enableButton(increaseElement)
+  if (playerValue == minValue) disableButton(decreaseElement)
+  else enableButton(decreaseElement)
+}
+
 function settingClicked (event) {
   let cause = event.target
   let parent = cause?.closest('.settings-content')
@@ -1401,6 +1434,7 @@ function settingClicked (event) {
   switch (type) {
     case 'values':
       handleCarousel(cause)
+      settingsValidateCarousel(parent)
       break
     case 'checkbox':
       handleCheckbox(cause)
@@ -1413,8 +1447,29 @@ function settingClicked (event) {
   }
 
   function handleCarousel (button) {
-    let type = button.getAttribute('data-switch')
+    let parent = button.closest('.settings-content')
+    let valueHolder = parent.querySelector('.settings-button-value')
+
+    let settingName = valueHolder.id.split('-')[1]
+
+    const type = button.getAttribute('data-switch') //determines if -1 * or 1 *1
+    const maxValue = parseInt(parent.getAttribute('data-max')) || 100
+    const minValue = parseInt(parent.getAttribute('data-min')) || 0
+    const step = parseInt(parent.getAttribute('data-step')) || 0
+
+    let multiplier = type == 'decrease' ? -1 : 1
+
+    let currentValue = PlayerState.settings[settingName] //never. trust. the. ui. killing myself. btw
+
+    const newValue = Math.min(
+      maxValue,
+      Math.max(minValue, multiplier * step + currentValue) //plus/inus step cant go beyond bounds!
+    )
+
+    setPlayerDataSetting(settingName, newValue)
+    settingsSetUI(valueHolder, newValue)
   }
+
   function handleCheckbox (button) {
     //0. get current ui data
     let currentUIValue = !!button.classList.contains('checked')
@@ -1422,24 +1477,20 @@ function settingClicked (event) {
     //see which element was clicked
     let currentPlayerValue = PlayerState.settings[settingName] //and pray
 
-    console.log('setting: ' + settingName)
-    console.log('player has: ' + currentPlayerValue)
-    console.log('UI shows: ' + currentUIValue)
-
     //1. set the PlayerState Data (and the window warning on)!
     const newSettingvalue = !currentUIValue //checkbox yeah love?
 
-	setPlayerDataSetting(settingName, newSettingvalue)
-	settingsSetUI(button, newSettingvalue)
+    setPlayerDataSetting(settingName, newSettingvalue)
+    settingsSetUI(button, newSettingvalue)
 
-	currentUIValue = !!button.classList.contains('checked')
-	 settingName = button.id.split('-')[1] 
-	 currentPlayerValue = PlayerState.settings[settingName]
+    currentUIValue = !!button.classList.contains('checked')
+    settingName = button.id.split('-')[1]
+    currentPlayerValue = PlayerState.settings[settingName]
 
-	console.log("\n\n====new====")
-	console.log('setting: ' + settingName)
-    console.log('player has: ' + currentPlayerValue)
-    console.log('UI shows: ' + currentUIValue)
+    log('\n\n====new====')
+    log('setting: ' + settingName)
+    log('player has: ' + currentPlayerValue)
+    log('UI shows: ' + currentUIValue)
   }
 }
 

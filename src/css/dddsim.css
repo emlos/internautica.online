@@ -216,20 +216,28 @@
 }
 
 .settings-content{
-	width: 35%;
+	width: 42%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
   align-items: center;
 }
 
+.settings-content > span {
+	flex-grow: 3;
+	text-align: center;
+}
+
 .settings-icon {
 	display: inline-block;
-	width: 52px;
-	height: 52px;
+	width: 4em;
+	height: 4em;
 
 	margin: 0;
 	padding: 0;
+
+	background-size:cover;
+	background-repeat: no-repeat;
 }
 
 .settings-icon:active {
@@ -854,17 +862,17 @@ button:not(.settings-icon):active {
 
 /*UTIL=====================================================*/
 
-button.disabled,
+button:not(.settings-icon).disabled,
 button.disabled * {
 	cursor: not-allowed !important;
 	filter: grayscale(1) brightness(0.5) !important ;
 }
 
-.enabled {
+.enabled:not(.settings-icon) {
 	cursor: var(--cursor-pointer), pointer;
 }
 
-.enabled:hover {
+.enabled:not(.settings-icon):hover {
 	filter: brightness(1.6);
 }
 
