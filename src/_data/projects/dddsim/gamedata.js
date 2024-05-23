@@ -17,12 +17,13 @@ module.exports = {
     },
 */
     flags: [],
-    //load all possible flags from scr  ipt and save them as flag_name: "did-something-flag,
+    //load all possible flags from scr  ipt and save them as flag_name: "did-something-flag,?? fr you dont wanna do this bro?
     settings : {
       textspeed: 100,
       colorblind: false,
       animation: false,
-      debug: true
+      debug: true,
+      autoplay: false
     }
   },
 
