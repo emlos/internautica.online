@@ -142,6 +142,8 @@ function init () {
 
   window.typewriter = new Typewriter('line')
 
+  loadSettings()
+
   loadMainMenu()
 
   loadSideMenu()
@@ -150,7 +152,7 @@ function init () {
 
   loadSaves()
 
-  loadSettings()
+  
 }
 
 function initChapter (chapter = CURRENT.chapter) {
@@ -582,6 +584,13 @@ function loadDialogueCharacters (characters, speaking) {
     changeBackground(character, sprite)
 
     HTML.characters.appendChild(character)
+
+	//optional animation of appearance:
+	if(settingGet('animation')) {
+
+		console.log('doing animation mumbo jumbo here')
+
+	}
   })
 }
 
@@ -602,7 +611,9 @@ function loadDialogueText (dialogue) {
   show(HTML.textbox)
   show(HTML.nametag)
 
-  let delay = dialogue.choices ? 0 : undefined
+  let userSpeed = settingGet('textspeed') == 100 ? 0 : settingGet('textspeed')
+
+  let delay = dialogue.choices ? 0 : userSpeed
 
   setTextbox(text, delay)
 }
@@ -1394,6 +1405,10 @@ function settingsSetUI (element, value) {
   }
 }
 
+function settingGet(setting) {
+	return PlayerState.settings[setting]
+}
+
 function settingsValidateCarousel (settingsContent) {
   const maxValue = parseInt(settingsContent.getAttribute('data-max')) || 100
   const minValue = parseInt(settingsContent.getAttribute('data-min')) || 0
@@ -1615,5 +1630,5 @@ function unloadMessage () {
 }
 
 function log (text) {
-  if (CONFIG.debug) console.log('LOG: ' + text)
+  if (CONFIG.debug || settingGet('debug')) console.log('LOG: ' + text)
 }

@@ -21,7 +21,7 @@ module.exports = {
     settings : {
       textspeed: 100,
       colorblind: false,
-      animation: false,
+      animation: true,
       debug: true,
       autoplay: false,
       volume: 0,
