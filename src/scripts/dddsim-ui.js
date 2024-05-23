@@ -650,13 +650,16 @@ function loadInput (dialogueInput) {
     'Ebony Way',
     '24601',
     'Paul Allen',
-    'Beetlejuice'
+    'Beetlejuice',
+	'K/Clara',
+	'Esq. Injectiona'
   ]
 
   //user is supposed to input
   if (dialogueInput) {
     hide(HTML.nextbutton) //can only go next after inputting
     display(HTML.inputpanel, 'flex')
+	HTML.inputbox.value = ''
 
     spaceUnbindAll() //no spacing around when typing
 
