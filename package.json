@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    
+    "linter_setup": "rm -rf ./venv && python -m venv venv && source venv/bin/activate && pip install djlint && deactivate && echo \"=== EXTENSION SETUP ===\" && code . --new-window --install-extension ms-python.python --install-extension monosans.djlint && echo \"=== NPM Setup ===\" && npm i",
     "dry": "npx eleventy --serve --quiet",
     "debug": "export INTERNAUTICA_ENV=debug && rm -rf public && DEBUG=Eleventy* npx eleventy --serve",
     "start": "export INTERNAUTICA_ENV=dev && rm -rf public && npx eleventy --serve --quiet",

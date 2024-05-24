@@ -34,6 +34,15 @@ async function gitCommitMessagesShortcode() {
   return content;
 }
 
+
+function capitalizeWords(str) {
+  return str.replace(/\b\w/g, function(char) {
+      return char.toUpperCase();
+  });
+}
+
+
+//for song translations
 function extract(html, regex) {
   // Use parentheses to capture the content inside <p> tags
 
@@ -124,6 +133,7 @@ module.exports = function (eleventyConfig) {
 
   //filters
   eleventyConfig.addNunjucksFilter("countlinesregex", extract);
+  eleventyConfig.addNunjucksFilter("capitalize_all", capitalizeWords);
   eleventyConfig.addNunjucksFilter("endswith", (content, filter) => {
     return content.endsWith(filter);
   });

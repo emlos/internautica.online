@@ -1,7 +1,25 @@
-{
-    "nunjucksFormat.commline": true,
-    "nunjucksFormat.spaceclose": false,
-    "nunjucksFormat.style": true,
-    "prettier.useTabs": true,
-    "prettier.singleAttributePerLine": true
+ {
+	
+	"prettier.useTabs": true,
+	"prettier.singleAttributePerLine": true,
+
+	"[handlebars][hbs][mustache][jinja][nj][njk][nunjucks][twig]": {
+		"editor.defaultFormatter": "monosans.djlint"
+	},
+	"[nunjucks]": {
+		"editor.defaultFormatter": "monosans.djlint"
+	},
+
+	"python.pythonPath": "${workspaceFolder}/venv/bin/python",
+    "djlint.useVenv": true,
+    "djlint.ignore": ["H020", "H021"],
+
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": "\\.njk$",
+                "cmd": "date >> djlint_log.txt && echo 'Running djlint on ${file}' >> djlint_log.txt && source ./venv/bin/activate && djlint ${file} --reformat &&  djlint ${file} --lint && deactivate"
+            }
+        ]
+    },
 }
