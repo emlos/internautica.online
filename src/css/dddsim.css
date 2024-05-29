@@ -210,6 +210,11 @@
 	max-height: 52px;
 }
 
+.settings-row.disabled {
+	pointer-events: none;
+
+}
+
 .settings-row-info {
 	cursor: not-allowed;
 	filter: saturate(0);
@@ -255,12 +260,12 @@
 	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_hover.png);
 }
 
-.settings-button-increase.disabled {
+.settings-button-increase.disabled, .settings-row.disabled  .settings-button-increase{
 	filter: none;
 	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_disabled.png);
 }
 
-.settings-button-increase.disabled:hover {
+.settings-button-increase.disabled:hover , .settings-row.disabled  .settings-button-increase:hover{
 	background-image: url(/images/projects/dddsim/ui/menu_right_arrow_disabled_hover.png);
 }
 
@@ -272,10 +277,10 @@
 .settings-button-decrease:hover {
 	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_hover.png);
 }
-.settings-button-decrease.disabled {
+.settings-button-decrease.disabled , .settings-row.disabled  .settings-button-decrease{
 	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_disabled.png);
 }
-.settings-button-decrease.disabled:hover {
+.settings-button-decrease.disabled:hover, .settings-row.disabled  .settings-button-decrease:hover {
 	background-image: url(/images/projects/dddsim/ui/menu_left_arrow_disabled_hover.png);
 }
 

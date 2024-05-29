@@ -9,3 +9,5 @@ my-art/
 .env
 package-lock.json
 venv/
+dslint_log.txt
+djlint_log.txt

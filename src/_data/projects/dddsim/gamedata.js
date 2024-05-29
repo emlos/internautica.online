@@ -18,13 +18,19 @@ module.exports = {
 */
     flags: [],
     //load all possible flags from scr  ipt and save them as flag_name: "did-something-flag,?? fr you dont wanna do this bro?
-    settings : {
-      textspeed: 100,
-      colorblind: false,
-      animation: true,
-      debug: true,
-      autoplay: false,
-      volume: 0,
+    settings: {
+      textspeed: { type: 'counter', value: 100, max: 100, min: 100, step: 5, disabled: false },
+      colorblind: {type: 'checkbox',  value: false, disabled: true },
+      animation: { type: 'checkbox', value: true, disabled: false },
+      debug: { type: 'checkbox', value: true, disabled: false },
+      autoplay: { type: 'checkbox', value: false, disabled: true },
+      volume: {type: 'counter',  value: 100, max: 100, min: 100, disabled: false },
+      language: {
+        type: 'values',
+        value: 'English',
+        values: ['English', 'Polish'],
+        disabled: true
+      }
     }
   },
 

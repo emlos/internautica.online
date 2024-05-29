@@ -133,6 +133,7 @@ module.exports = function (eleventyConfig) {
 
   //filters
   eleventyConfig.addNunjucksFilter("countlinesregex", extract);
+  eleventyConfig.addNunjucksFilter("keys", (object) =>  Object.keys(object));
   eleventyConfig.addNunjucksFilter("capitalize_all", capitalizeWords);
   eleventyConfig.addNunjucksFilter("endswith", (content, filter) => {
     return content.endsWith(filter);

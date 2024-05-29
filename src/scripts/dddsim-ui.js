@@ -75,12 +75,14 @@ const HTML = {
   settings: {
     modal: document.createElement('div'), //settings panel for loading/saving
     values: {
+      /* runtime generated from PlayerState
       textspeed: document.createElement('span'),
       animation: document.createElement('span'),
       colorblind: document.createElement('span'),
       debug: document.createElement('span'),
       autoplay: document.createElement('span'),
       volume: document.createElement('span')
+      */
     }
   },
 
@@ -127,13 +129,13 @@ function init () {
   HTML.saves.slots = document.getElementById('saves-container')
 
   HTML.settings.modal = document.getElementById('settings-panel')
-  HTML.settings.values.colorblind =
-    document.getElementById('setting-colorblind')
-  HTML.settings.values.animation = document.getElementById('setting-animation')
-  HTML.settings.values.textspeed = document.getElementById('setting-textspeed')
-  HTML.settings.values.debug = document.getElementById('setting-debug')
-  HTML.settings.values.autoplay = document.getElementById('setting-autoplay')
-  HTML.settings.values.volume = document.getElementById('setting-volume')
+
+  let possible_settings = Object.keys(PlayerState_Defaults.settings)
+
+  possible_settings.forEach(setting => {
+    let settingElement = document.getElementById('setting-' + setting)
+    HTML.settings.values[setting] = settingElement
+  })
 
   HTML.popup.modal = document.getElementById('popup')
   HTML.popup.text = HTML.popup.modal.querySelector('p')
@@ -151,8 +153,6 @@ function init () {
   loadModals()
 
   loadSaves()
-
-  
 }
 
 function initChapter (chapter = CURRENT.chapter) {
@@ -419,28 +419,53 @@ function loadSaves () {
 }
 
 //assuming user and html have same settings, html taler prio ofc
-function loadSettings () {
-  let defaults = Object.keys(PlayerState_Defaults.settings) //all settings that i have set as default in my uhhhhhhhhhhh eleventy js file. why? EUGH
-  //i dont have to check anything since html = defaults and we never iterate over keys of whatever the player has. its kinda perfect ngl
-  defaults.forEach(d_setting => {
-    //scen: old save has no setting? remains default
-    let playerSetting = PlayerState.settings[d_setting]
-      ? PlayerState.settings[d_setting]
-      : PlayerState_Defaults.settings[d_setting]
+function loadSettings (reload = false) {
+  //usable anywhere, so this is necessary in case Player Settings have to be loaded in
+  if (reload) {
+    PlayerState_defaults.settings.forEach(setting => {
+      let UISetting = HTML.settings.values[setting.trim()]
+      let UIParent = UISetting?.closest('settings-row')
 
-    let element = HTML.settings.values[d_setting]
+      let defaultSetting = PlayerState_defaults.settings[setting] //"immutable"
+      let playerSetting = PlayerState.settings[setting] //direct value since thats the only thing the player needs to know
 
-    //scen: setting not uiimplememted;
-    if (element) {
-      settingsSetUI(element, playerSetting)
-    } else {
-      console.log(
-        'WARN: Setting mismatch: no hatml slot exists for: ' + d_setting
-      )
-    }
-  })
+      let value = playerSetting || defaultSetting.value || null
+      let disabled = defaultSetting.disabled
+
+      let max = defaultSetting.max
+      let min = defaultSetting.min
+      let step = defaultSetting.step || 1
+      let choices = defaultSetting.values?.split(':')
+
+      if (!UISetting) warn('no UI element exists for setting name: ' + setting)
+      else {
+        if (!value) warn('no default value for setting: ' + setting)
+        settingsSetUI(UISetting, value, type) //set the html element checkbox/spinner display
+
+        switch (defaultSetting.type.toLowerCase()) {
+          case 'checkbox':
+            break;
+            case 'counter':
+              parent.setAttribute('data-max', max)
+              parent.setAttribute('data-min', min)
+              parent.setAttribute('data-step', step)
+              break;
+              case 'checkbox':
+                break;
+
+        }
+
+
+        if (disabled) parent.classList.add('disabled')
+        else parent.classList.remove('disabled')
+
+        //max and min and step should change between savefiles....... so the player should never hold a different version of that
+      }
+    })
+  }
 
   //load the buttons functionality:
+  $('button.settings-icon').off('click')
   $('button.settings-icon').on('click', event => {
     settingClicked(event)
   })
@@ -585,12 +610,10 @@ function loadDialogueCharacters (characters, speaking) {
 
     HTML.characters.appendChild(character)
 
-	//optional animation of appearance:
-	if(settingGet('animation')) {
-
-		console.log('doing animation mumbo jumbo here')
-
-	}
+    //optional animation of appearance:
+    if (settingGet('animation')) {
+      console.log('doing animation mumbo jumbo here')
+    }
   })
 }
 
@@ -662,15 +685,15 @@ function loadInput (dialogueInput) {
     '24601',
     'Paul Allen',
     'Beetlejuice',
-	'K/Clara',
-	'Esq. Injectiona'
+    'K/Clara',
+    'Esq. Injectiona'
   ]
 
   //user is supposed to input
   if (dialogueInput) {
     hide(HTML.nextbutton) //can only go next after inputting
     display(HTML.inputpanel, 'flex')
-	HTML.inputbox.value = ''
+    HTML.inputbox.value = ''
 
     spaceUnbindAll() //no spacing around when typing
 
@@ -1405,8 +1428,8 @@ function settingsSetUI (element, value) {
   }
 }
 
-function settingGet(setting) {
-	return PlayerState.settings[setting]
+function settingGet (setting) {
+  return PlayerState.settings[setting]
 }
 
 function settingsValidateCarousel (settingsContent) {
@@ -1630,5 +1653,9 @@ function unloadMessage () {
 }
 
 function log (text) {
-  if (CONFIG.debug || settingGet('debug')) console.log('LOG: ' + text)
+  if (CONFIG.debug && settingGet('debug')) console.log('LOG: ' + text)
+}
+
+function warn (text) {
+  console.log('WARN: ' + text)
 }
