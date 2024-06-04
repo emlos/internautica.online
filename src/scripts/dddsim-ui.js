@@ -315,7 +315,7 @@ function loadSaves () {
       }
     })
     .catch(error => {
-      console.error('Failed to load all game states', error)
+      error('Failed to load all game states', error)
     })
 
   /*
@@ -444,17 +444,15 @@ function loadSettings (reload = false) {
 
         switch (defaultSetting.type.toLowerCase()) {
           case 'checkbox':
-            break;
-            case 'counter':
-              parent.setAttribute('data-max', max)
-              parent.setAttribute('data-min', min)
-              parent.setAttribute('data-step', step)
-              break;
-              case 'checkbox':
-                break;
-
+            break
+          case 'counter':
+            parent.setAttribute('data-max', max)
+            parent.setAttribute('data-min', min)
+            parent.setAttribute('data-step', step)
+            break
+          case 'checkbox':
+            break
         }
-
 
         if (disabled) parent.classList.add('disabled')
         else parent.classList.remove('disabled')
@@ -612,7 +610,7 @@ function loadDialogueCharacters (characters, speaking) {
 
     //optional animation of appearance:
     if (settingGet('animation')) {
-      console.log('doing animation mumbo jumbo here')
+      console.log('TODO: Animating')
     }
   })
 }
@@ -634,7 +632,7 @@ function loadDialogueText (dialogue) {
   show(HTML.textbox)
   show(HTML.nametag)
 
-  let userSpeed = settingGet('textspeed') == 100 ? 0 : settingGet('textspeed')
+  let userSpeed = settingGet('textspeed') == 100 ? 0 : 100 - settingGet('textspeed')
 
   let delay = dialogue.choices ? 0 : userSpeed
 
@@ -860,7 +858,7 @@ function endChapter () {
   } else {
     show(HTML.textbox)
     show(HTML.menu.panel)
-    setTextbox('The End <3')
+    setTextbox('The End <3', 0)
   }
 }
 
@@ -1108,7 +1106,7 @@ function saveNewState (filename = '', saveSlot = -1) {
 
   SaveManager.saveGameState(gameState)
     .then(() => log('Game state saved successfully'))
-    .catch(error => console.error('Failed to save game state', error))
+    .catch(error => error('Failed to save game state', error))
 
   loadSaves()
 }
@@ -1133,7 +1131,7 @@ function updateState (id) {
     // Save (update) the game state
     SaveManager.saveGameState(gameState)
       .then(() => log('Game state updated successfully'))
-      .catch(error => console.error('Failed to update game state', error))
+      .catch(error => error('Failed to update game state', error))
   })
 
   loadSaves()
@@ -1164,7 +1162,7 @@ function loadState (id) {
 
       start(CURRENT.scene, CURRENT.dialogue)
     })
-    .catch(error => console.error('Failed to load game state', error))
+    .catch(error => error('Failed to load game state', error))
 }
 
 function deleteState (id) {
@@ -1173,7 +1171,7 @@ function deleteState (id) {
       log('reloading states')
       loadSaves()
     })
-    .catch(error => console.error('Failed to delete game state', error))
+    .catch(error => error('Failed to delete game state', error))
 }
 
 function _dontusethis_deleteDatabase () {
@@ -1389,13 +1387,16 @@ function changeBackground (element, bg = 'black') {
 }
 
 function setTextbox (text, delay) {
-  show(HTML.textbox)
 
   if (delay != 0) {
+    show(HTML.textbox)
+
     window.typewriter.showText(text, delay) //class handles that
   } else {
-    clearTimeout(window.typewriter.currentTimeout) //stop generating
-    HTML.text.innerHTML = highlight(text)
+  
+      clearTimeout(window.typewriter.currentTimeout) //stop generating
+      HTML.text.innerHTML = highlight(text)
+    
   }
 }
 
@@ -1482,8 +1483,8 @@ function settingClicked (event) {
       break
 
     default:
-      console.log('WARN: mysterious and strangle frankly worrying button!')
-      console.log(event)
+      warn('mysterious and strangle frankly worrying button! (unknown input type on this element)')
+      
       break
   }
 
@@ -1658,4 +1659,9 @@ function log (text) {
 
 function warn (text) {
   console.log('WARN: ' + text)
+}
+
+
+function error(text, error) {
+  console.log('ERROR: ' + text + ' >>> ' + error )
 }

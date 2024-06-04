@@ -226,7 +226,7 @@ class Typewriter {
     this.element.innerHTML = ''
     this.elements = this.parseText(newText)
 
-    this.delay = customDelay
+    this.delay = customDelay ? customDelay : this.defaultDelay
 
     this.typeWriter()
   }
