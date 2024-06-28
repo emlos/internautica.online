@@ -103,6 +103,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/images/blinkies");
   eleventyConfig.addPassthroughCopy("./src/images/buttons");
   eleventyConfig.addPassthroughCopy("./src/images/generated");
+  eleventyConfig.addPassthroughCopy("./src/images/minigames/**/*");
+
   eleventyConfig.addPassthroughCopy({"./src/images/mine/**/*.gif":"/images/generated"})
 
   eleventyConfig.addPassthroughCopy({ "./src/favicons": "/" }); //favicons remap to root

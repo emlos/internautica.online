@@ -1,0 +1,42 @@
+{%extends 'layouts/base.njk'%}
+
+{%block head%}
+    {{ super() }}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opencv.js"></script>
+
+
+    <script src="/scripts/stripgame.js"></script>
+
+{% endblock %}
+
+
+
+{%block body%}
+
+<style> #draggable-image-container {
+        width: 100vw; /* Adjust based on your image size */
+        height: 900px;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      .image {
+        position: absolute;
+        top: -100px;
+        left: 25vw;
+        height: 1000px;
+        width: auto;
+        
+      }
+
+      .draggable-image {
+        z-index: 1;
+      }</style>
+
+    {{super()}}
+    
+
+{%endblock%}

@@ -1,0 +1,15 @@
+---
+title: "wanna play a game?"
+layout: "layouts/base.njk"
+---
+
+{%for minigame in collections.minigames%}
+<div class='minigame-desc'>
+    <h2 class="minigame-title"> <a href='{{minigame.url}}'> {{minigame.data.name}} </a></h2>
+    {%if minigame.data.nsfw%}
+    THIS GAME IS NOT SAFE FOR WORK!
+    {%endif%}
+    <div class='minigame-summary'> {{minigame.data.description}}</div>
+</div>
+<hr>
+{%endfor%}
