@@ -4,7 +4,7 @@ name: "Of a Friday Night"
 languages: 
     - "english"
     - "polish"
-translated: false
+translated: true
 ---
 ## SONG
 Just across from the hospital
@@ -33,7 +33,7 @@ Empty as a mirror
 Empty as the harbor and the barber's chair
 Where did the old poet go?
 I asked around
-Nobody knows
+Nobody kno-o-ws
 
 Maybe I came too early
 Maybe I came too late
@@ -58,15 +58,15 @@ Out in the quarter on a Friday night
 Out in the brightness of a Friday night
 Call me the brightness of a Friday night
 ## SONG
+Na ulicy matki teresy
+W świetla lamp, czerwieni blask
+Pare przecznic od dawnego soboru
+Tam był poety dom
 
-
-
-Tam mieszkał ten poeta
-
-W okularach, w muszce, przy oknie stał
-oglądajać, ludzi szał
-
-
+W okularach, w muszce, on przy oknie stał
+zamyślony, patrząc na
+Jak bezmyślny tłum gdzieś gna
+I jak miasto pełne trwa
 
 Pełno pewnych moglarzy
 pełno niepewnych żon
@@ -74,10 +74,10 @@ pełno nocnych pisarzy
 kiedy dwunasta wybija dzwon
 kiedy jest jasno w piątkową noc
 
-
-
-
-
+Rogi poszły w dzwon, w rytm pianina strun
+w starca uszach, dzwięk ten trwał
+Chyba to był ten dawny czas
+Chyba to echo dawnych lat
 
 A teraz w mieście pusto
 puste odbicie
@@ -88,16 +88,23 @@ Nikt nic nie wie-e
 
 Może jestem za wcześnie
 Może spóźniłam się
-Bo czekam sama w cieniu szafot
-w kawiarenkach czekając na ciebie
+Bo czekam sama w zaciemnieniu starych szafot
+starych kawiarni, na znak od ciebie
 
+Takie tęskne przeczucie
+Jakbym znalazła się
+Na dłoni stulecia
+Wiem że, wiesz jak ja, czuje się
 
+Będe pewnym moglarzem
+Jedną z niepewnych żon
+Jednym z nocnych pisarzy
+kiedy dwunasta wybija dzwon
 
+Nazwij mnie swym moglarzem
+Jedną z niepewnych żon
+Twoim nocnym pisarzem
 
-
-
-
-
-
-
-
+kiedy dwunasta wybija dzwon
+kiedy jest jasno w piątkową noc
+Będe jasnością, jak w piątkową noc.

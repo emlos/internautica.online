@@ -125,12 +125,45 @@ kochana sluchaj, zanim sparzysz się
 Facet to Świnia!
 nie łódź się o słońce z nim
 wyjątków po prostu nie ma
+Każdy facet świnie w sobie ma
 
+Facet to Świnia!
+Za słowo to ich nie łap bo
+Mówią o wiecznym oddaniu
+Und dann am nächsten Morgen sind sie fort
+Yeah, yeah, yeah
+
+[Sample]
+„Co takiego zrobiłam, że ciągle mnie dręczysz i mówisz, że mnie nie kochasz?“
+„Nie masz najmniejszego pojęcia, czym jest miłość, nawet się nie znamy.“
 
 [Strophe 3]
-
+Und falls du doch den Fehler machst
+Und dir 'nen Ehemann anlachst
+Mutiert dein Rosenkavalier
+Bald nach der Hochzeit auch zum Tier
+Da zeigt er dann sein wahres Ich
+Ganz unrasiert und widerlich
+Trinkt Bier, sieht fern und wird schnell fett
+Und rülpst und furzt im Ehebett
 
 [Pre-Refrain]
-
+Dann hast du King Kong zum Ehemann
+Drum sag' ich dir, denk' bitte stets daran:
 
 [Refrain]
+Männer sind Schweine
+Traue ihnen nicht, mein Kind
+Sie wollen alle nur das Eine
+Für wahre Liebe sind sie blind
+Männer sind Ratten
+Begegne ihnen nur mit List
+Sie wollen alles begatten
+Was nicht bei drei auf den Bäumen ist
+Männer sind Schweine
+Frage nicht nach Sonnenschein
+Ausnahmen gibt's leider keine
+In jedem Mann steckt doch ein Schwein
+Männer sind Autos
+Nur ohne Reserverad
+Yeah, yeah, yeah, yeah
