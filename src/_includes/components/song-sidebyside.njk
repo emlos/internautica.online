@@ -1,0 +1,30 @@
+{#neeeds a song object somehwere in the data cascade#}
+<section class="song" title="{{song.data.hover if song.data.hover}}" id = "{{song.data.name | replace(' ', '-')}}">
+            <h2>
+                <a href = "{{page.url}}#{{song.data.name | replace(' ', '-')}}">{{ song.data.name }}</a>
+            </h2>
+            <p class="subheading">by {{ song.data.author }}</p>
+            <div class="song-container">
+                {% for translation in song.content | split("<h2>SONG</h2>\n") %}
+                    {% if loop.first %}
+                        {#THIS WAS SO FUCKING HARD GOD#}
+                        <div class="numbers column">
+                            {% set paragraphs = translation | countlinesregex("<p>([\\s\\S]*?)<\\/p>") %}
+                            {% set paragraphsAmount = paragraphs | length %}
+                            {% set current = 0 %}
+                            {#this is SUCH a scuffed approach honestly. it works tho!#}
+                            {% for p in range(0, paragraphsAmount) %}
+                                <p>
+                                    {% set linesAmount = paragraphs[p] | countlines %}
+                                    {% for line in range(0, linesAmount) %}
+                                        {% set current = current + 1 %}
+                                        {{ current }}<br>
+                                    {% endfor %}
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="translation column {{ song.data.languages[loop.index0] }}">{{ translation | safe }}</div> 
+                {% endfor %}
+            </div>
+        </section>
