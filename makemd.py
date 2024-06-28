@@ -17,13 +17,18 @@ tags:
     - 
 ---
 """
+
+created = 0
+modified = 0
+
 def replace(file, string):
         
     with open(file, 'r') as f:
         lines = f.readlines()
     
-    if lines:  # Check if file is not empty
+    if lines and lines[-1] != string:  # Check if file is not empty
         lines[-1] = string  # Replace the last line
+        modified +=1
     
     with open(file, 'w') as f:
         f.writelines(lines)
@@ -32,8 +37,6 @@ image_string =  """{{% EleventyImage "{}", "{}", "(min-width: 30rem) 50vw, 100vw
 #{% EleventyImage image.source, image.title, "(min-width: 30em) 50vw, 100vw",output %}
 
 
-created = 0
-modified = 0
 
 
 # Loop through each file in the image folder
@@ -55,8 +58,8 @@ for filename in os.listdir(image_source):
             with open(markdown_filepath, 'w') as f:
                 f.write(prebuild)
                 f.write(image_link)
+            #print(markdown_filepath)
         else:
-            modified +=1
             replace(markdown_filepath, image_link)
 
 
