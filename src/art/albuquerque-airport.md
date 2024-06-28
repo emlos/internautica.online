@@ -1,7 +1,7 @@
 ---
 title: "Wandering Around an Albuquerque Airport Terminal"
 author: "Naomi Shihab Nye (b. 1952)"
-url: ""
+url: "https://poets.org/poet/naomi-shihab-nye"
 tags: 
 - love
 - poem
