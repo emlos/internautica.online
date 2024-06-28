@@ -3,7 +3,7 @@ title: "The Orange"
 author: "Wendy Cope"
 link: "https://www.poetryfoundation.org/poets/wendy-cope"
 tags: 
-    - poetry
+    - poem
     - cope
     - love
 ---

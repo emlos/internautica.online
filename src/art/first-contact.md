@@ -3,7 +3,7 @@ title: "First Contact Is Made With A Little Girl Skipping Rocks At A Creek"
 author: "Joan Tierney"
 url: "https://filmnoirsbian.tumblr.com/"
 tags: 
-    - poetry
+    - poem
     - love
 ---
 

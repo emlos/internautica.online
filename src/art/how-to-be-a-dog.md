@@ -3,7 +3,7 @@ title: "How to Be a Dog"
 author: "Andrew Kane"
 url: "https://www.rattle.com/how-to-be-a-dog-by-andrew-kane/"
 tags: 
-    - poetry
+    - poem
     - love
 ---
 If you want to be a dog, first you must learn to wait. You must wait
