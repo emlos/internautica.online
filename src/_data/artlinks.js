@@ -66,6 +66,7 @@ module.exports = async function () {
 
   const transformers = await makeDir("transformers")
   const nsfw = await makeDir("nsfw")
+  const darkest = await makeDir("darkest")
 
 
   //console.log(cards);
