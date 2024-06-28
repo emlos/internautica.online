@@ -149,6 +149,8 @@ button:active {
   display: block;
 }
 
+
+
 section.song {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -161,6 +163,13 @@ section.song {
 
 .song {
   text-align: center;
+}
+
+.songlist-container{
+  overflow-y: scroll;
+  text-wrap: balance;
+  
+  max-height: 550px;
 }
 
 /*post essay css*/

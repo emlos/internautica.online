@@ -12,8 +12,8 @@ const outdent = require("outdent");
 const path = require("node:path");
 const git = simpleGit({ multiLine: true });
 
-const outputDir = process.env.INTERNAUTICA_ENV.toLowerCase() == 'deploy' ? '_site' : 'public'
-
+const outputDir =
+  process.env.INTERNAUTICA_ENV.toLowerCase() == "deploy" ? "_site" : "public";
 
 async function gitCommitMessagesShortcode() {
   var content = "";
@@ -79,10 +79,10 @@ async function imageShortcode(src, alt, sizes, subdir = "") {
     loading: "lazy",
     decoding: "async",
   };
-  
+
   let image = Image.generateHTML(metadata, imageAttributes);
   //console.log(image)
-  return image
+  return image;
 }
 
 function markdownToHtmlShortcode(children, tag, class_ = false, id = false) {
@@ -112,7 +112,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/images/minigames/**/*");
   eleventyConfig.addPassthroughCopy("./src/images/posts");
 
-  eleventyConfig.addPassthroughCopy({"./src/images/mine/**/*.gif":"/images/generated"})
+  eleventyConfig.addPassthroughCopy({
+    "./src/images/mine/**/*.gif": "/images/generated",
+  });
 
   eleventyConfig.addPassthroughCopy({ "./src/favicons": "/" }); //favicons remap to root
   eleventyConfig.addPassthroughCopy("./src/scripts/*.js");
@@ -124,8 +126,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPairedShortcode("tag", markdownToHtmlShortcode);
   eleventyConfig.addNunjucksAsyncShortcode("EleventyImage", imageShortcode);
 
-  
-  eleventyConfig.addNunjucksAsyncShortcode("commitMessages", gitCommitMessagesShortcode);
+  eleventyConfig.addNunjucksAsyncShortcode(
+    "commitMessages",
+    gitCommitMessagesShortcode
+  );
 
   //filters
   eleventyConfig.addNunjucksFilter("countlinesregex", extract);
@@ -137,6 +141,28 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addFilter("split", function (content, separator) {
     return content.split(separator).filter((entry) => entry != "");
+  });
+
+  eleventyConfig.addFilter("collectionItemFromFileslug", function(collection, fileSlug) {
+    const c = collection.find(col => col.page.fileSlug == fileSlug)
+    return c
+});
+
+  // calculate which pagination page a index in a loop belongs to
+  eleventyConfig.addFilter(
+    "paginationPageForIndex",
+    function (index, itemsPerPage) {
+      return Math.ceil(index / itemsPerPage);
+    }
+  );
+
+  eleventyConfig.addFilter("sortSongsByDate", function (collection) {
+    const c = collection
+      .filter((entry) => entry.data.translated)
+      .sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+    return c;
   });
 
   //plugins

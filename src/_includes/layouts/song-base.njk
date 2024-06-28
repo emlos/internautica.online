@@ -1,0 +1,12 @@
+{% extends 'layouts/base.njk' %}
+{% block body %}
+    <script>
+        console.log(document.referrer)
+    </script>
+    <span>
+        <a href="{{ '/translation' | url }}">&lt;--</a>
+        back
+    </span>
+    {% set song = collections.songs | collectionItemFromFileslug(page.fileSlug) %}
+    {% include "components/song-sidebyside.njk" %}
+{% endblock %}
