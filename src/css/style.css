@@ -52,8 +52,13 @@ hr {
   width: 80%;
 }
 
-.lower {
+.lower, .subtitle {
   font-size: 0.8rem;
+}
+
+.article {
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
 
 .dark-mode {
