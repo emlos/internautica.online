@@ -1,6 +1,6 @@
 ---
 author: Nuevo Testamento
-name: The Heat
+name: Heat
 languages: 
     - "english"
     - "polish"
@@ -67,7 +67,7 @@ Are you ever gonna fight for what you want?
 ## SONG
 Tak, Nie, Może - weź daj mi znać
 Dlaczego musisz z moim sercem grać?
-Ja tonę, słońce, line mi rzuć
+Ja tonę, słonko, line mi rzuć
 gubie sie w twoim oceanie uczuć
 płakać mi się chcę gdy opuszczasz mnie
 Nigdy nie dajesz nic od siebie
@@ -75,4 +75,21 @@ samej jest tak zimno czy słyszysz mnie?
 wiem że możesz więcej mi dać
 
 chłopcze ja chcę pożądania, dania, dania
+Czy naprawde nie brakuje tobie nas?
+Ja ja tylko pragnę pożądania, dania, dania
+czy zawalczysz o nas razem chociaż raz?
+chłopcze ja chcę troche rozżażania, ania ania
+pójdziesz z popiołem jeśli nie dasz mi tego czego chcę
+Ja ja tylko pragnę pożądania, dania, dania
+czy zawalczysz o nas razem chociaż raz?
+
+prosze, błagam, na kolanach
+gdzie jest ten gość co obiecał mi świat
+
+Miss you baby, I'm a live wire
+Say my devotion doesn't spark your fire
+I'm so emotional, begging, please
+Don't leave me alone in this thing
+So lost, wonder, can you see me?
+And I know that you've gotta have more
 
