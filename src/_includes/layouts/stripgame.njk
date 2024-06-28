@@ -25,7 +25,7 @@
 
     #bubble-container {
       position: absolute;
-      left: 930px;
+      left: 910px;
       top: 10px;
     }
 
@@ -33,11 +33,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      
+
       height: 100%;
-      margin: 0;
-      margin-left: 75px;
-      margin-right: 20px;
+      margin: 0 20px 0 75px;
 
       font-family: "Ubuntu-Regular", sans-serif !important;
       font-size: 25px;
@@ -55,6 +53,21 @@
       display: block;
       width: 100%;
       height: auto;
+    }
+
+    .bubble-animation {
+      animation: fade-in-below 0.5s 1 normal ease-in-out;
+
+    }
+
+    @keyframes fade-in-below {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+      }
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
     }
 
     .image {
@@ -97,7 +110,7 @@
     const STANDARD = [{% for image in minigames.stripgame[character].standard %}"{{ image }}",{% endfor %}];
     const EXTRAS = [{% for image in minigames.stripgame[character].extras %}"{{ image }}",{% endfor %}];
     const BASE = '{{minigames.stripgame[character].base}}'
-    const SPEECH = [{% for bark in minigames.stripgame[character].speech %}"{{ bark  }}",{% endfor %}];
+    const SPEECH = [{% for bark in minigames.stripgame[character].speech %}`{{ bark  | safe}}`,{% endfor %}];
 
     const WARDROBE = '{{minigames.stripgame.common.wardrobe}}'
     const BUBBLE = '{{minigames.stripgame.common.bubble}}'

@@ -18,10 +18,9 @@ function start() {
   wardrobe.classList.add("image", "wardrobe");
   wardrobe.src = trim(WARDROBE); //remove dots or whatevrr
 
-
   //speechbubbles
   const bubbleImage = document.createElement("img");
-  bubbleImage.id = 'bubble-image'
+  bubbleImage.id = "bubble-image";
   bubbleImage.src = trim(BUBBLE);
   //image loading
   bubbleImage.onload = function () {
@@ -34,8 +33,9 @@ function start() {
   }
 
   const bubbleText = document.createElement("p");
-  bubbleText.id = "bubble-text"
-  bubble.style.display = 'none'
+  bubbleText.id = "bubble-text";
+  bubbleText.classList.add("typewriter");
+  bubble.style.display = "none";
   bubble.id = "bubble-container";
 
   bubble.appendChild(bubbleImage);
@@ -45,7 +45,7 @@ function start() {
   CONTAINER.appendChild(base);
   CONTAINER.appendChild(wardrobe);
 
-  const clothingInitial = makeMinigameImages(
+  makeMinigameImages(
     CONTAINER,
     STANDARD,
     0,
@@ -69,12 +69,6 @@ function unlockExtras() {
   );
 
   makeDraggable();
-}
-
-function makeBubble(text) {
-  bubble.style.display = 'block'
-  const bubbleText = bubble.querySelector('#bubble-text')
-  bubbleText.innerHTML = text
 }
 
 function makeMinigameImages(container, set, offset, ...classes) {
@@ -133,6 +127,8 @@ function makeDraggable() {
   });
 }
 
+//-------------------------------------------------UNLOCKING
+
 function checkUnlock(draggedElementId) {
   if (draggedElementId && draggedElementId.indexOf("initial") != -1) {
     // Find the corresponding object in the startArray
@@ -153,27 +149,68 @@ function checkUnlock(draggedElementId) {
   }
 }
 
+//- --------------------------------------BARKING
+
 let timeoutID;
+let istyping = false;
 function barkTrigger() {
-  let chance = Math.floor(Math.random() * 6); // 1 in sixth chance
+  let probability = 4;
+  let chance = Math.floor(Math.random() * probability); // 1 in 4th chance
   if (chance == 0) {
     let bark = SPEECH[Math.floor(Math.random() * SPEECH.length)];
     //console.log(bark);
-  
+
+    if (istyping) return;
+
     if (timeoutID) {
       clearTimeout(timeoutID);
     }
+    istyping = true;
 
-    makeBubble(bark);
-  
-    // Set a new timeout to hide the image after 2 seconds
-    timeoutID = setTimeout(() => {
-      bubble.style.display = 'none'
-    }, 5500);
-  
-
+    // Wait for typeWriter to complete then hide the bubble after 2 seconds
+    makeBubble(bark).then(() => {
+      timeoutID = setTimeout(() => {
+        hideBubble();
+        istyping = false;
+      }, 2000);
+    });
   }
 }
+
+function makeBubble(text) {
+  showBubble();
+
+  var element = $("#bubble-text");
+  element.text("");
+
+  let index = 0;
+  let interval = 25;
+
+  return new Promise((resolve) => {
+    function displayNextChar() {
+      if (index < text.length) {
+        element.text(element.text() + text[index++]);
+        setTimeout(displayNextChar, interval);
+      } else {
+        // Resolve the promise when text is fully displayed
+        resolve();
+      }
+    }
+
+    displayNextChar();
+  });
+}
+
+function showBubble() {
+  bubble.style.display = "block";
+  bubble.classList.add("bubble-animation");
+}
+function hideBubble() {
+  bubble.style.display = "none";
+  bubble.classList.remove("bubble-animation");
+}
+
+// -----------------------------UTIL
 
 //making a path absolute
 function trim(inputString, before = "/images") {
