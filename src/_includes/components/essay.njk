@@ -6,16 +6,19 @@
 </p>
 <article >
     <p>
-    {{ essay.data.description}}
-    <a href={{essay.url}}>--&gt;</a>
+        {{ essay.data.description}}
+        <a href={{essay.url}}>--&gt;</a>
     </p>
-{%if essay.data.tws%} <p> Possible content warnings:</p>
-<ul>
-{%for warning in essay.data.tws%}
-<li> {{warning}} </li>
-{%endfor%}
-</ul>
-{%endif%}
-</article>
+    {%if essay.data.tws%}
+        <p> Possible content warnings:</p>
+        <ul>
+            {%for warning in essay.data.tws%}
+                <li>
+                    {{warning}}
+                </li>
+                {%endfor%}
+            </ul>
+            {%endif%}
+        </article>
 
-<hr>
+        <hr>
