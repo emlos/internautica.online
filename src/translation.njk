@@ -4,7 +4,7 @@
     title : "lost in translation",
     pagination : {
         data: "collections.songs",
-        size: 5,
+        size: 10,
         before: function (paginationData, fullData) {
             return paginationData.filter(entry => entry.data.translated).sort((a,b) => {return new Date(b.date) - new Date(a.date);})
         }
