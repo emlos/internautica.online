@@ -1,6 +1,6 @@
 ---
 title: "now you see me"
-date: Sun Jan 14 2024 01:21:50 GMT+0100 (Central European Standard Time)
+date: Created
 changed_date: git Last Modified
 description: "yeah yeah ive been gone again"
 ---
