@@ -5,7 +5,7 @@
     { "show": true, "name": "art i like", "url": "/art/" },
     { "show": true, "name": "song translations", "url": "/translation/" },
     { "show": true, "name": "my art", "url": "/mine/" },
-
+    { "show": false, "name": "trying out zines", "url": "/zines/" },
     {
       "show": false,
       "name": "shrines",
