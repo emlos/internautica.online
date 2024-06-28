@@ -73,6 +73,81 @@ module.exports = {
         `Feels good. Keep goin'.`,
         `Never cared much fer looks.`,
         `Oh, I think one's still a bit bloody, careful.`,
+        `Aw, yer all flushed...`,
+        `Want a joke? What's red n' stiff n' burnin'? A candle.`
+      ],
+    },
+    audrey: {
+      base: util.readImagePathsFromFolder(
+        base,
+        "../images/minigames/stripgame/audrey/"
+      )[0],
+      standard: util.readImagePathsFromFolder(
+        base,
+        "../images/minigames/stripgame/audrey/standard"
+      ),
+
+      outfits: {
+        backstory: util.readImagePathsFromFolder(
+          base,
+          "../images/minigames/stripgame/audrey/backstory"
+        ),
+        wine: util.readImagePathsFromFolder(
+          base,
+          "../images/minigames/stripgame/audrey/wine"
+        ),
+        devil: util.readImagePathsFromFolder(
+          base,
+          "../images/minigames/stripgame/audrey/devil"
+        ),
+      },
+
+      speech: [
+        `Oh, sweet-thing...`,
+        `Careful, I bite.`,
+        `So uncouth! Please do keep going.`,
+        `Mine are the softest fabrics... and the deadliest blades!`,
+        `Why, it's my best coat, of course!`,
+        `I deserve the best, that's why you're here.`,
+        `*Sinister giggle*`,
+        `Aw, I'm charmed~`,
+        `That's one welcome distraction, I'd say.`,
+        `A lady doesn't kiss and tell! ... Well, maybe this once...`,
+        `Share a bit of wine with me? It's a vintage.`,
+        `I think you're enjoying this a touch too much.`,
+        `Such deft hands... Wonder what other touch they can muster...`,
+        `Careful, darling! This is expensive!`,
+        `Aw, you wan't to see more of me? Consider me flattered.`,
+        `Quite the brute are you?`,
+        `Mh, how scandalous... No, don't stop.`,
+        `I don't usually hand out the *goods* so easily...`,
+        `Oh you're a gem~`,
+        `What's in the flask? Come closer and I'll show you.`,
+        `I'm in the mood for a bath. Fetch me the salts and wine later?`,
+        `*soft sigh*`,
+        `Mind the hair, sweet-thing!`,
+        `Pampered like that... no less than what I deserve.`,
+        `Oh my undergarmets slipped my mind...`, //NOTE: yeah i forgot to draw them but tbh its in character. she got a bra whatever
+        `Must you salivate so? Close your mouth, darling.`,
+        `*gasp* That is positively filthy!`,
+        `Dance with me?`,
+        `*wink*`,
+        `Fine, I'll admit it. I'm quite enjoying this.`,
+        `My foreplay usually involves more knives... But this'll suffice.`,
+        `Aw dearie, you're spoiling me! More.`,
+        `Come closer... mh, no, *crawl*.`,
+        `Imagine I'm a corpse, darling. Pilfer the valuables!`,
+        `My usual bedfellows are a tad more... rough.`,
+        `The doctor? Why, darling, two of us at once? Naughty...`,
+        `Why, you render me positively queenly. I approve.`,
+        `My, I feel positively *debauched*!`,
+        `Tsk, no slowing down! Focus on the prize, sweet thing.`,
+        `Look at you, all flushed. Am I affecting you? *wink*`,
+        `Breezy out today, isn't it?`,
+        `Hm? This? The finest in town.`,
+        
+      ],
+    },
     paracelsus: {
       base: util.readImagePathsFromFolder(
         base,
@@ -135,32 +210,5 @@ module.exports = {
       `This was all the rage at the university.`
       ],
     },
-  },
-  hiding: {
-    colors: Object.freeze({
-      BLACK: " #000000",
-      DARK_GREEN: "#005500",
-      NORMAL_GREEN: "#00ab00",
-      LIGHT_GREEN: "#00ff00",
-      DARK_BLUE: "#0000ff",
-      NORMAL_BLUE: "#0055ff",
-      LIGHT_BLUE: "#00abff",
-      NORMAL_TEAL: "#00ffff",
-      NORMAL_RED: "#ff0000",
-      DARK_ORANGE: "#ff5500",
-      LIGHT_ORANGE: "#ffab00",
-      NORMAL_YELLOW: "#ffff00",
-      DARK_PINK: "#ff00ff",
-      NORMAL_PINK: "#ff55ff",
-      LIGHT_PINK: "#ffabff",
-      WHITE: " #ffffff",
-    }),
-    entities: Object.freeze({
-      EMPTY: 0,
-      WALL: 1,
-      GUARD: 2,
-      DOG: 3,
-      PLAYER: 999,
-    }),
   },
 };
