@@ -1,0 +1,18 @@
+---
+title: "talk too much"
+layout: "layouts/base.njk"
+pagination:
+  data: collections.post
+  addAllPagesToCollections: true
+  size: 10
+  reverse: true
+permalink: /posts/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber }}/{% endif %}index.html
+---
+
+{%for essay in pagination.items%}
+{%include 'components/essay.njk'%}
+{%endfor%}
+
+<div class="paging">
+  {%include 'components/paging.njk'%}
+</div>

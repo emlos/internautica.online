@@ -1,0 +1,21 @@
+<h2>
+    {{essay.data.title}}</h2>
+<p>
+    <span class='lower'>started on: {{essay.date}}</span><br>
+    <span class = 'lower'>Reading time: {{essay.content  | emojiReadTime}}</span>
+</p>
+<article >
+    <p>
+    {{ essay.data.description}}
+    <a href={{essay.url}}>--&gt;</a>
+    </p>
+{%if essay.data.tws%} <p> Possible content warnings:</p>
+<ul>
+{%for warning in essay.data.tws%}
+<li> {{warning}} </li>
+{%endfor%}
+</ul>
+{%endif%}
+</article>
+
+<hr>
