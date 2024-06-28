@@ -3,10 +3,10 @@ import os
 
 # Specify the directory where your images are stored
 image_destination = "/images/art"
-image_source = "./src/images/art"
+image_source = "../src/images/art"
 
 # Specify the directory where you want to save the Markdown files
-markdown_folder = "./src/art"
+markdown_folder = "../src/art"
 
 prebuild = """---
 title: ""
@@ -22,7 +22,7 @@ created = 0
 modified = 0
 
 def replace(file, string):
-        
+    global modified
     with open(file, 'r') as f:
         lines = f.readlines()
     
