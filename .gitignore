@@ -9,4 +9,5 @@ my-art/
 .directory
 .env
 package-lock.json
+venv/
 .vscode/settings.json
