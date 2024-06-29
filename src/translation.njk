@@ -1,5 +1,5 @@
 ---js 
-{
+{   test: 10,
     layout : "layouts/base.njk",
     title : "lost in translation",
     pagination : {
@@ -11,39 +11,49 @@
     }
 }
 ---
+
 <section class="lower">
-    <p>hey have you ever heard a song that was <i>so good</i> that you wanted to show it to everybody you know, but they don't know english? ever want to be the weirdo at karaoke from a parallel universe? filled with unimaginable hubris?</p>
-    <p>I am! so here's my attempts at translating sounds and keeping the structure/meaning/vowels/syllabes whatever so it's singable!</p>
-    <p>theyre not perfect, there's some repetitive rhymes, but noone is doing it <i>just like me</i> :] so without further ado - here we go!</p>
+    <p>
+        hey have you ever heard a song that was <i>so good</i> that you wanted to show it to everybody you know, but they don't know english? ever want to be the weirdo at karaoke from a parallel universe? filled with unimaginable hubris?
+    </p>
+    <p>
+        I am! so here's my attempts at translating sounds and keeping the structure/meaning/vowels/syllabes whatever so it's singable!
+    </p>
+    <p>
+        theyre not perfect, there's some repetitive rhymes, but noone is doing it <i>just like me</i> :] so without further ado - here we go!
+    </p>
+    <details>
+        <summary style="overflow-y: scroll; max-height:150px;"><b>my holy untranslateable grails:</b></summary>
+        prefacing this with the usual yada yada theyre not UNTRANSLATEABLE but TO ME THEY ARE!!!
+        in no particular order:
+        <ul>
+            {% set grails=collections.songs[0].data.untranslateables %}
+            {% for name in grails %}<li>{{ name }}</li>{% endfor %}
+        </ul>
+    </details>
     <hr>
 </section>
-{% for song in pagination.items%}
+{% for song in pagination.items %}
     {% if song.data.translated %}
-        {% include 'components/song-sidebyside.njk'%}
+        {% include "components/song-sidebyside.njk" %}
     {% endif %}
 {% endfor %}
-
-
-<div class="songs-navigation paging">
-    {% include 'components/paging.njk' %}
-</div>
+<div class="songs-navigation paging">{% include "components/paging.njk" %}</div>
 <br>
-
-<details >
-<summary><h3>Index of all songs:</h3></summary>
-    <ol class='songlist-container'>
-            {% set sortedSongs = collections.songs | sortSongsByDate %}
-       
-        {% for song in sortedSongs%}
+<details>
+    <summary>
+        <h3>Index of all songs:</h3>
+    </summary>
+    <ol class="songlist-container">
+        {% set sortedSongs = collections.songs | sortSongsByDate %}
+        {% for song in sortedSongs %}
             {% if song.data.translated %}
                 {% set pageIndex = loop.index0 | paginationPageForIndex(10) %}
                 <li>
-                    <a href="{{song.url}}">{{ song.data.name }}</a> by {{song.data.author}}
+                    <a href="{{ song.url }}">{{ song.data.name }}</a> by {{ song.data.author }}
                 </li>
-             {% endif %}
+            {% endif %}
         {% endfor %}
-       
     </ol>
 </details>
-
 {% github %}

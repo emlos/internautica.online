@@ -4,5 +4,15 @@
   "templateEngineOverride": "njk,md",
   "layout":"layouts/song-base.njk",
   "date": "git Created",
-  "itemsOnPage": 10
+  "itemsOnPage": 10,
+  "untranslateables": [
+    "Dumbest Girl Alive - 100 Gecs",
+    "Disorder - Mallavora",
+    "Psychologa!!! - Happysad",
+    "This is Hardcore - Pulp",
+    "Spellbound - Siouxie and the Banshees",
+    "Lesbian Vampires From Outer Space - Scary Bitches",
+    "Your Honor - Regina Spektor",
+    
+  ]
 }
